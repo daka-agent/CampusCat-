@@ -8,8 +8,16 @@
 > 
 > 让每个校园猫协都能高效、科学地管理流浪猫，实现数字化、透明化、智能化运营。
 
+<!-- TODO: 添加演示截图
 <p align="center">
   <img src="docs/images/demo-screenshot.png" alt="CampusCat Manager Demo" width="800">
+</p>
+-->
+
+<p align="center">
+  <a href="demo/index.html">
+    <img src="https://img.shields.io/badge/🐱-在线体验Demo-blue?style=for-the-badge" alt="在线体验Demo">
+  </a>
 </p>
 
 ---
