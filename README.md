@@ -1,6 +1,7 @@
 # 🐱 CampusCat Manager
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-blue?style=flat-square)](https://daka-agent.github.io/CampusCat-/demo/)
 [![Made with Tencent Tech for Good](https://img.shields.io/badge/Tencent-Tech%20for%20Good-blue)](https://techforgood.qq.com)
 [![GitHub Stars](https://img.shields.io/github/stars/yourusername/campuscat-manager?style=social)](https://github.com/yourusername/campuscat-manager)
 
@@ -15,7 +16,7 @@
 -->
 
 <p align="center">
-  <a href="demo/index.html">
+  <a href="https://daka-agent.github.io/CampusCat-/demo/">
     <img src="https://img.shields.io/badge/🐱-在线体验Demo-blue?style=for-the-badge" alt="在线体验Demo">
   </a>
 </p>
@@ -42,7 +43,7 @@
 
 ### 方式一：在线体验（推荐）
 
-🌐 **Demo地址**: http://106.52.61.187/campuscat/ （部署后更新）
+🌐 **Demo地址**: https://daka-agent.github.io/CampusCat-/demo/
 
 ### 方式二：本地运行
 
@@ -59,9 +60,9 @@ cd demo
 python -m http.server 8080
 ```
 
-### 方式三：部署到腾讯云
+### 方式三：GitHub Pages（推荐·免费）
 
-详见 [部署指南](docs/DEPLOY.md)
+详见 [部署指南](docs/DEPLOY.md#github-pages-部署)
 
 ---
 

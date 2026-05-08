@@ -95,24 +95,43 @@ http://YOUR_SERVER_IP/campuscat/
 
 ---
 
-## GitHub Pages部署
+## GitHub Pages 部署
 
-### 步骤
+> 推荐方式 — 完全免费，每次 push 自动部署
 
-1. **Fork 本仓库** 到您的GitHub账号
+### 方式一：GitHub Actions 自动部署（推荐）
 
+仓库已配置 GitHub Actions 工作流，push 到 main 分支后自动部署到 GitHub Pages。
+
+#### 步骤
+
+1. **首次启用 GitHub Pages**
+   - 进入仓库 **Settings → Pages**
+   - Source 选择 **GitHub Actions**
+   - 保存
+
+2. **推送代码**（工作流文件 `.github/workflows/deploy.yml` 已就绪）
+   - 推送后进入仓库 **Actions** 标签页查看部署状态
+   - 约 1-3 分钟后完成
+
+3. **访问**
+   ```
+   https://daka-agent.github.io/CampusCat-/demo/
+   ```
+
+> 💡 之后每次 push 到 main 分支都会自动重新部署，无需手动操作。
+
+### 方式二：手动部署（不推荐）
+
+1. **Fork 本仓库** 到您的 GitHub 账号
 2. **启用 GitHub Pages**
    - 进入仓库 Settings → Pages
    - Source 选择 "Deploy from a branch"
    - Branch 选择 "main" / "root"
    - 点击 Save
-
 3. **访问**
-   
-   等待几分钟后访问：
-   
    ```
-   https://YOUR_USERNAME.github.io/campuscat-manager/demo/
+   https://YOUR_USERNAME.github.io/CampusCat-/demo/
    ```
 
 ---
