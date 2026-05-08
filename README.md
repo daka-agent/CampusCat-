@@ -216,7 +216,7 @@ copies or substantial portions of the Software.
 
 ## 📞 联系我们
 
-- 📧 邮箱：campuscat@example.com（待更新）
+- 📧 邮箱：zhangdaka@gdufe.edu.cn
 - 💬 讨论区：[GitHub Discussions](../../discussions)
 - 🐛 问题反馈：[GitHub Issues](../../issues)
 
