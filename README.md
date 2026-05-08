@@ -2,8 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-blue?style=flat-square)](https://daka-agent.github.io/CampusCat-/demo/)
-[![Made with Tencent Tech for Good](https://img.shields.io/badge/Tencent-Tech%20for%20Good-blue)](https://techforgood.qq.com)
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/campuscat-manager?style=social)](https://github.com/yourusername/campuscat-manager)
+[![GitHub Stars](https://img.shields.io/github/stars/daka-agent/CampusCat-?style=social)](https://github.com/daka-agent/CampusCat-)
 
 > 🎓 **基于腾讯技术公益数字工具箱的校园流浪猫智能管理解决方案**
 > 
@@ -49,8 +48,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/yourusername/campuscat-manager.git
-cd campuscat-manager
+git clone https://github.com/daka-agent/CampusCat-.git
+cd CampusCat-
 
 # 进入Demo目录
 cd demo
