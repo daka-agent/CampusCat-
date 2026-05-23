@@ -4,7 +4,7 @@
 [![GitHub Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-blue?style=flat-square)](https://daka-agent.github.io/CampusCat-/demo/)
 [![GitHub Stars](https://img.shields.io/github/stars/daka-agent/CampusCat-?style=social)](https://github.com/daka-agent/CampusCat-)
 
-> 🎓 **基于腾讯技术公益数字工具箱的校园流浪猫智能管理解决方案**
+> 🎓 **专为校园猫协设计的流浪猫智能管理解决方案**
 > 
 > 让每个校园猫协都能高效、科学地管理流浪猫，实现数字化、透明化、智能化运营。
 
@@ -116,14 +116,10 @@ campuscat-manager/
 │   └── index.html               # 单文件完整应用
 ├── 📁 docs/                      # 文档
 │   ├── DEPLOY.md                # 部署指南
-│   ├── API.md                   # API接口文档
 │   └── images/                  # 截图和示意图
 ├── 📁 templates/                 # 模板文件
 │   ├── 猫咪档案表模板.xlsx
 │   └── 发现新猫上报问卷.md
-├── 📁 src/                       # 源代码（未来扩展）
-│   ├── components/              # 组件
-│   └── utils/                   # 工具函数
 ├── 📄 README.md                  # 项目说明
 ├── 📄 LICENSE                    # 开源协议
 ├── 📄 CONTRIBUTING.md            # 贡献指南
@@ -191,7 +187,7 @@ campuscat-manager/
 ```
 MIT License
 
-Copyright (c) 2025 CampusCat Manager Contributors
+Copyright (c) 2026 CampusCat Manager Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

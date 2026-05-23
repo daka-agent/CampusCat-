@@ -240,7 +240,7 @@ Demo 中的 AI 识别是模拟功能，实际部署需要：
 2. 配置 API 密钥
 3. 部署后端服务
 
-详见 [API文档](API.md)
+详见 [GitHub Issues](../../issues)
 
 ---
 
