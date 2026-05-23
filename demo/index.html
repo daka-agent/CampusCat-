@@ -126,6 +126,10 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
+
+        .cat-card.hidden {
+            display: none;
+        }
         
         .cat-image {
             width: 100%;
@@ -181,6 +185,11 @@
             background: #fff3cd;
             color: #856404;
         }
+
+        .tag-new {
+            background: #fff3cd;
+            color: #856404;
+        }
         
         .cat-location {
             color: #666;
@@ -210,6 +219,15 @@
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
         }
         
         .upload-area {
@@ -350,6 +368,7 @@
             color: white;
             font-size: 24px;
             font-weight: bold;
+            flex-shrink: 0;
         }
         
         .volunteer-info {
@@ -394,6 +413,120 @@
             font-weight: bold;
             margin-left: 10px;
         }
+
+        /* 搜索区域 */
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 20px !important;
+            border: 2px solid #e0e0e0 !important;
+            border-radius: 25px !important;
+            font-size: 14px !important;
+        }
+
+        .search-input:focus {
+            border-color: #667eea !important;
+        }
+
+        .no-result {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            display: none;
+        }
+
+        .no-result.show {
+            display: block;
+        }
+
+        /* 模态框 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            display: none;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        /* Toast 提示 */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #333;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 2000;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+        }
+
+        /* 最近动态 */
+        .activity-list p {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+        }
+
+        .activity-list p:last-child {
+            margin-bottom: 0;
+        }
         
         @media (max-width: 768px) {
             header h1 {
@@ -419,11 +552,11 @@
         </header>
         
         <nav class="nav-tabs">
-            <button class="nav-tab active" onclick="showSection('dashboard')">📊 数据看板</button>
-            <button class="nav-tab" onclick="showSection('cats')">🐱 猫咪档案</button>
-            <button class="nav-tab" onclick="showSection('recognize')">📷 拍照识猫</button>
-            <button class="nav-tab" onclick="showSection('report')">➕ 上报新猫</button>
-            <button class="nav-tab" onclick="showSection('volunteers')">👥 志愿者</button>
+            <button class="nav-tab active" onclick="showSection('dashboard', this)">📊 数据看板</button>
+            <button class="nav-tab" onclick="showSection('cats', this)">🐱 猫咪档案</button>
+            <button class="nav-tab" onclick="showSection('recognize', this)">📷 拍照识猫</button>
+            <button class="nav-tab" onclick="showSection('report', this)">➕ 上报新猫</button>
+            <button class="nav-tab" onclick="showSection('volunteers', this)">👥 志愿者</button>
         </nav>
         
         <!-- 数据看板 -->
@@ -432,29 +565,26 @@
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>24</h3>
+                    <h3 id="stat-total">—</h3>
                     <p>校园猫咪总数</p>
                 </div>
                 <div class="stat-card">
-                    <h3>18</h3>
+                    <h3 id="stat-neutered">—</h3>
                     <p>已绝育</p>
                 </div>
                 <div class="stat-card">
-                    <h3>6</h3>
-                    <p>待绝育</p>
+                    <h3 id="stat-unneutered">—</h3>
+                    <p>待绝育/未确定</p>
                 </div>
                 <div class="stat-card">
-                    <h3>12</h3>
+                    <h3 id="stat-volunteers">—</h3>
                     <p>活跃志愿者</p>
                 </div>
             </div>
             
             <h3 style="margin: 30px 0 20px; color: #333;">最近动态</h3>
             <div style="background: #f8f9fa; padding: 20px; border-radius: 15px;">
-                <p style="margin-bottom: 10px;">🕐 10分钟前 - 小明上报了新猫"小白"在食堂门口</p>
-                <p style="margin-bottom: 10px;">🕐 1小时前 - 志愿者小红完成了大黄的健康检查</p>
-                <p style="margin-bottom: 10px;">🕐 3小时前 - 花花被成功领养，状态已更新</p>
-                <p>🕐 昨天 - 本月绝育筹款目标达成 85%</p>
+                <div id="activity-list" class="activity-list"></div>
             </div>
         </section>
         
@@ -462,83 +592,15 @@
         <section id="cats" class="content-section">
             <h2 class="section-title">🐱 猫咪档案库</h2>
             
-            <div style="margin-bottom: 20px;">
-                <input type="text" placeholder="搜索猫咪名字、地点..." style="padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 25px; width: 300px; font-size: 14px;">
-                <button class="btn btn-primary" style="margin-left: 10px;">🔍 搜索</button>
+            <div class="search-bar">
+                <input type="text" id="cat-search" class="search-input" placeholder="搜索猫咪名字、地点、标签..." oninput="filterCats()">
+                <button class="btn btn-secondary" onclick="clearSearch()">✕ 清除</button>
             </div>
             
-            <div class="cat-grid">
-                <div class="cat-card">
-                    <div class="cat-image">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">大黄</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-neutered">已绝育</span>
-                            <span class="tag tag-friendly">亲人可摸</span>
-                        </div>
-                        <div class="cat-location">📍 图书馆后门</div>
-                    </div>
-                </div>
-                
-                <div class="cat-card">
-                    <div class="cat-image" style="background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%);">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">小白</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-unneutered">待绝育</span>
-                            <span class="tag tag-shy">胆小怕人</span>
-                        </div>
-                        <div class="cat-location">📍 食堂门口</div>
-                    </div>
-                </div>
-                
-                <div class="cat-card">
-                    <div class="cat-image" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">花花</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-neutered">已绝育</span>
-                            <span class="tag tag-friendly">可摸不可抱</span>
-                        </div>
-                        <div class="cat-location">📍 教学楼A座</div>
-                    </div>
-                </div>
-                
-                <div class="cat-card">
-                    <div class="cat-image" style="background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">黑豹</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-unneutered">未确定</span>
-                            <span class="tag tag-shy">不亲人</span>
-                        </div>
-                        <div class="cat-location">📍 操场看台</div>
-                    </div>
-                </div>
-                
-                <div class="cat-card">
-                    <div class="cat-image" style="background: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">咪咪</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-neutered">已绝育</span>
-                            <span class="tag tag-friendly">非常亲人</span>
-                        </div>
-                        <div class="cat-location">📍 宿舍区</div>
-                    </div>
-                </div>
-                
-                <div class="cat-card">
-                    <div class="cat-image" style="background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);">🐱</div>
-                    <div class="cat-info">
-                        <div class="cat-name">蓝蓝</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-unneutered">待绝育</span>
-                            <span class="tag tag-friendly">亲人</span>
-                        </div>
-                        <div class="cat-location">📍 实验楼后</div>
-                    </div>
-                </div>
+            <div id="cat-grid" class="cat-grid"></div>
+            <div id="cat-no-result" class="no-result">
+                <p style="font-size: 3em; margin-bottom: 10px;">🔍</p>
+                <p>没有找到匹配的猫咪</p>
             </div>
         </section>
         
@@ -553,34 +615,7 @@
                 <p>支持 JPG、PNG 格式，建议拍摄猫咪正面清晰照片</p>
             </div>
             
-            <div id="recognition-result" class="recognition-result">
-                <h3 style="margin-bottom: 20px; color: #333;">识别结果</h3>
-                
-                <div class="match-card">
-                    <div class="match-image" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);">🐱</div>
-                    <div class="match-info">
-                        <div style="font-size: 1.3em; font-weight: bold; color: #333; margin-bottom: 5px;">大黄</div>
-                        <div style="color: #666; margin-bottom: 10px;">橘色 · 图书馆后门 · 已绝育</div>
-                        <div class="cat-tags">
-                            <span class="tag tag-friendly">亲人可摸</span>
-                        </div>
-                    </div>
-                    <div class="match-score">98%</div>
-                </div>
-                
-                <div class="match-card" style="opacity: 0.7;">
-                    <div class="match-image" style="background: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);">🐱</div>
-                    <div class="match-info">
-                        <div style="font-size: 1.1em; font-weight: bold; color: #333; margin-bottom: 5px;">咪咪</div>
-                        <div style="color: #666;">狸花 · 宿舍区 · 已绝育</div>
-                    </div>
-                    <div class="match-score" style="font-size: 1.5em; color: #999;">65%</div>
-                </div>
-                
-                <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px;">
-                    <strong>✅ 识别成功！</strong> 这只猫是 <strong>大黄</strong>，已在系统中登记。它是一只已绝育的橘猫，性格亲人，常在图书馆后门活动。
-                </div>
-            </div>
+            <div id="recognition-result" class="recognition-result"></div>
         </section>
         
         <!-- 上报新猫 -->
@@ -588,26 +623,26 @@
             <h2 class="section-title">➕ 上报新猫</h2>
             <p style="color: #666; margin-bottom: 20px;">发现校园里的新猫咪？请填写以下信息帮助建立档案</p>
             
-            <form onsubmit="event.preventDefault(); alert('演示：表单已提交！');">
+            <form id="report-form" onsubmit="submitReport(event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label>发现人姓名 *</label>
-                        <input type="text" placeholder="请输入您的姓名" required>
+                        <input type="text" id="r-name" placeholder="请输入您的姓名" required>
                     </div>
                     <div class="form-group">
                         <label>联系方式 *</label>
-                        <input type="text" placeholder="手机号或微信号" required>
+                        <input type="text" id="r-contact" placeholder="手机号或微信号" required>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label>发现日期 *</label>
-                        <input type="date" required>
+                        <input type="date" id="r-date" required>
                     </div>
                     <div class="form-group">
                         <label>发现地点 *</label>
-                        <select required>
+                        <select id="r-location" required>
                             <option value="">请选择</option>
                             <option>图书馆区域</option>
                             <option>食堂/餐厅区域</option>
@@ -622,7 +657,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>猫咪毛色 *</label>
-                        <select required>
+                        <select id="r-color" required>
                             <option value="">请选择</option>
                             <option>橘色/黄色</option>
                             <option>白色</option>
@@ -636,7 +671,7 @@
                     </div>
                     <div class="form-group">
                         <label>猫咪体型</label>
-                        <select>
+                        <select id="r-size">
                             <option value="">请选择</option>
                             <option>小型（幼猫）</option>
                             <option>中型（正常）</option>
@@ -644,12 +679,17 @@
                         </select>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label>给猫咪起个名字</label>
+                    <input type="text" id="r-catname" placeholder="可选，如：小橘、豆豆...">
+                </div>
                 
                 <div class="form-group">
-                    <label>猫咪照片 *</label>
+                    <label>猫咪照片</label>
                     <div class="upload-area" style="padding: 40px;">
                         <div class="icon">📷</div>
-                        <p>点击上传猫咪照片（正面、侧面、背部）</p>
+                        <p>Demo 版本不支持真实上传（会用随机猫猫表情代替 😄）</p>
                     </div>
                 </div>
                 
@@ -657,23 +697,23 @@
                     <label>特殊标记</label>
                     <div style="display: flex; flex-wrap: wrap; gap: 10px;">
                         <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                            <input type="checkbox"> 耳朵有缺口
+                            <input type="checkbox" id="r-mark-ear"> 耳朵有缺口
                         </label>
                         <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                            <input type="checkbox"> 身上有伤痕
+                            <input type="checkbox" id="r-mark-injury"> 身上有伤痕
                         </label>
                         <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                            <input type="checkbox"> 尾巴异常
+                            <input type="checkbox" id="r-mark-tail"> 尾巴异常
                         </label>
                         <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                            <input type="checkbox"> 戴有项圈
+                            <input type="checkbox" id="r-mark-collar"> 戴有项圈
                         </label>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label>补充说明</label>
-                    <textarea rows="4" placeholder="其他有助于识别这只猫的信息..."></textarea>
+                    <textarea id="r-note" rows="4" placeholder="其他有助于识别这只猫的信息..."></textarea>
                 </div>
                 
                 <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 15px;">
@@ -688,120 +728,389 @@
             
             <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
                 <div class="stat-card">
-                    <h3>12</h3>
+                    <h3 id="vol-active-count">—</h3>
                     <p>活跃志愿者</p>
                 </div>
                 <div class="stat-card">
-                    <h3>156</h3>
+                    <h3 id="vol-hours">—</h3>
                     <p>累计服务时长(小时)</p>
                 </div>
                 <div class="stat-card">
-                    <h3>3</h3>
-                    <p>待审核申请</p>
+                    <h3 id="vol-total">—</h3>
+                    <p>志愿者总数</p>
                 </div>
             </div>
             
             <h3 style="margin: 30px 0 20px; color: #333;">志愿者列表</h3>
             
-            <div class="volunteer-list">
-                <div class="volunteer-card">
-                    <div class="volunteer-avatar">小</div>
-                    <div class="volunteer-info">
-                        <div class="volunteer-name">小明</div>
-                        <div class="volunteer-stats">服务时长：32小时 | 参与活动：8次 | 负责区域：图书馆</div>
-                    </div>
-                    <span class="badge badge-active">活跃中</span>
-                </div>
-                
-                <div class="volunteer-card">
-                    <div class="volunteer-avatar">红</div>
-                    <div class="volunteer-info">
-                        <div class="volunteer-name">小红</div>
-                        <div class="volunteer-stats">服务时长：28小时 | 参与活动：6次 | 负责区域：食堂</div>
-                    </div>
-                    <span class="badge badge-active">活跃中</span>
-                </div>
-                
-                <div class="volunteer-card">
-                    <div class="volunteer-avatar">华</div>
-                    <div class="volunteer-info">
-                        <div class="volunteer-name">小华</div>
-                        <div class="volunteer-stats">服务时长：15小时 | 参与活动：4次 | 负责区域：教学楼</div>
-                    </div>
-                    <span class="badge badge-active">活跃中</span>
-                </div>
-                
-                <div class="volunteer-card">
-                    <div class="volunteer-avatar">李</div>
-                    <div class="volunteer-info">
-                        <div class="volunteer-name">李同学</div>
-                        <div class="volunteer-stats">服务时长：45小时 | 参与活动：12次 | 负责区域：宿舍区</div>
-                    </div>
-                    <span class="badge badge-rest">休息中</span>
-                </div>
-            </div>
+            <div id="volunteer-list" class="volunteer-list"></div>
             
             <div style="margin-top: 30px; text-align: center;">
-                <button class="btn btn-primary">➕ 添加志愿者</button>
+                <button class="btn btn-primary" onclick="openVolunteerModal()">➕ 添加志愿者</button>
             </div>
         </section>
     </div>
+
+    <!-- 添加志愿者模态框 -->
+    <div id="volunteer-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-title">➕ 添加志愿者</div>
+            <form id="volunteer-form" onsubmit="submitVolunteer(event)">
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" id="v-name" placeholder="请输入姓名" required>
+                </div>
+                <div class="form-group">
+                    <label>负责区域 *</label>
+                    <select id="v-area" required>
+                        <option value="">请选择</option>
+                        <option>图书馆</option>
+                        <option>食堂</option>
+                        <option>教学楼</option>
+                        <option>宿舍区</option>
+                        <option>操场</option>
+                        <option>全校巡逻</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>联系方式</label>
+                    <input type="text" id="v-contact" placeholder="手机号或微信号">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeVolunteerModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">✅ 确认添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast"></div>
     
     <script>
-        function showSection(sectionId) {
-            // 隐藏所有section
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // 移除所有tab的active状态
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // 显示目标section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // 激活对应tab
-            event.target.classList.add('active');
+        // ====================================================
+        // 数据层：默认数据 + localStorage 持久化
+        // ====================================================
+
+        const CAT_COLORS = {
+            '橘色/黄色': 'linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%)',
+            '白色': 'linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%)',
+            '黑色': 'linear-gradient(135deg, #2d3436 0%, #636e72 100%)',
+            '灰色': 'linear-gradient(135deg, #636e72 0%, #b2bec3 100%)',
+            '狸花（条纹）': 'linear-gradient(135deg, #fab1a0 0%, #e17055 100%)',
+            '三花': 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)',
+            '奶牛（黑白）': 'linear-gradient(135deg, #dfe6e9 0%, #2d3436 100%)',
+            '蓝色': 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)',
+            '其他': 'linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%)'
+        };
+
+        const CAT_EMOJIS = ['🐱', '😺', '😸', '🙀', '😻'];
+
+        const DEFAULT_CATS = [
+            { id: 1, name: '大黄', neutered: true, personality: '亲人可摸', location: '图书馆后门', color: '橘色/黄色', isDefault: true },
+            { id: 2, name: '小白', neutered: false, personality: '胆小怕人', location: '食堂门口', color: '白色', isDefault: true },
+            { id: 3, name: '花花', neutered: true, personality: '可摸不可抱', location: '教学楼A座', color: '三花', isDefault: true },
+            { id: 4, name: '黑豹', neutered: null, personality: '不亲人', location: '操场看台', color: '黑色', isDefault: true },
+            { id: 5, name: '咪咪', neutered: true, personality: '非常亲人', location: '宿舍区', color: '狸花（条纹）', isDefault: true },
+            { id: 6, name: '蓝蓝', neutered: false, personality: '亲人', location: '实验楼后', color: '蓝色', isDefault: true }
+        ];
+
+        const DEFAULT_VOLUNTEERS = [
+            { id: 1, name: '小明', area: '图书馆', hours: 32, activities: 8, active: true, isDefault: true },
+            { id: 2, name: '小红', area: '食堂', hours: 28, activities: 6, active: true, isDefault: true },
+            { id: 3, name: '小华', area: '教学楼', hours: 15, activities: 4, active: true, isDefault: true },
+            { id: 4, name: '李同学', area: '宿舍区', hours: 45, activities: 12, active: false, isDefault: true }
+        ];
+
+        // 读写 localStorage
+        function loadCats() {
+            const saved = localStorage.getItem('campuscat_cats');
+            return saved ? JSON.parse(saved) : [...DEFAULT_CATS];
         }
-        
+
+        function saveCats(cats) {
+            localStorage.setItem('campuscat_cats', JSON.stringify(cats));
+        }
+
+        function loadVolunteers() {
+            const saved = localStorage.getItem('campuscat_volunteers');
+            return saved ? JSON.parse(saved) : [...DEFAULT_VOLUNTEERS];
+        }
+
+        function saveVolunteers(volunteers) {
+            localStorage.setItem('campuscat_volunteers', JSON.stringify(volunteers));
+        }
+
+        function loadActivities() {
+            const saved = localStorage.getItem('campuscat_activities');
+            const defaults = [
+                '🕐 1小时前 - 志愿者小红完成了大黄的健康检查',
+                '🕐 3小时前 - 花花被成功领养，状态已更新',
+                '🕐 昨天 - 本月绝育筹款目标达成 85%'
+            ];
+            return saved ? JSON.parse(saved) : defaults;
+        }
+
+        function saveActivities(activities) {
+            localStorage.setItem('campuscat_activities', JSON.stringify(activities));
+        }
+
+        // ====================================================
+        // 看板渲染
+        // ====================================================
+        function renderDashboard() {
+            const cats = loadCats();
+            const volunteers = loadVolunteers();
+            const activities = loadActivities();
+
+            document.getElementById('stat-total').textContent = cats.length;
+            document.getElementById('stat-neutered').textContent = cats.filter(c => c.neutered === true).length;
+            document.getElementById('stat-unneutered').textContent = cats.filter(c => c.neutered === false || c.neutered === null).length;
+            document.getElementById('stat-volunteers').textContent = volunteers.filter(v => v.active).length;
+
+            const activityEl = document.getElementById('activity-list');
+            if (activities.length === 0) {
+                activityEl.innerHTML = '<p style="color:#999; margin-bottom:0;">暂无动态</p>';
+            } else {
+                activityEl.innerHTML = activities.map(a => `<p>${a}</p>`).join('');
+            }
+        }
+
+        // ====================================================
+        // 猫咪档案渲染 + 搜索
+        // ====================================================
+        function getCatBg(color) {
+            return CAT_COLORS[color] || CAT_COLORS['其他'];
+        }
+
+        function renderCats() {
+            const cats = loadCats();
+            const grid = document.getElementById('cat-grid');
+            grid.innerHTML = cats.map(cat => {
+                const neuteredTag = cat.neutered === true
+                    ? `<span class="tag tag-neutered">已绝育</span>`
+                    : cat.neutered === false
+                        ? `<span class="tag tag-unneutered">待绝育</span>`
+                        : `<span class="tag tag-unneutered">未确定</span>`;
+                const personalityClass = (cat.personality && (cat.personality.includes('亲人') || cat.personality.includes('可摸')))
+                    ? 'tag-friendly' : 'tag-shy';
+                const newBadge = !cat.isDefault ? `<span class="tag tag-new">新上报</span>` : '';
+                const searchData = [cat.name, cat.location, cat.personality, cat.color].filter(Boolean).join(' ').toLowerCase();
+
+                return `<div class="cat-card" data-search="${searchData}">
+                    <div class="cat-image" style="background: ${getCatBg(cat.color)};">🐱</div>
+                    <div class="cat-info">
+                        <div class="cat-name">${cat.name}</div>
+                        <div class="cat-tags">
+                            ${neuteredTag}
+                            ${cat.personality ? `<span class="tag ${personalityClass}">${cat.personality}</span>` : ''}
+                            ${newBadge}
+                        </div>
+                        <div class="cat-location">📍 ${cat.location || '未知地点'}</div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function filterCats() {
+            const query = document.getElementById('cat-search').value.trim().toLowerCase();
+            const cards = document.querySelectorAll('#cat-grid .cat-card');
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const match = !query || card.dataset.search.includes(query);
+                card.classList.toggle('hidden', !match);
+                if (match) visibleCount++;
+            });
+            document.getElementById('cat-no-result').classList.toggle('show', visibleCount === 0 && query !== '');
+        }
+
+        function clearSearch() {
+            document.getElementById('cat-search').value = '';
+            filterCats();
+        }
+
+        // ====================================================
+        // 上报新猫
+        // ====================================================
+        function submitReport(event) {
+            event.preventDefault();
+            const name = document.getElementById('r-name').value.trim();
+            const location = document.getElementById('r-location').value;
+            const color = document.getElementById('r-color').value;
+            const catName = document.getElementById('r-catname').value.trim() || '待命名新猫';
+
+            const cats = loadCats();
+            const newId = cats.length > 0 ? Math.max(...cats.map(c => c.id)) + 1 : 100;
+            const newCat = {
+                id: newId,
+                name: catName,
+                neutered: false,
+                personality: '待观察',
+                location: location,
+                color: color,
+                reporter: name,
+                isDefault: false,
+                reportedAt: new Date().toLocaleString('zh-CN')
+            };
+            cats.push(newCat);
+            saveCats(cats);
+
+            // 写入动态
+            const activities = loadActivities();
+            activities.unshift(`🕐 刚刚 - ${name} 在${location}上报了新猫「${catName}」`);
+            if (activities.length > 10) activities.pop();
+            saveActivities(activities);
+
+            // 重置表单
+            document.getElementById('report-form').reset();
+
+            showToast(`✅ 上报成功！「${catName}」已加入档案库`, 'success');
+
+            // 刷新其他页面的数据
+            renderDashboard();
+            renderCats();
+        }
+
+        // ====================================================
+        // 志愿者渲染 + 添加
+        // ====================================================
+        function renderVolunteers() {
+            const volunteers = loadVolunteers();
+            const activeCount = volunteers.filter(v => v.active).length;
+            const totalHours = volunteers.reduce((sum, v) => sum + (v.hours || 0), 0);
+
+            document.getElementById('vol-active-count').textContent = activeCount;
+            document.getElementById('vol-hours').textContent = totalHours;
+            document.getElementById('vol-total').textContent = volunteers.length;
+
+            const list = document.getElementById('volunteer-list');
+            list.innerHTML = volunteers.map(v => `
+                <div class="volunteer-card">
+                    <div class="volunteer-avatar">${v.name.charAt(0)}</div>
+                    <div class="volunteer-info">
+                        <div class="volunteer-name">${v.name}</div>
+                        <div class="volunteer-stats">服务时长：${v.hours || 0}小时 | 参与活动：${v.activities || 0}次 | 负责区域：${v.area}</div>
+                    </div>
+                    <span class="badge ${v.active ? 'badge-active' : 'badge-rest'}">${v.active ? '活跃中' : '休息中'}</span>
+                </div>
+            `).join('');
+        }
+
+        function openVolunteerModal() {
+            document.getElementById('volunteer-modal').classList.add('show');
+        }
+
+        function closeVolunteerModal() {
+            document.getElementById('volunteer-modal').classList.remove('show');
+            document.getElementById('volunteer-form').reset();
+        }
+
+        function submitVolunteer(event) {
+            event.preventDefault();
+            const name = document.getElementById('v-name').value.trim();
+            const area = document.getElementById('v-area').value;
+
+            const volunteers = loadVolunteers();
+            const newId = volunteers.length > 0 ? Math.max(...volunteers.map(v => v.id)) + 1 : 100;
+            volunteers.push({ id: newId, name, area, hours: 0, activities: 0, active: true, isDefault: false });
+            saveVolunteers(volunteers);
+
+            const activities = loadActivities();
+            activities.unshift(`🕐 刚刚 - 新志愿者「${name}」加入，负责${area}区域`);
+            if (activities.length > 10) activities.pop();
+            saveActivities(activities);
+
+            closeVolunteerModal();
+            renderVolunteers();
+            renderDashboard();
+            showToast(`✅ 志愿者「${name}」添加成功！`, 'success');
+        }
+
+        // 点击遮罩关闭模态框
+        document.getElementById('volunteer-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeVolunteerModal();
+        });
+
+        // ====================================================
+        // 拍照识猫（模拟）
+        // ====================================================
         function simulateRecognition() {
             const resultDiv = document.getElementById('recognition-result');
-            resultDiv.innerHTML = '<p style="text-align: center; color: #666;">🔍 AI识别中...</p>';
+            resultDiv.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">🔍 AI识别中...</p>';
             resultDiv.classList.add('show');
-            
+
+            const cats = loadCats();
+            const pick = cats[Math.floor(Math.random() * cats.length)];
+            const second = cats.filter(c => c.id !== pick.id)[Math.floor(Math.random() * (cats.length - 1))];
+            const score1 = Math.floor(Math.random() * 15) + 85;
+            const score2 = Math.floor(Math.random() * 30) + 40;
+
             setTimeout(() => {
+                const neuteredText = pick.neutered === true ? '已绝育' : pick.neutered === false ? '待绝育' : '未确定';
                 resultDiv.innerHTML = `
                     <h3 style="margin-bottom: 20px; color: #333;">识别结果</h3>
-                    
                     <div class="match-card">
-                        <div class="match-image" style="background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);">🐱</div>
+                        <div class="match-image" style="background: ${getCatBg(pick.color)};">🐱</div>
                         <div class="match-info">
-                            <div style="font-size: 1.3em; font-weight: bold; color: #333; margin-bottom: 5px;">大黄</div>
-                            <div style="color: #666; margin-bottom: 10px;">橘色 · 图书馆后门 · 已绝育</div>
+                            <div style="font-size: 1.3em; font-weight: bold; color: #333; margin-bottom: 5px;">${pick.name}</div>
+                            <div style="color: #666; margin-bottom: 10px;">${pick.color || '颜色未知'} · ${pick.location} · ${neuteredText}</div>
                             <div class="cat-tags">
-                                <span class="tag tag-friendly">亲人可摸</span>
+                                <span class="tag tag-friendly">${pick.personality || '待观察'}</span>
                             </div>
                         </div>
-                        <div class="match-score">98%</div>
+                        <div class="match-score">${score1}%</div>
                     </div>
-                    
-                    <div class="match-card" style="opacity: 0.7;">
-                        <div class="match-image" style="background: linear-gradient(135deg, #fab1a0 0%, #e17055 100%);">🐱</div>
+                    ${second ? `<div class="match-card" style="opacity: 0.7;">
+                        <div class="match-image" style="background: ${getCatBg(second.color)};">🐱</div>
                         <div class="match-info">
-                            <div style="font-size: 1.1em; font-weight: bold; color: #333; margin-bottom: 5px;">咪咪</div>
-                            <div style="color: #666;">狸花 · 宿舍区 · 已绝育</div>
+                            <div style="font-size: 1.1em; font-weight: bold; color: #333; margin-bottom: 5px;">${second.name}</div>
+                            <div style="color: #666;">${second.color || ''} · ${second.location}</div>
                         </div>
-                        <div class="match-score" style="font-size: 1.5em; color: #999;">65%</div>
-                    </div>
-                    
+                        <div class="match-score" style="font-size: 1.5em; color: #999;">${score2}%</div>
+                    </div>` : ''}
                     <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 10px;">
-                        <strong>✅ 识别成功！</strong> 这只猫是 <strong>大黄</strong>，已在系统中登记。它是一只已绝育的橘猫，性格亲人，常在图书馆后门活动。
+                        <strong>✅ 识别成功！</strong> 这只猫最可能是 <strong>${pick.name}</strong>，相似度 ${score1}%。${pick.personality ? `性格：${pick.personality}。` : ''}常在 ${pick.location} 活动。
                     </div>
                 `;
             }, 1500);
         }
+
+        // ====================================================
+        // 导航切换
+        // ====================================================
+        function showSection(sectionId, btn) {
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            if (btn) btn.classList.add('active');
+
+            // 进入对应页面时刷新数据
+            if (sectionId === 'dashboard') renderDashboard();
+            if (sectionId === 'cats') renderCats();
+            if (sectionId === 'volunteers') renderVolunteers();
+        }
+
+        // ====================================================
+        // Toast 通知
+        // ====================================================
+        function showToast(msg, type = '') {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (type ? ' ' + type : '');
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ====================================================
+        // 初始化
+        // ====================================================
+        // 设置今天的日期为默认值
+        document.getElementById('r-date').valueAsDate = new Date();
+
+        // 初始化渲染
+        renderDashboard();
+        renderCats();
     </script>
 </body>
 </html>
