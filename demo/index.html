@@ -185,6 +185,185 @@
         .stat-trend { font-size: 0.75em; margin-top: 5px; opacity: 0.8; }
         .trend-up::before { content: '↑ '; }
         .trend-down::before { content: '↓ '; }
+
+        /* 领养对接模块 */
+        .adopt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .adopt-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .adopt-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .adopt-card .cat-image {
+            height: 180px;
+            font-size: 70px;
+        }
+
+        .adopt-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            color: white;
+            z-index: 1;
+        }
+
+        .adopt-badge.available { background: #00b894; }
+        .adopt-badge.pending  { background: #fdcb6e; color: #856404; }
+        .adopt-badge.adopted  { background: #a29bfe; }
+
+        .adopt-info { padding: 18px; }
+
+        .adopt-name {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .adopt-meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .adopt-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+
+        .adopt-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .adopt-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .adopt-btn.primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .adopt-btn.secondary {
+            background: #e9ecef;
+            color: #555;
+        }
+
+        /* 申请记录列表 */
+        .app-list { display: grid; gap: 12px; }
+
+        .app-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f9fa;
+            padding: 18px 20px;
+            border-radius: 15px;
+            flex-wrap: wrap;
+        }
+
+        .app-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            flex-shrink: 0;
+        }
+
+        .app-info { flex: 1; min-width: 180px; }
+        .app-name { font-weight: 600; color: #333; margin-bottom: 3px; }
+        .app-meta { font-size: 0.82em; color: #999; }
+
+        .app-status {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+
+        .app-status.pending   { background: #fff3cd; color: #856404; }
+        .app-status.approved  { background: #d4edda; color: #155724; }
+        .app-status.rejected  { background: #f8d7da; color: #721c24; }
+        .app-status.adopted  { background: #e8daef; color: #4a235a; }
+
+        .app-actions { display: flex; gap: 6px; }
+
+        .app-actions button {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-approve { background: #d4edda; color: #155724; }
+        .btn-approve:hover { background: #c1e2cb; }
+        .btn-reject  { background: #f8d7da; color: #721c24; }
+        .btn-reject:hover  { background: #f1c2c7; }
+        .btn-adopted { background: #e8daef; color: #4a235a; }
+        .btn-adopted:hover { background: #d5c4e0; }
+
+        .app-empty {
+            text-align: center;
+            padding: 50px 20px;
+            color: #bbb;
+        }
+
+        .app-empty .icon { font-size: 3em; margin-bottom: 12px; }
+
+        .adopt-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .adopt-stat-card {
+            padding: 22px 18px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+        }
+
+        .adopt-stat-card h3 { font-size: 1.8em; margin-bottom: 4px; }
+        .adopt-stat-card p  { opacity: 0.9; font-size: 0.9em; }
+
+        .adopt-stat-card.waiting  { background: linear-gradient(135deg, #fdcb6e, #f39c12); }
+        .adopt-stat-card.process  { background: linear-gradient(135deg, #74b9ff, #0984e3); }
+        .adopt-stat-card.done    { background: linear-gradient(135deg, #00b894, #00cec9); }
+        .adopt-stat-card.total   { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
+
+        /* 领养申请弹窗增强 */
+        #adopt-modal .modal {
+            max-width: 540px;
+        }
+
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
@@ -700,6 +879,7 @@
             <button class="nav-tab" onclick="showSection('report', this)">➕ 上报新猫</button>
             <button class="nav-tab" onclick="showSection('volunteers', this)">👥 志愿者</button>
             <button class="nav-tab" onclick="showSection('finance', this)">💰 财务透明</button>
+            <button class="nav-tab" onclick="showSection('adoption', this)">🏠 领养对接</button>
         </nav>
         
         <!-- 数据看板 -->
@@ -951,6 +1131,49 @@
 
             <button class="add-record-btn" onclick="openFinanceModal()">➕ 添加收支记录</button>
         </section>
+
+        <!-- 领养对接 -->
+        <section id="adoption" class="content-section">
+            <h2 class="section-title">🏠 领养对接</h2>
+
+            <!-- 统计卡片 -->
+            <div class="adopt-stats">
+                <div class="adopt-stat-card waiting">
+                    <h3 id="adopt-waiting">—</h3>
+                    <p>待领养</p>
+                </div>
+                <div class="adopt-stat-card process">
+                    <h3 id="adopt-pending">—</h3>
+                    <p>申请审核中</p>
+                </div>
+                <div class="adopt-stat-card done">
+                    <h3 id="adopt-adopted">—</h3>
+                    <p>已成功领养</p>
+                </div>
+                <div class="adopt-stat-card total">
+                    <h3 id="adopt-total">—</h3>
+                    <p>领养申请总数</p>
+                </div>
+            </div>
+
+            <!-- 可领养猫咪 -->
+            <h3 style="margin: 0 0 16px; color: #333; font-size: 1.15em;">🐱 可领养猫咪</h3>
+            <div id="adopt-cat-grid" class="adopt-grid"></div>
+            <div id="adopt-cat-empty" class="app-empty" style="display:none;">
+                <div class="icon">🐾</div>
+                <p>目前没有可领养的猫咪，请先添加</p>
+            </div>
+
+            <div style="margin: 30px 0 16px; display:flex; align-items:center; justify-content:space-between;">
+                <h3 style="color: #333; font-size: 1.15em;">📋 领养申请记录</h3>
+                <button class="btn btn-primary" onclick="openAdoptModal()" style="padding: 10px 22px; font-size: 0.9em;">➕ 新增申请</button>
+            </div>
+            <div id="adopt-app-list" class="app-list"></div>
+            <div id="adopt-app-empty" class="app-empty" style="display:none;">
+                <div class="icon">📋</div>
+                <p>暂无领养申请记录</p>
+            </div>
+        </section>
     </div>
 
     <!-- 添加志愿者模态框 -->
@@ -981,6 +1204,47 @@
                 <div class="modal-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeVolunteerModal()">取消</button>
                     <button type="submit" class="btn btn-primary">✅ 确认添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 领养申请模态框 -->
+    <div id="adopt-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-title">🏠 新增领养申请</div>
+            <form id="adopt-form" onsubmit="submitAdoption(event)">
+                <div class="form-group">
+                    <label>申请人姓名 *</label>
+                    <input type="text" id="ad-name" placeholder="请输入申请人姓名" required>
+                </div>
+                <div class="form-group">
+                    <label>联系方式 *</label>
+                    <input type="text" id="ad-contact" placeholder="手机号或微信号" required>
+                </div>
+                <div class="form-group">
+                    <label>申请领养的猫咪 *</label>
+                    <select id="ad-cat" required>
+                        <option value="">请选择猫咪</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>居住环境</label>
+                    <select id="ad-living">
+                        <option value="">请选择</option>
+                        <option>校内宿舍</option>
+                        <option>校外租房（允许养宠）</option>
+                        <option>自有住房</option>
+                        <option>其他</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>养宠经验</label>
+                    <textarea id="ad-experience" rows="3" placeholder="是否有养宠经验？能否负担猫咪的日常开销和医疗费用？"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAdoptModal()">取消</button>
+                    <button type="submit" class="btn btn-primary">✅ 提交申请</button>
                 </div>
             </form>
         </div>
@@ -1042,6 +1306,241 @@
             { id: 7, type: 'expense', category: '药品购买', amount: 120, note: '驱虫药+感冒药', date: '2026-05-18', catName: '', isDefault: true },
             { id: 8, type: 'expense', category: '猫窝猫砂', amount: 165, note: '防水猫窝2个+猫砂', date: '2026-05-20', catName: '', isDefault: true }
         ];
+
+        // ====================================================
+        // 领养对接数据层
+        // ====================================================
+        const DEFAULT_ADOPT_CATS = [
+            { id: 1, catId: 2, catName: '小白', status: 'available', desc: '约1岁，白色，性格胆小但温顺，适合安静家庭。', isDefault: true },
+            { id: 2, catId: 4, catName: '黑豹', status: 'available', desc: '成年公猫，黑色，不亲人但健康，适合有经验者领养。', isDefault: true },
+            { id: 3, catId: 6, catName: '蓝蓝', status: 'available', desc: '约8个月，蓝色渐层，性格亲人，已学会用猫砂。', isDefault: true }
+        ];
+
+        const DEFAULT_ADOPT_APPS = [
+            { id: 1, applicantName: '陈同学', contact: '13800001111', catName: '小白', living: '校外租房（允许养宠）', experience: '养过2年猫，有经验', status: 'pending', applyDate: '2026-05-18', isDefault: true },
+            { id: 2, applicantName: '王同学', contact: 'wxid_abc123', catName: '黑豹', living: '自有住房', experience: '家中已有1只猫，环境合适', status: 'approved', applyDate: '2026-05-10', isDefault: true },
+            { id: 3, applicantName: '李同学', contact: '13900002222', catName: '蓝蓝', living: '校内宿舍', experience: '第一次养猫，愿意学习', status: 'adopted', applyDate: '2026-04-20', isDefault: true }
+        ];
+
+        const ADOPT_STATUS_MAP = {
+            pending:  { label: '待审核', cls: 'pending' },
+            approved: { label: '已通过', cls: 'approved' },
+            rejected: { label: '已拒绝', cls: 'rejected' },
+            adopted:  { label: '已领养', cls: 'adopted' }
+        };
+
+        function loadAdoptCats() {
+            const saved = localStorage.getItem('campuscat_adopt_cats');
+            return saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_CATS];
+        }
+
+        function saveAdoptCats(list) {
+            localStorage.setItem('campuscat_adopt_cats', JSON.stringify(list));
+        }
+
+        function loadAdoptApps() {
+            const saved = localStorage.getItem('campuscat_adopt_apps');
+            return saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_APPS];
+        }
+
+        function saveAdoptApps(list) {
+            localStorage.setItem('campuscat_adopt_apps', JSON.stringify(list));
+        }
+
+        // ====================================================
+        // 领养对接渲染
+        // ====================================================
+        function renderAdoptStats() {
+            const cats = loadAdoptCats();
+            const apps = loadAdoptApps();
+            document.getElementById('adopt-waiting').textContent = cats.filter(c => c.status === 'available').length;
+            document.getElementById('adopt-pending').textContent = apps.filter(a => a.status === 'pending').length;
+            document.getElementById('adopt-adopted').textContent = apps.filter(a => a.status === 'adopted').length;
+            document.getElementById('adopt-total').textContent = apps.length;
+        }
+
+        function renderAdoptCats() {
+            const cats = loadAdoptCats().filter(c => c.status === 'available');
+            const grid = document.getElementById('adopt-cat-grid');
+            const empty = document.getElementById('adopt-cat-empty');
+
+            if (cats.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            // 获取对应猫咪的颜色用于背景
+            const allCats = loadCats();
+            grid.innerHTML = cats.map(ac => {
+                const catData = allCats.find(c => c.name === ac.catName) || {};
+                const bg = getCatBg(catData.color);
+                return `<div class="adopt-card">
+                    <div class="adopt-badge available">可领养</div>
+                    <div class="cat-image" style="background: ${bg};">🐱</div>
+                    <div class="adopt-info">
+                        <div class="adopt-name">${ac.catName}</div>
+                        <div class="adopt-meta">${ac.desc || '等待一个温暖的家'}</div>
+                        <div class="adopt-tags">
+                            <span class="tag tag-friendly">可领养</span>
+                        </div>
+                        <button class="adopt-btn primary" onclick="openAdoptModal('${ac.catName}')" style="margin-top: 8px;">🏠 申请领养</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderAdoptApps() {
+            const apps = loadAdoptApps();
+            const list = document.getElementById('adopt-app-list');
+            const empty = document.getElementById('adopt-app-empty');
+
+            if (apps.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+            empty.style.display = 'none';
+
+            // 按申请日期倒序
+            const sorted = [...apps].sort((a, b) => (b.applyDate || '').localeCompare(a.applyDate || ''));
+
+            list.innerHTML = sorted.map(a => {
+                const st = ADOPT_STATUS_MAP[a.status] || ADOPT_STATUS_MAP.pending;
+                const initial = a.applicantName ? a.applicantName.charAt(0) : '?';
+                let actionsHtml = '';
+                if (a.status === 'pending') {
+                    actionsHtml = `<div class="app-actions">
+                        <button class="btn-approve" onclick="updateAdoptStatus(${a.id}, 'approved')">✅ 通过</button>
+                        <button class="btn-reject" onclick="updateAdoptStatus(${a.id}, 'rejected')">❌ 拒绝</button>
+                    </div>`;
+                } else if (a.status === 'approved') {
+                    actionsHtml = `<div class="app-actions">
+                        <button class="btn-adopted" onclick="updateAdoptStatus(${a.id}, 'adopted')">🏠 确认领养</button>
+                    </div>`;
+                }
+                return `<div class="app-card">
+                    <div class="app-avatar">${initial}</div>
+                    <div class="app-info">
+                        <div class="app-name">${a.applicantName}</div>
+                        <div class="app-meta">申请领养：${a.catName} · ${a.contact || ''} · ${a.applyDate || ''}</div>
+                    </div>
+                    <span class="app-status ${st.cls}">${st.label}</span>
+                    ${actionsHtml}
+                </div>`;
+            }).join('');
+        }
+
+        function updateAdoptStatus(appId, newStatus) {
+            const apps = loadAdoptApps();
+            const app = apps.find(a => a.id === appId);
+            if (!app) return;
+
+            const oldStatus = app.status;
+            app.status = newStatus;
+            saveAdoptApps(apps);
+
+            // 如果确认领养，将该猫咪从可领养列表移除
+            if (newStatus === 'adopted') {
+                const adoptCats = loadAdoptCats();
+                const idx = adoptCats.findIndex(c => c.catName === app.catName);
+                if (idx !== -1) {
+                    adoptCats[idx].status = 'adopted';
+                    saveAdoptCats(adoptCats);
+                }
+            }
+
+            // 如果审核通过，发动态
+            if (newStatus === 'approved' && oldStatus === 'pending') {
+                addActivity(`🏠 领养申请通过：「${app.applicantName}」申请领养「${app.catName}」已通过审核`);
+            } else if (newStatus === 'adopted' && oldStatus !== 'adopted') {
+                addActivity(`🎉 领养成功！「${app.catName}」已找到新家（申请人：${app.applicantName}）`);
+            }
+
+            renderAdoptStats();
+            renderAdoptCats();
+            renderAdoptApps();
+            showToast(`✅ 状态已更新为「${ADOPT_STATUS_MAP[newStatus].label}」`);
+        }
+
+        // ====================================================
+        // 领养申请弹窗
+        // ====================================================
+        function openAdoptModal(preCatName) {
+            const cats = loadAdoptCats().filter(c => c.status === 'available');
+            const catOptions = cats.map(c => `<option value="${c.catName}" ${preCatName === c.catName ? 'selected' : ''}>${c.catName}</option>`).join('');
+
+            if (cats.length === 0) {
+                showToast('⚠️ 当前没有可领养的猫咪，请先添加', 'success');
+                return;
+            }
+
+            const modal = document.getElementById('adopt-modal');
+            // 填充猫咪选项
+            document.getElementById('ad-cat').innerHTML = '<option value="">请选择猫咪</option>' + catOptions;
+            modal.classList.add('show');
+        }
+
+        function closeAdoptModal() {
+            const modal = document.getElementById('adopt-modal');
+            modal.classList.remove('show');
+            document.getElementById('adopt-form').reset();
+        }
+
+        function submitAdoption(event) {
+            event.preventDefault();
+            const name = document.getElementById('ad-name').value.trim();
+            const contact = document.getElementById('ad-contact').value.trim();
+            const catName = document.getElementById('ad-cat').value;
+            const living = document.getElementById('ad-living').value;
+            const experience = document.getElementById('ad-experience').value.trim();
+
+            if (!catName) { showToast('⚠️ 请选择要领养的猫咪'); return; }
+
+            const apps = loadAdoptApps();
+            const newId = apps.length > 0 ? Math.max(...apps.map(a => a.id)) + 1 : 1;
+            const app = {
+                id: newId,
+                applicantName: name,
+                contact: contact,
+                catName: catName,
+                living: living,
+                experience: experience,
+                status: 'pending',
+                applyDate: new Date().toISOString().slice(0, 10),
+                isDefault: false
+            };
+            apps.push(app);
+            saveAdoptApps(apps);
+
+            addActivity(`🏠 ${name} 提交了领养「${catName}」的申请，等待审核`);
+
+            closeAdoptModal();
+            renderAdoptStats();
+            renderAdoptApps();
+            showToast(`✅ 领养申请已提交！审核结果将通知 ${contact}`, 'success');
+        }
+
+        function addActivity(text) {
+            const activities = loadActivities();
+            activities.unshift(`🕐 刚刚 - ${text}`);
+            if (activities.length > 20) activities.length = 20;
+            saveActivities(activities);
+            renderDashboard();
+        }
+
+        function showToast(msg, extra) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast' + (extra === 'success' ? ' success' : '');
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        function getCatBg(color) {
+            return CAT_COLORS[color] || CAT_COLORS['其他'];
+        }
 
         function loadFinanceRecords() {
             const saved = localStorage.getItem('campuscat_finance');
@@ -1506,6 +2005,7 @@
             if (sectionId === 'cats') renderCats();
             if (sectionId === 'volunteers') renderVolunteers();
             if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
+            if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptApps(); }
         }
 
         // ====================================================
@@ -1747,6 +2247,10 @@
         // 初始化渲染
         renderDashboard();
         renderCats();
+        renderVolunteers();
+        renderAdoptStats();
+        renderAdoptCats();
+        renderAdoptApps();
         renderFinanceSummary();
         renderFinanceChart();
         renderFinanceRecords();
