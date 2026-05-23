@@ -43,6 +43,148 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+        /* 财务透明模块 */
+        .finance-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .finance-card {
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .finance-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+        }
+        .finance-card.income { background: linear-gradient(135deg, #00b894, #00cec9); }
+        .finance-card.expense { background: linear-gradient(135deg, #e17055, #d63031); }
+        .finance-card.balance { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+        .finance-card.count { background: linear-gradient(135deg, #fdcb6e, #f39c12); }
+        .finance-card h3 { font-size: 2em; margin-bottom: 5px; position: relative; }
+        .finance-card p { opacity: 0.9; font-size: 0.95em; position: relative; }
+
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .chart-title { font-size: 1.1em; font-weight: 600; color: #333; margin-bottom: 20px; }
+        .bar-chart { display: flex; align-items: flex-end; gap: 12px; height: 220px; padding-bottom: 35px; position: relative; }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; position: relative; }
+        .bar {
+            width: 100%;
+            max-width: 50px;
+            border-radius: 6px 6px 0 0;
+            transition: height 0.6s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        .bar:hover { opacity: 0.85; }
+        .bar.income-bar { background: linear-gradient(180deg, #00b894, #00cec9); }
+        .bar.expense-bar { background: linear-gradient(180deg, #e17055, #d63031); }
+        .bar-label {
+            position: absolute;
+            bottom: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75em;
+            color: #666;
+            white-space: nowrap;
+        }
+        .bar-value {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75em;
+            color: #333;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .bar-chart-dual { display: flex; align-items: flex-end; gap: 18px; height: 220px; padding: 0 10px 35px; }
+        .bar-dual-group { display: flex; gap: 4px; align-items: flex-end; flex: 1; justify-content: center; height: 100%; }
+        .bar-dual-group .bar { max-width: 28px; border-radius: 4px 4px 0 0; }
+        .dual-legend { display: flex; gap: 20px; justify-content: center; margin-bottom: 15px; font-size: 0.85em; color: #666; }
+        .dual-legend span::before { content: ''; display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: middle; }
+        .legend-income::before { background: linear-gradient(135deg, #00b894, #00cec9); }
+        .legend-expense::before { background: linear-gradient(135deg, #e17055, #d63031); }
+
+        .record-list { margin-top: 20px; }
+        .record-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: background 0.2s;
+        }
+        .record-item:hover { background: #e9ecef; }
+        .record-icon { font-size: 1.8em; margin-right: 15px; width: 45px; text-align: center; }
+        .record-info { flex: 1; }
+        .record-title { font-weight: 600; color: #333; margin-bottom: 3px; }
+        .record-meta { font-size: 0.85em; color: #999; }
+        .record-amount { font-weight: 700; font-size: 1.1em; }
+        .record-amount.income-amt { color: #00b894; }
+        .record-amount.expense-amt { color: #d63031; }
+        .record-delete {
+            background: none; border: none; color: #ccc; cursor: pointer; font-size: 1.2em;
+            padding: 5px 10px; border-radius: 8px; transition: all 0.2s;
+        }
+        .record-delete:hover { background: #ffebee; color: #d63031; }
+
+        .add-record-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            margin-top: 20px; padding: 12px 28px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; border-radius: 25px;
+            font-size: 1em; cursor: pointer; transition: all 0.3s;
+        }
+        .add-record-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.4); }
+
+        .category-badge {
+            display: inline-block; padding: 2px 10px;
+            border-radius: 20px; font-size: 0.75em; margin-left: 8px;
+        }
+        .cat-income { background: #d4edda; color: #155724; }
+        .cat-expense { background: #f8d7da; color: #721c24; }
+
+        #finance-no-result {
+            text-align: center; padding: 40px; color: #999; display: none;
+        }
+        #finance-no-result.show { display: block; }
+        #finance-no-result .icon { font-size: 3em; margin-bottom: 15px; }
+        .finance-filters {
+            display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center;
+        }
+        .finance-filters select, .finance-filters input[type="month"] {
+            padding: 8px 15px; border: 1px solid #ddd; border-radius: 20px;
+            font-size: 0.9em; color: #333; background: white; outline: none;
+        }
+        .finance-filters select:focus, .finance-filters input[type="month"]:focus {
+            border-color: #667eea;
+        }
+        .finance-empty {
+            text-align: center; padding: 60px 20px; color: #999;
+        }
+        .finance-empty .icon { font-size: 4em; margin-bottom: 15px; }
+        .finance-empty p { font-size: 1.1em; }
+        .stat-trend { font-size: 0.75em; margin-top: 5px; opacity: 0.8; }
+        .trend-up::before { content: '↑ '; }
+        .trend-down::before { content: '↓ '; }
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
@@ -557,6 +699,7 @@
             <button class="nav-tab" onclick="showSection('recognize', this)">📷 拍照识猫</button>
             <button class="nav-tab" onclick="showSection('report', this)">➕ 上报新猫</button>
             <button class="nav-tab" onclick="showSection('volunteers', this)">👥 志愿者</button>
+            <button class="nav-tab" onclick="showSection('finance', this)">💰 财务透明</button>
         </nav>
         
         <!-- 数据看板 -->
@@ -749,6 +892,65 @@
                 <button class="btn btn-primary" onclick="openVolunteerModal()">➕ 添加志愿者</button>
             </div>
         </section>
+
+        <!-- 财务透明 -->
+        <section id="finance" class="content-section">
+            <h2 class="section-title">💰 财务透明</h2>
+
+            <!-- 汇总卡片 -->
+            <div class="finance-summary">
+                <div class="finance-card income">
+                    <h3 id="fin-total-income">¥0</h3>
+                    <p>总收入</p>
+                </div>
+                <div class="finance-card expense">
+                    <h3 id="fin-total-expense">¥0</h3>
+                    <p>总支出</p>
+                </div>
+                <div class="finance-card balance">
+                    <h3 id="fin-balance">¥0</h3>
+                    <p>结余</p>
+                </div>
+                <div class="finance-card count">
+                    <h3 id="fin-record-count">0</h3>
+                    <p>记录条数</p>
+                </div>
+            </div>
+
+            <!-- 月度收支图表 -->
+            <div class="chart-container">
+                <div class="chart-title">📊 月度收支趋势</div>
+                <div class="dual-legend">
+                    <span class="legend-income">收入</span>
+                    <span class="legend-expense">支出</span>
+                </div>
+                <div class="bar-chart-dual" id="finance-chart">
+                    <div class="finance-empty"><div class="icon">📊</div><p>暂无收支数据，添加记录后显示图表</p></div>
+                </div>
+            </div>
+
+            <!-- 筛选 + 添加 -->
+            <div class="finance-filters">
+                <select id="fin-filter-type" onchange="renderFinanceRecords()">
+                    <option value="all">全部类型</option>
+                    <option value="income">仅收入</option>
+                    <option value="expense">仅支出</option>
+                </select>
+                <select id="fin-filter-cat" onchange="renderFinanceRecords()">
+                    <option value="all">全部猫咪</option>
+                </select>
+                <input type="month" id="fin-filter-month" onchange="renderFinanceRecords()">
+                <button onclick="clearFinanceFilters()" style="padding:6px 14px; border:1px solid #ddd; border-radius:20px; background:white; cursor:pointer; font-size:0.85em;">清除筛选</button>
+            </div>
+
+            <div id="finance-record-list" class="record-list"></div>
+            <div id="finance-no-result">
+                <div class="icon">🔍</div>
+                <p>没有符合条件的记录</p>
+            </div>
+
+            <button class="add-record-btn" onclick="openFinanceModal()">➕ 添加收支记录</button>
+        </section>
     </div>
 
     <!-- 添加志愿者模态框 -->
@@ -822,6 +1024,34 @@
             { id: 4, name: '李同学', area: '宿舍区', hours: 45, activities: 12, active: false, isDefault: true }
         ];
 
+        // ====================================================
+        // 财务数据层
+        // ====================================================
+        const FIN_CATEGORIES = {
+            income: ['猫粮捐赠', '药品捐赠', '资金捐款', '义卖收入', '其他收入'],
+            expense: ['猫粮采购', '药品购买', '绝育费用', '医疗救治', '猫窝猫砂', '其他支出']
+        };
+
+        const DEFAULT_FINANCE_RECORDS = [
+            { id: 1, type: 'income', category: '猫粮捐赠', amount: 500, note: '校友会捐赠', date: '2026-05-01', catName: '', isDefault: true },
+            { id: 2, type: 'expense', category: '猫粮采购', amount: 280, note: '5月猫粮（10kg）', date: '2026-05-03', catName: '', isDefault: true },
+            { id: 3, type: 'income', category: '资金捐款', amount: 200, note: '扫码捐款', date: '2026-05-05', catName: '', isDefault: true },
+            { id: 4, type: 'expense', category: '绝育费用', amount: 150, note: '花花绝育', date: '2026-05-08', catName: '花花', isDefault: true },
+            { id: 5, type: 'expense', category: '医疗救治', amount: 95, note: '大黄感冒看诊', date: '2026-05-12', catName: '大黄', isDefault: true },
+            { id: 6, type: 'income', category: '义卖收入', amount: 380, note: '明信片义卖', date: '2026-05-15', catName: '', isDefault: true },
+            { id: 7, type: 'expense', category: '药品购买', amount: 120, note: '驱虫药+感冒药', date: '2026-05-18', catName: '', isDefault: true },
+            { id: 8, type: 'expense', category: '猫窝猫砂', amount: 165, note: '防水猫窝2个+猫砂', date: '2026-05-20', catName: '', isDefault: true }
+        ];
+
+        function loadFinanceRecords() {
+            const saved = localStorage.getItem('campuscat_finance');
+            return saved ? JSON.parse(saved) : [...DEFAULT_FINANCE_RECORDS];
+        }
+
+        function saveFinanceRecords(records) {
+            localStorage.setItem('campuscat_finance', JSON.stringify(records));
+        }
+
         // 读写 localStorage
         function loadCats() {
             const saved = localStorage.getItem('campuscat_cats');
@@ -856,7 +1086,194 @@
         }
 
         // ====================================================
-        // 看板渲染
+        // 财务透明模块
+        // ====================================================
+        function formatMoney(n) {
+            return '¥' + Number(n).toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+
+        function getFinanceMonthLabels() {
+            // 取最近6个月
+            const months = [];
+            const now = new Date();
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                months.push(ym);
+            }
+            return months;
+        }
+
+        function renderFinanceSummary() {
+            const records = loadFinanceRecords();
+            const totalIncome = records.filter(r => r.type === 'income').reduce((s, r) => s + r.amount, 0);
+            const totalExpense = records.filter(r => r.type === 'expense').reduce((s, r) => s + r.amount, 0);
+            document.getElementById('fin-total-income').textContent = formatMoney(totalIncome);
+            document.getElementById('fin-total-expense').textContent = formatMoney(totalExpense);
+            document.getElementById('fin-balance').textContent = formatMoney(totalIncome - totalExpense);
+            document.getElementById('fin-record-count').textContent = records.length;
+
+            // 更新 cat 筛选下拉
+            const cats = loadCats();
+            const sel = document.getElementById('fin-filter-cat');
+            const currentVal = sel.value;
+            sel.innerHTML = '<option value="all">全部猫咪</option>' +
+                cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+            sel.value = currentVal || 'all';
+        }
+
+
+        function renderFinanceRecords() {
+            let records = loadFinanceRecords();
+            const typeFilter = document.getElementById('fin-filter-type').value;
+            const catFilter = document.getElementById('fin-filter-cat').value;
+            const monthFilter = document.getElementById('fin-filter-month').value;
+
+            if (typeFilter !== 'all') records = records.filter(r => r.type === typeFilter);
+            if (catFilter !== 'all') records = records.filter(r => r.catName === catFilter);
+            if (monthFilter) records = records.filter(r => r.date && r.date.startsWith(monthFilter));
+
+            records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+            const listEl = document.getElementById('finance-record-list');
+            const noResult = document.getElementById('finance-no-result');
+
+            if (records.length === 0) {
+                listEl.innerHTML = '';
+                noResult.classList.add('show');
+                return;
+            }
+
+            noResult.classList.remove('show');
+            listEl.innerHTML = records.map(r => {
+                const icon = r.type === 'income' ? '💰' : '🛒';
+                const cls = r.type === 'income' ? 'income-amt' : 'expense-amt';
+                const sign = r.type === 'income' ? '+' : '-';
+                const catBadge = r.catName ? `<span class="category-badge ${r.type === 'income' ? 'cat-income' : 'cat-expense'}">${r.catName}</span>` : '';
+                return `<div class="record-item">
+                    <div class="record-icon">${icon}</div>
+                    <div class="record-info">
+                        <div class="record-title">${r.category}${catBadge}</div>
+                        <div class="record-meta">${r.date || '日期未知'} ${r.note ? '· ' + r.note : ''}</div>
+                    </div>
+                    <div class="record-amount ${cls}">${sign}${formatMoney(r.amount)}</div>
+                    <button class="record-delete" onclick="deleteFinanceRecord(${r.id})" title="删除">🗑️</button>
+                </div>`;
+            }).join('');
+        }
+
+        function deleteFinanceRecord(id) {
+            if (!confirm('确定删除这条记录？')) return;
+            const records = loadFinanceRecords().filter(r => r.id !== id);
+            saveFinanceRecords(records);
+            renderFinanceSummary();
+            renderFinanceChart();
+            renderFinanceRecords();
+            addActivity(`📒 删除了一条财务记录`);
+        }
+
+        function clearFinanceFilters() {
+            document.getElementById('fin-filter-type').value = 'all';
+            document.getElementById('fin-filter-cat').value = 'all';
+            document.getElementById('fin-filter-month').value = '';
+            renderFinanceRecords();
+        }
+
+        function openFinanceModal() {
+            const cats = loadCats();
+            const catOptions = cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+            const incomeOptions = FIN_CATEGORIES.income.map(c => `<option value="${c}">${c}</option>`).join('');
+            const expenseOptions = FIN_CATEGORIES.expense.map(c => `<option value="${c}">${c}</option>`).join('');
+
+            const modal = document.createElement('div');
+            modal.id = 'finance-modal';
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `<div class="modal">
+                <div class="modal-title">➕ 添加收支记录</div>
+                <form onsubmit="submitFinanceRecord(event, this)">
+                    <div class="form-group">
+                        <label>类型 *</label>
+                        <select id="fin-type" onchange="updateFinCategory()" required>
+                            <option value="income">收入</option>
+                            <option value="expense">支出</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>分类 *</label>
+                        <select id="fin-category" required>${incomeOptions}</select>
+                    </div>
+                    <div class="form-group">
+                        <label>金额 (元) *</label>
+                        <input type="number" id="fin-amount" placeholder="请输入金额" min="0.01" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>关联猫咪</label>
+                        <select id="fin-cat-name">
+                            <option value="">无</option>
+                            ${catOptions}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>日期 *</label>
+                        <input type="date" id="fin-date" value="${new Date().toISOString().slice(0,10)}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>备注</label>
+                        <input type="text" id="fin-note" placeholder="可选备注">
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeFinanceModal()">取消</button>
+                        <button type="submit" class="btn btn-primary">✅ 确认添加</button>
+                    </div>
+                </form>
+            </div>`;
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+        }
+
+        function updateFinCategory() {
+            const type = document.getElementById('fin-type').value;
+            const options = FIN_CATEGORIES[type].map(c => `<option value="${c}">${c}</option>`).join('');
+            document.getElementById('fin-category').innerHTML = options;
+        }
+
+        function closeFinanceModal() {
+            const modal = document.getElementById('finance-modal');
+            if (modal) { modal.style.display = 'none'; modal.remove(); }
+        }
+
+        function submitFinanceRecord(event, form) {
+            event.preventDefault();
+            const records = loadFinanceRecords();
+            const newId = records.length > 0 ? Math.max(...records.map(r => r.id)) + 1 : 1;
+            const type = document.getElementById('fin-type').value;
+            const record = {
+                id: newId,
+                type: type,
+                category: document.getElementById('fin-category').value,
+                amount: parseFloat(document.getElementById('fin-amount').value),
+                catName: document.getElementById('fin-cat-name').value,
+                date: document.getElementById('fin-date').value,
+                note: document.getElementById('fin-note').value.trim(),
+                isDefault: false
+            };
+            records.push(record);
+            saveFinanceRecords(records);
+            closeFinanceModal();
+            renderFinanceSummary();
+            renderFinanceChart();
+            renderFinanceRecords();
+            addActivity(`📒 新增${type === 'income' ? '收入' : '支出'}记录：${record.category} ${formatMoney(record.amount)}`);
+            showToast(`✅ 记录已添加！`);
+        }
+
+        function addActivity(text) {
+            const activities = loadActivities();
+            activities.unshift(`🕐 刚刚 - ${text}`);
+            if (activities.length > 20) activities.length = 20;
+            saveActivities(activities);
+            renderDashboard();
+        }
         // ====================================================
         function renderDashboard() {
             const cats = loadCats();
@@ -1088,6 +1505,225 @@
             if (sectionId === 'dashboard') renderDashboard();
             if (sectionId === 'cats') renderCats();
             if (sectionId === 'volunteers') renderVolunteers();
+            if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
+        }
+
+        // ====================================================
+        // 财务透明模块
+        // ====================================================
+        function formatMoney(n) {
+            return '¥' + Number(n).toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        }
+
+        function getFinanceMonthLabels() {
+            const months = [];
+            const now = new Date();
+            for (let i = 5; i >= 0; i--) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const ym = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+                months.push(ym);
+            }
+            return months;
+        }
+
+        function renderFinanceSummary() {
+            const records = loadFinanceRecords();
+            const totalIncome = records.filter(r => r.type === 'income').reduce((s, r) => s + r.amount, 0);
+            const totalExpense = records.filter(r => r.type === 'expense').reduce((s, r) => s + r.amount, 0);
+            document.getElementById('fin-total-income').textContent = formatMoney(totalIncome);
+            document.getElementById('fin-total-expense').textContent = formatMoney(totalExpense);
+            document.getElementById('fin-balance').textContent = formatMoney(totalIncome - totalExpense);
+            document.getElementById('fin-record-count').textContent = records.length;
+
+            const cats = loadCats();
+            const sel = document.getElementById('fin-filter-cat');
+            const currentVal = sel.value;
+            sel.innerHTML = '<option value="all">全部猫咪</option>' +
+                cats.map(c => '<option value="' + c.name + '">' + c.name + '</option>').join('');
+            if ([...cats.map(c => c.name)].includes(currentVal)) sel.value = currentVal;
+            else sel.value = 'all';
+        }
+
+        function renderFinanceChart() {
+            const records = loadFinanceRecords();
+            const months = getFinanceMonthLabels();
+            const container = document.getElementById('finance-chart');
+
+            if (records.length === 0) {
+                container.innerHTML = '<div class="finance-empty"><div class="icon">📊</div><p>暂无收支数据，添加记录后显示图表</p></div>';
+                return;
+            }
+
+            const monthLabels = months.map(m => m.split('-')[1] + '月');
+            const maxH = 170;
+
+            // 计算每个月的最大收支值，用于统一高度比例
+            const allMonthSums = months.map(m => {
+                const mr = records.filter(r => r.date && r.date.startsWith(m));
+                const inc = mr.filter(r => r.type === 'income').reduce((s, r) => s + r.amount, 0);
+                const exp = mr.filter(r => r.type === 'expense').reduce((s, r) => s + r.amount, 0);
+                return Math.max(inc, exp, 1);
+            });
+            const chartMax = Math.max(...allMonthSums);
+
+            let barsHTML = '';
+            months.forEach((m, idx) => {
+                const mr = records.filter(r => r.date && r.date.startsWith(m));
+                const inc = mr.filter(r => r.type === 'income').reduce((s, r) => s + r.amount, 0);
+                const exp = mr.filter(r => r.type === 'expense').reduce((s, r) => s + r.amount, 0);
+                const incH = chartMax > 0 ? (inc / chartMax) * maxH : 0;
+                const expH = chartMax > 0 ? (exp / chartMax) * maxH : 0;
+
+                barsHTML += '<div class="bar-dual-group">' +
+                    '<div class="bar income-bar" style="height:' + incH + 'px;" title="收入 ' + formatMoney(inc) + '"><span class="bar-value">' + (inc > 0 ? formatMoney(inc) : '') + '</span></div>' +
+                    '<div class="bar expense-bar" style="height:' + expH + 'px;" title="支出 ' + formatMoney(exp) + '"><span class="bar-value">' + (exp > 0 ? formatMoney(exp) : '') + '</span></div>' +
+                    '<span class="bar-label">' + monthLabels[idx] + '</span>' +
+                '</div>';
+            });
+
+            container.innerHTML = barsHTML;
+        }
+
+        function renderFinanceRecords() {
+            let records = loadFinanceRecords();
+            const typeFilter = document.getElementById('fin-filter-type').value;
+            const catFilter = document.getElementById('fin-filter-cat').value;
+            const monthFilter = document.getElementById('fin-filter-month').value;
+
+            if (typeFilter !== 'all') records = records.filter(r => r.type === typeFilter);
+            if (catFilter !== 'all') records = records.filter(r => r.catName === catFilter);
+            if (monthFilter) records = records.filter(r => r.date && r.date.startsWith(monthFilter));
+
+            records.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+
+            const listEl = document.getElementById('finance-record-list');
+            const noResult = document.getElementById('finance-no-result');
+
+            if (records.length === 0) {
+                listEl.innerHTML = '';
+                noResult.classList.add('show');
+                return;
+            }
+
+            noResult.classList.remove('show');
+            listEl.innerHTML = records.map(r => {
+                const icon = r.type === 'income' ? '💰' : '🛒';
+                const cls = r.type === 'income' ? 'income-amt' : 'expense-amt';
+                const sign = r.type === 'income' ? '+' : '-';
+                const catBadge = r.catName ? '<span class="category-badge ' + (r.type === 'income' ? 'cat-income' : 'cat-expense') + '">' + r.catName + '</span>' : '';
+                return '<div class="record-item">' +
+                    '<div class="record-icon">' + icon + '</div>' +
+                    '<div class="record-info">' +
+                        '<div class="record-title">' + r.category + catBadge + '</div>' +
+                        '<div class="record-meta">' + (r.date || '日期未知') + (r.note ? ' · ' + r.note : '') + '</div>' +
+                    '</div>' +
+                    '<div class="record-amount ' + cls + '">' + sign + formatMoney(r.amount) + '</div>' +
+                    '<button class="record-delete" onclick="deleteFinanceRecord(' + r.id + ')" title="删除">🗑️</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        function deleteFinanceRecord(id) {
+            if (!confirm('确定删除这条记录？')) return;
+            const records = loadFinanceRecords().filter(r => r.id !== id);
+            saveFinanceRecords(records);
+            renderFinanceSummary();
+            renderFinanceChart();
+            renderFinanceRecords();
+            addActivity('📒 删除了一条财务记录');
+        }
+
+        function clearFinanceFilters() {
+            document.getElementById('fin-filter-type').value = 'all';
+            document.getElementById('fin-filter-cat').value = 'all';
+            document.getElementById('fin-filter-month').value = '';
+            renderFinanceRecords();
+        }
+
+        function openFinanceModal() {
+            const cats = loadCats();
+            const catOptions = cats.map(c => '<option value="' + c.name + '">' + c.name + '</option>').join('');
+            const incomeOptions = (window.FIN_CATEGORIES ? FIN_CATEGORIES.income : ['猫粮捐赠','资金捐款','义卖收入','其他收入']).map(c => '<option value="' + c + '">' + c + '</option>').join('');
+            const expenseOptions = (window.FIN_CATEGORIES ? FIN_CATEGORIES.expense : ['猫粮采购','药品购买','绝育费用','医疗救治','猫窝猫砂','其他支出']).map(c => '<option value="' + c + '">' + c + '</option>').join('');
+
+            const modal = document.createElement('div');
+            modal.id = 'finance-modal';
+            modal.className = 'modal-overlay';
+            modal.onclick = function(e) { if (e.target === modal) closeFinanceModal(); };
+            modal.innerHTML = '<div class="modal">' +
+                '<div class="modal-title">➕ 添加收支记录</div>' +
+                '<form onsubmit="submitFinanceRecord(event)">' +
+                    '<div class="form-group">' +
+                        '<label>类型 *</label>' +
+                        '<select id="fin-type" onchange="updateFinCategory()">' +
+                            '<option value="income">支出</option>' +
+                            '<option value="income">收入</option>' +
+                        '</select>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label>分类 *</label>' +
+                        '<select id="fin-category">' + incomeOptions + '</select>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label>金额 (元) *</label>' +
+                        '<input type="number" id="fin-amount" placeholder="请输入金额" min="0.01" step="0.01" required>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label>关联猫咪</label>' +
+                        '<select id="fin-cat-name"><option value="">无</option>' + catOptions + '</select>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label>日期 *</label>' +
+                        '<input type="date" id="fin-date" value="' + new Date().toISOString().slice(0,10) + '" required>' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                        '<label>备注</label>' +
+                        '<input type="text" id="fin-note" placeholder="可选备注">' +
+                    '</div>' +
+                    '<div class="modal-actions">' +
+                        '<button type="button" class="btn btn-secondary" onclick="closeFinanceModal()">取消</button>' +
+                        '<button type="submit" class="btn btn-primary">✅ 确认添加</button>' +
+                    '</div>' +
+                '</form>' +
+            '</div>';
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+        }
+
+        function updateFinCategory() {
+            const type = document.getElementById('fin-type').value;
+            const cats = type === 'income' ? (window.FIN_CATEGORIES ? FIN_CATEGORIES.income : ['猫粮捐赠','资金捐款','义卖收入','其他收入']) : (window.FIN_CATEGORIES ? FIN_CATEGORIES.expense : ['猫粮采购','药品购买','绝育费用','医疗救治','猫窝猫砂','其他支出']);
+            document.getElementById('fin-category').innerHTML = cats.map(c => '<option value="' + c + '">' + c + '</option>').join('');
+        }
+
+        function closeFinanceModal() {
+            const modal = document.getElementById('finance-modal');
+            if (modal) { modal.style.display = 'none'; modal.remove(); }
+        }
+
+        function submitFinanceRecord(event) {
+            event.preventDefault();
+            const records = loadFinanceRecords();
+            const newId = records.length > 0 ? Math.max(...records.map(r => r.id)) + 1 : 1;
+            const type = document.getElementById('fin-type').value;
+            const record = {
+                id: newId,
+                type: type,
+                category: document.getElementById('fin-category').value,
+                amount: parseFloat(document.getElementById('fin-amount').value),
+                catName: document.getElementById('fin-cat-name').value,
+                date: document.getElementById('fin-date').value,
+                note: (document.getElementById('fin-note').value || '').trim(),
+                isDefault: false
+            };
+            records.push(record);
+            saveFinanceRecords(records);
+            closeFinanceModal();
+            renderFinanceSummary();
+            renderFinanceChart();
+            renderFinanceRecords();
+            addActivity((type === 'income' ? '收入' : '支出') + '记录：' + record.category + ' ' + formatMoney(record.amount));
+            showToast('✅ 记录已添加！');
         }
 
         // ====================================================
@@ -1111,6 +1747,9 @@
         // 初始化渲染
         renderDashboard();
         renderCats();
+        renderFinanceSummary();
+        renderFinanceChart();
+        renderFinanceRecords();
     </script>
 </body>
 </html>
