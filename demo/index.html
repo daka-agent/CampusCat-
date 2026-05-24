@@ -43,6 +43,8 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+        }
+
         /* 财务透明模块 */
         .finance-summary {
             display: grid;
@@ -362,6 +364,101 @@
         /* 领养申请弹窗增强 */
         #adopt-modal .modal {
             max-width: 540px;
+        }
+
+        /* 猫咪详情弹窗 */
+        .cat-detail-modal {
+            max-width: 400px !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .cat-detail-hero {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            position: relative;
+        }
+
+        .cat-detail-hero .close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .cat-detail-hero .close-btn:hover { background: rgba(0,0,0,0.5); }
+
+        .cat-detail-body {
+            padding: 24px;
+        }
+
+        .cat-detail-name {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .cat-detail-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .cat-detail-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px;
+        }
+
+        .cat-detail-item .label {
+            font-size: 0.75em;
+            color: #999;
+            margin-bottom: 4px;
+        }
+
+        .cat-detail-item .value {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .cat-detail-desc {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .cat-detail-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cat-detail-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
         /* 管理员验证 */
@@ -915,6 +1012,50 @@
             margin-bottom: 0;
         }
         
+        /* 底部 Tab 栏（移动端） */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+            z-index: 999;
+            padding: 6px 0 env(safe-area-inset-bottom, 8px);
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .bottom-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 6px 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #999;
+            font-size: 1.4em;
+            transition: color 0.2s;
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        .bottom-tab span {
+            font-size: 0.55em;
+            font-weight: 500;
+        }
+
+        .bottom-tab.active {
+            color: #667eea;
+        }
+
+        .bottom-tab:active {
+            transform: scale(0.95);
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -924,9 +1065,17 @@
                 grid-template-columns: 1fr;
             }
             
+            /* 移动端：隐藏顶部导航，显示底部 Tab 栏 */
             .nav-tabs {
-                flex-direction: column;
-                align-items: center;
+                display: none !important;
+            }
+
+            .bottom-nav {
+                display: flex !important;
+            }
+
+            .container {
+                padding-bottom: 80px;
             }
         }
     </style>
@@ -1254,6 +1403,15 @@
         </section>
     </div>
 
+    <!-- 移动端底部 Tab 栏 -->
+    <nav class="bottom-nav" id="bottom-nav">
+        <button class="bottom-tab active" data-section="dashboard" onclick="switchBottomTab('dashboard', this)">📊<span>看板</span></button>
+        <button class="bottom-tab" data-section="cats" onclick="switchBottomTab('cats', this)">🐱<span>猫咪</span></button>
+        <button class="bottom-tab" data-section="adoption" onclick="switchBottomTab('adoption', this)">🏠<span>领养</span></button>
+        <button class="bottom-tab" data-section="finance" onclick="switchBottomTab('finance', this)">💰<span>财务</span></button>
+        <button class="bottom-tab" data-section="volunteers" onclick="switchBottomTab('volunteers', this)">👥<span>志愿</span></button>
+    </nav>
+
     <!-- 添加志愿者模态框 -->
     <div id="volunteer-modal" class="modal-overlay">
         <div class="modal">
@@ -1325,6 +1483,13 @@
                     <button type="submit" class="btn btn-primary">✅ 提交申请</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- 猫咪详情弹窗 -->
+    <div id="cat-detail-modal" class="modal-overlay" onclick="closeCatDetail(event)">
+        <div class="modal cat-detail-modal" onclick="event.stopPropagation()">
+            <div id="cat-detail-content"></div>
         </div>
     </div>
 
@@ -2028,10 +2193,10 @@
                 const newBadge = !cat.isDefault ? `<span class="tag tag-new">新上报</span>` : '';
                 const searchData = [cat.name, cat.location, cat.personality, cat.color].filter(Boolean).join(' ').toLowerCase();
 
-                return `<div class="cat-card" data-search="${searchData}">
+                return `<div class="cat-card" data-search="${searchData}" onclick="openCatDetail(${cat.id})">
                     <div class="cat-image" style="background: ${getCatBg(cat.color)};">🐱</div>
                     <div class="cat-info">
-                        <div class="cat-name">${cat.name}</div>
+                        <div class="cat-name">${cat.name} <span style="font-size:0.7em;color:#aaa;">→</span></div>
                         <div class="cat-tags">
                             ${neuteredTag}
                             ${cat.personality ? `<span class="tag ${personalityClass}">${cat.personality}</span>` : ''}
@@ -2041,6 +2206,66 @@
                     </div>
                 </div>`;
             }).join('');
+        }
+
+        // ====================================================
+        // 猫咪详情弹窗
+        // ====================================================
+        function openCatDetail(catId) {
+            const cats = loadCats();
+            const cat = cats.find(c => c.id === catId);
+            if (!cat) return;
+
+            const neuteredLabel = cat.neutered === true ? '✅ 已绝育' : cat.neutered === false ? '⚠️ 待绝育' : '❓ 未确定';
+            const descMap = {
+                '亲人可摸': '性格温顺，可以抚摸，适合互动。',
+                '胆小怕人': '有点害羞，需要耐心建立信任。',
+                '可摸不可抱': '可以摸但不给抱，有自己的小脾气。',
+                '不亲人': '独立自主，喜欢保持距离。',
+                '非常亲人': '超级粘人，见到人就蹭。',
+                '亲人': '性格温和，对人类友善。'
+            };
+            const desc = descMap[cat.personality] || '等待一只温暖的手。';
+            const bg = getCatBg(cat.color);
+
+            document.getElementById('cat-detail-content').innerHTML = `
+                <div class="cat-detail-hero" style="background: ${bg};">
+                    <button class="close-btn" onclick="event.stopPropagation();closeCatDetail()">✕</button>
+                    🐱
+                </div>
+                <div class="cat-detail-body">
+                    <div class="cat-detail-name">${cat.name}</div>
+                    <div class="cat-detail-desc">${desc}</div>
+                    <div class="cat-detail-info">
+                        <div class="cat-detail-item">
+                            <div class="label">📍 活动区域</div>
+                            <div class="value">${cat.location || '未知'}</div>
+                        </div>
+                        <div class="cat-detail-item">
+                            <div class="label">🐾 性格</div>
+                            <div class="value">${cat.personality || '未知'}</div>
+                        </div>
+                        <div class="cat-detail-item">
+                            <div class="label">🏥 绝育</div>
+                            <div class="value">${neuteredLabel}</div>
+                        </div>
+                        <div class="cat-detail-item">
+                            <div class="label">🎨 毛色</div>
+                            <div class="value">${cat.color || '未知'}</div>
+                        </div>
+                    </div>
+                    <div class="cat-detail-actions">
+                        <button class="btn btn-secondary" onclick="closeCatDetail()">关闭</button>
+                        <button class="btn btn-primary" onclick="closeCatDetail();showSection('adoption');">🏠 申请领养</button>
+                    </div>
+                </div>`;
+
+            document.getElementById('cat-detail-modal').classList.add('show');
+        }
+
+        function closeCatDetail(event) {
+            if (event && event.target !== document.getElementById('cat-detail-modal')) return;
+            document.getElementById('cat-detail-modal').classList.remove('show');
         }
 
         function filterCats() {
@@ -2215,12 +2440,24 @@
             document.getElementById(sectionId).classList.add('active');
             if (btn) btn.classList.add('active');
 
+            // 同步底部 Tab 栏
+            document.querySelectorAll('.bottom-tab').forEach(t => t.classList.remove('active'));
+            const bottomTab = document.querySelector(`.bottom-tab[data-section="${sectionId}"]`);
+            if (bottomTab) bottomTab.classList.add('active');
+
             // 进入对应页面时刷新数据
             if (sectionId === 'dashboard') renderDashboard();
             if (sectionId === 'cats') renderCats();
             if (sectionId === 'volunteers') renderVolunteers();
             if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
             if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptAppsPublicView(); renderAdoptApps(); updateAdminUI(); }
+        }
+
+        // 移动端底部 Tab 切换
+        function switchBottomTab(sectionId, btn) {
+            showSection(sectionId, null);  // 不传顶部 nav btn
+            document.querySelectorAll('.bottom-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
         }
 
         // ====================================================
