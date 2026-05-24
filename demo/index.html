@@ -364,6 +364,72 @@
             max-width: 540px;
         }
 
+        /* 管理员验证 */
+        .app-summary {
+            text-align: center;
+            padding: 30px 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            color: #888;
+            line-height: 1.8;
+        }
+
+        .app-summary .lock-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .pin-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .pin-modal.hidden { display: none; }
+
+        .pin-box {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 360px;
+            text-align: center;
+        }
+
+        .pin-box h3 { margin: 0 0 8px; font-size: 1.2em; }
+
+        .pin-box .pin-subtitle { color: #999; font-size: 0.85em; margin-bottom: 20px; }
+
+        .pin-input-row { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; }
+
+        .pin-digit {
+            width: 44px; height: 52px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            outline: none;
+        }
+
+        .pin-digit:focus { border-color: #667eea; box-shadow: 0 0 0 2px rgba(102,126,234,0.2); }
+
+        .pin-error { color: #d63031; font-size: 0.82em; margin-bottom: 10px; min-height: 20px; }
+
+        .admin-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            background: #d4edda;
+            color: #155724;
+        }
+
             margin-bottom: 30px;
             flex-wrap: wrap;
         }
@@ -1164,14 +1230,26 @@
                 <p>目前没有可领养的猫咪，请先添加</p>
             </div>
 
+            <!-- 领养申请记录（管理员验证后可见详情） -->
             <div style="margin: 30px 0 16px; display:flex; align-items:center; justify-content:space-between;">
                 <h3 style="color: #333; font-size: 1.15em;">📋 领养申请记录</h3>
-                <button class="btn btn-primary" onclick="openAdoptModal()" style="padding: 10px 22px; font-size: 0.9em;">➕ 新增申请</button>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <span id="admin-status" style="font-size:0.8em; color:#999;"></span>
+                    <button id="admin-toggle-btn" class="btn btn-secondary" onclick="toggleAdminMode()" style="padding: 8px 16px; font-size: 0.85em;">🔒 管理员验证</button>
+                </div>
             </div>
-            <div id="adopt-app-list" class="app-list"></div>
-            <div id="adopt-app-empty" class="app-empty" style="display:none;">
-                <div class="icon">📋</div>
-                <p>暂无领养申请记录</p>
+            <!-- 未验证：只显示汇总 -->
+            <div id="adopt-app-public" class="app-summary"></div>
+            <!-- 已验证：显示完整详情 -->
+            <div id="adopt-app-admin" style="display:none;">
+                <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
+                    <button class="btn btn-primary" onclick="openAdoptModal()" style="padding: 8px 18px; font-size: 0.85em;">➕ 新增申请</button>
+                </div>
+                <div id="adopt-app-list" class="app-list"></div>
+                <div id="adopt-app-empty" class="app-empty" style="display:none;">
+                    <div class="icon">📋</div>
+                    <p>暂无领养申请记录</p>
+                </div>
             </div>
         </section>
     </div>
@@ -1250,6 +1328,22 @@
         </div>
     </div>
 
+    <!-- 管理员 PIN 验证弹窗 -->
+    <div id="pin-modal" class="pin-modal hidden">
+        <div class="pin-box">
+            <h3>🔒 管理员验证</h3>
+            <p class="pin-subtitle">请输入4位管理密码以查看领养申请详情</p>
+            <div class="pin-input-row">
+                <input type="password" class="pin-digit" maxlength="1" id="p1" oninput="pinNext(this, 'p2')" autocomplete="off">
+                <input type="password" class="pin-digit" maxlength="1" id="p2" oninput="pinNext(this, 'p3')" autocomplete="off">
+                <input type="password" class="pin-digit" maxlength="1" id="p3" oninput="pinNext(this, 'p4')" autocomplete="off">
+                <input type="password" class="pin-digit" maxlength="1" id="p4" oninput="verifyPin()" autocomplete="off">
+            </div>
+            <div class="pin-error" id="pin-error"></div>
+            <button class="btn btn-secondary" onclick="closePinModal()" style="width:100%; padding:10px;">取消</button>
+        </div>
+    </div>
+
     <!-- Toast 提示 -->
     <div id="toast" class="toast"></div>
     
@@ -1272,13 +1366,14 @@
 
         const CAT_EMOJIS = ['🐱', '😺', '😸', '🙀', '😻'];
 
+        // ⚠️ 安全：位置仅保留大区域，不暴露具体活动地点（防虐猫）
         const DEFAULT_CATS = [
-            { id: 1, name: '大黄', neutered: true, personality: '亲人可摸', location: '图书馆后门', color: '橘色/黄色', isDefault: true },
-            { id: 2, name: '小白', neutered: false, personality: '胆小怕人', location: '食堂门口', color: '白色', isDefault: true },
-            { id: 3, name: '花花', neutered: true, personality: '可摸不可抱', location: '教学楼A座', color: '三花', isDefault: true },
-            { id: 4, name: '黑豹', neutered: null, personality: '不亲人', location: '操场看台', color: '黑色', isDefault: true },
+            { id: 1, name: '大黄', neutered: true, personality: '亲人可摸', location: '校园东区', color: '橘色/黄色', isDefault: true },
+            { id: 2, name: '小白', neutered: false, personality: '胆小怕人', location: '校园西区', color: '白色', isDefault: true },
+            { id: 3, name: '花花', neutered: true, personality: '可摸不可抱', location: '教学区', color: '三花', isDefault: true },
+            { id: 4, name: '黑豹', neutered: null, personality: '不亲人', location: '运动区', color: '黑色', isDefault: true },
             { id: 5, name: '咪咪', neutered: true, personality: '非常亲人', location: '宿舍区', color: '狸花（条纹）', isDefault: true },
-            { id: 6, name: '蓝蓝', neutered: false, personality: '亲人', location: '实验楼后', color: '蓝色', isDefault: true }
+            { id: 6, name: '蓝蓝', neutered: false, personality: '亲人', location: '教学区', color: '蓝色', isDefault: true }
         ];
 
         const DEFAULT_VOLUNTEERS = [
@@ -1346,6 +1441,123 @@
         function saveAdoptApps(list) {
             localStorage.setItem('campuscat_adopt_apps', JSON.stringify(list));
         }
+
+        // ====================================================
+        // 领养对接 — 管理员 PIN 验证
+        // ⚠️ 安全：领养申请记录仅管理员可见，防止偷猫风险
+        // ====================================================
+        const ADMIN_PIN = '0426';
+
+        function isAdminVerified() {
+            return sessionStorage.getItem('campuscat_admin') === '1';
+        }
+
+        function setAdminVerified(val) {
+            if (val) {
+                sessionStorage.setItem('campuscat_admin', '1');
+            } else {
+                sessionStorage.removeItem('campuscat_admin');
+            }
+        }
+
+        function renderAdoptAppsPublicView() {
+            const apps = loadAdoptApps();
+            const div = document.getElementById('adopt-app-public');
+            if (!div) return;
+
+            const pending = apps.filter(a => a.status === 'pending').length;
+            const approved = apps.filter(a => a.status === 'approved').length;
+            const adopted = apps.filter(a => a.status === 'adopted').length;
+
+            div.innerHTML = `<div class="lock-icon">🔒</div>
+                <p>共有 <b>${apps.length}</b> 条领养申请记录</p>
+                <p style="font-size:0.85em;">待审核 <b>${pending}</b> · 已通过 <b>${approved}</b> · 已领养 <b>${adopted}</b></p>
+                <p style="font-size:0.82em; color:#bbb; margin-top:8px;">申请人信息仅管理员可见</p>`;
+        }
+
+        function updateAdminUI() {
+            const verified = isAdminVerified();
+            document.getElementById('adopt-app-public').style.display = verified ? 'none' : 'block';
+            document.getElementById('adopt-app-admin').style.display = verified ? 'block' : 'none';
+            const statusEl = document.getElementById('admin-status');
+            const toggleBtn = document.getElementById('admin-toggle-btn');
+            if (verified) {
+                statusEl.innerHTML = '<span class="admin-badge">✅ 已验证</span>';
+                toggleBtn.textContent = '🔓 退出管理';
+                toggleBtn.className = 'btn btn-secondary';
+            } else {
+                statusEl.innerHTML = '';
+                toggleBtn.textContent = '🔒 管理员验证';
+                toggleBtn.className = 'btn btn-secondary';
+            }
+        }
+
+        function toggleAdminMode() {
+            if (isAdminVerified()) {
+                setAdminVerified(false);
+                updateAdminUI();
+                renderAdoptAppsPublicView();
+                showToast('已退出管理员模式');
+            } else {
+                openPinModal();
+            }
+        }
+
+        function openPinModal() {
+            document.getElementById('pin-modal').classList.remove('hidden');
+            document.getElementById('pin-error').textContent = '';
+            document.getElementById('p1').value = '';
+            document.getElementById('p2').value = '';
+            document.getElementById('p3').value = '';
+            document.getElementById('p4').value = '';
+            setTimeout(() => document.getElementById('p1').focus(), 100);
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+        }
+
+        function pinNext(current, nextId) {
+            if (current.value.length === 1) {
+                const next = document.getElementById(nextId);
+                if (next) next.focus();
+            }
+        }
+
+        function verifyPin() {
+            const p1 = document.getElementById('p1').value;
+            const p2 = document.getElementById('p2').value;
+            const p3 = document.getElementById('p3').value;
+            const p4 = document.getElementById('p4').value;
+            const pin = p1 + p2 + p3 + p4;
+
+            if (pin.length < 4) return;
+
+            if (pin === ADMIN_PIN) {
+                setAdminVerified(true);
+                closePinModal();
+                updateAdminUI();
+                renderAdoptApps();
+                showToast('✅ 验证成功，管理员模式已开启');
+            } else {
+                document.getElementById('pin-error').textContent = '❌ 密码错误，请重试';
+                document.getElementById('p1').value = '';
+                document.getElementById('p2').value = '';
+                document.getElementById('p3').value = '';
+                document.getElementById('p4').value = '';
+                setTimeout(() => document.getElementById('p1').focus(), 100);
+            }
+        }
+
+        // 点击遮罩关闭 PIN 弹窗
+        document.addEventListener('DOMContentLoaded', function() {
+            const pinModal = document.getElementById('pin-modal');
+            if (pinModal) {
+                pinModal.addEventListener('click', function(e) {
+                    if (e.target === pinModal) closePinModal();
+                });
+            }
+        });
 
         // ====================================================
         // 领养对接渲染
@@ -1451,15 +1663,17 @@
                 }
             }
 
-            // 如果审核通过，发动态
+            // 如果审核通过，发动态（不暴露申请人姓名）
             if (newStatus === 'approved' && oldStatus === 'pending') {
-                addActivity(`🏠 领养申请通过：「${app.applicantName}」申请领养「${app.catName}」已通过审核`);
+                const maskedName = app.applicantName ? app.applicantName.charAt(0) + '**' : '申请人';
+                addActivity(`🏠 领养申请通过：${maskedName} 申请领养「${app.catName}」已通过审核`);
             } else if (newStatus === 'adopted' && oldStatus !== 'adopted') {
-                addActivity(`🎉 领养成功！「${app.catName}」已找到新家（申请人：${app.applicantName}）`);
+                addActivity(`🎉 领养成功！「${app.catName}」已找到新家`);
             }
 
             renderAdoptStats();
             renderAdoptCats();
+            renderAdoptAppsPublicView();
             renderAdoptApps();
             showToast(`✅ 状态已更新为「${ADOPT_STATUS_MAP[newStatus].label}」`);
         }
@@ -1514,10 +1728,11 @@
             apps.push(app);
             saveAdoptApps(apps);
 
-            addActivity(`🏠 ${name} 提交了领养「${catName}」的申请，等待审核`);
+            addActivity(`🏠 有新同学提交了领养「${catName}」的申请，等待审核`);
 
             closeAdoptModal();
             renderAdoptStats();
+            renderAdoptAppsPublicView();
             renderAdoptApps();
             showToast(`✅ 领养申请已提交！审核结果将通知 ${contact}`, 'success');
         }
@@ -2005,7 +2220,7 @@
             if (sectionId === 'cats') renderCats();
             if (sectionId === 'volunteers') renderVolunteers();
             if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
-            if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptApps(); }
+            if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptAppsPublicView(); renderAdoptApps(); updateAdminUI(); }
         }
 
         // ====================================================
@@ -2250,7 +2465,9 @@
         renderVolunteers();
         renderAdoptStats();
         renderAdoptCats();
+        renderAdoptAppsPublicView();
         renderAdoptApps();
+        updateAdminUI();
         renderFinanceSummary();
         renderFinanceChart();
         renderFinanceRecords();
