@@ -2742,7 +2742,12 @@
 
         function loadSupplies() {
             const saved = localStorage.getItem('campuscat_supplies');
-            return saved ? JSON.parse(saved) : [...DEFAULT_SUPPLIES];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_SUPPLIES];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_SUPPLIES];
+                localStorage.setItem('campuscat_supplies', JSON.stringify(data));
+            }
+            return data;
         }
         function saveSupplies(list) {
             localStorage.setItem('campuscat_supplies', JSON.stringify(list));
@@ -2767,14 +2772,24 @@
 
         function loadRecruitJobs() {
             const saved = localStorage.getItem('campuscat_recruit_jobs');
-            return saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_JOBS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_JOBS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_RECRUIT_JOBS];
+                localStorage.setItem('campuscat_recruit_jobs', JSON.stringify(data));
+            }
+            return data;
         }
         function saveRecruitJobs(list) {
             localStorage.setItem('campuscat_recruit_jobs', JSON.stringify(list));
         }
         function loadRecruitApps() {
             const saved = localStorage.getItem('campuscat_recruit_apps');
-            return saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_APPS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_APPS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_RECRUIT_APPS];
+                localStorage.setItem('campuscat_recruit_apps', JSON.stringify(data));
+            }
+            return data;
         }
         function saveRecruitApps(list) {
             localStorage.setItem('campuscat_recruit_apps', JSON.stringify(list));
@@ -2782,7 +2797,12 @@
 
         function loadAdoptCats() {
             const saved = localStorage.getItem('campuscat_adopt_cats');
-            return saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_CATS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_CATS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_ADOPT_CATS];
+                localStorage.setItem('campuscat_adopt_cats', JSON.stringify(data));
+            }
+            return data;
         }
 
         function saveAdoptCats(list) {
@@ -2791,7 +2811,12 @@
 
         function loadAdoptApps() {
             const saved = localStorage.getItem('campuscat_adopt_apps');
-            return saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_APPS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_ADOPT_APPS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_ADOPT_APPS];
+                localStorage.setItem('campuscat_adopt_apps', JSON.stringify(data));
+            }
+            return data;
         }
 
         function saveAdoptApps(list) {
@@ -2826,7 +2851,12 @@
 
         function loadTimeline() {
             const saved = localStorage.getItem('campuscat_timeline');
-            return saved ? JSON.parse(saved) : [...DEFAULT_TIMELINE];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_TIMELINE];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_TIMELINE];
+                localStorage.setItem('campuscat_timeline', JSON.stringify(data));
+            }
+            return data;
         }
         function saveTimeline(list) {
             localStorage.setItem('campuscat_timeline', JSON.stringify(list));
@@ -3155,7 +3185,12 @@
 
         function loadFinanceRecords() {
             const saved = localStorage.getItem('campuscat_finance');
-            return saved ? JSON.parse(saved) : [...DEFAULT_FINANCE_RECORDS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_FINANCE_RECORDS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_FINANCE_RECORDS];
+                localStorage.setItem('campuscat_finance', JSON.stringify(data));
+            }
+            return data;
         }
 
         function saveFinanceRecords(records) {
@@ -3165,7 +3200,31 @@
         // 读写 localStorage
         function loadCats() {
             const saved = localStorage.getItem('campuscat_cats');
-            return saved ? JSON.parse(saved) : [...DEFAULT_CATS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_CATS];
+            // 空数据保护
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_CATS];
+                localStorage.setItem('campuscat_cats', JSON.stringify(data));
+            }
+            // 字段升级：旧数据缺少新字段时自动填充
+            const defaultMap = {};
+            DEFAULT_CATS.forEach(c => { defaultMap[c.id] = c; });
+            data = data.map(c => {
+                const def = defaultMap[c.id];
+                if (!def) return c;
+                return {
+                    ...def,
+                    ...c,
+                    // 确保新字段存在
+                    gender: c.gender ?? def.gender ?? '未知',
+                    age: c.age ?? def.age ?? '未知',
+                    size: c.size ?? def.size ?? '',
+                    healthStatus: c.healthStatus ?? def.healthStatus ?? '未知',
+                    firstSeen: c.firstSeen ?? def.firstSeen ?? '',
+                    notes: c.notes ?? def.notes ?? ''
+                };
+            });
+            return data;
         }
 
         function saveCats(cats) {
@@ -3174,7 +3233,12 @@
 
         function loadVolunteers() {
             const saved = localStorage.getItem('campuscat_volunteers');
-            return saved ? JSON.parse(saved) : [...DEFAULT_VOLUNTEERS];
+            let data = saved ? JSON.parse(saved) : [...DEFAULT_VOLUNTEERS];
+            if (!Array.isArray(data) || data.length === 0) {
+                data = [...DEFAULT_VOLUNTEERS];
+                localStorage.setItem('campuscat_volunteers', JSON.stringify(data));
+            }
+            return data;
         }
 
         function saveVolunteers(volunteers) {
@@ -3188,7 +3252,12 @@
                 '🕐 3小时前 - 花花被成功领养，状态已更新',
                 '🕐 昨天 - 本月绝育筹款目标达成 85%'
             ];
-            return saved ? JSON.parse(saved) : defaults;
+            let data = saved ? JSON.parse(saved) : defaults;
+            if (!Array.isArray(data) || data.length === 0) {
+                data = defaults;
+                localStorage.setItem('campuscat_activities', JSON.stringify(data));
+            }
+            return data;
         }
 
         function saveActivities(activities) {
