@@ -1387,6 +1387,234 @@
 >        }
 >        .recruit-share-box .copy-btn:hover { opacity: 0.9; }
 >
+>        /* ==========================================
+>           猫协介绍模块
+>           ========================================== */
+>        .about-hero {
+>            background: linear-gradient(135deg, #667eea 0%, #764ba2 40%, #e17055 100%);
+>            border-radius: 20px;
+>            padding: 48px 36px;
+>            text-align: center;
+>            color: white;
+>            margin-bottom: 32px;
+>            position: relative;
+>            overflow: hidden;
+>        }
+>        .about-hero::before {
+>            content: '';
+>            position: absolute;
+>            inset: 0;
+>            background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+>                        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.06) 0%, transparent 50%);
+>        }
+>        .about-hero * { position: relative; }
+>        .about-hero .hero-emoji { font-size: 4em; margin-bottom: 16px; display: block; }
+>        .about-hero h2 { font-size: 1.8em; margin-bottom: 12px; font-weight: 800; }
+>        .about-hero .hero-tagline { font-size: 1.05em; opacity: 0.9; max-width: 500px; margin: 0 auto; line-height: 1.7; }
+>
+>        .about-mission-cards {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+>            gap: 16px;
+>            margin-bottom: 32px;
+>        }
+>        .about-mission-card {
+>            background: white;
+>            border-radius: 15px;
+>            padding: 24px;
+>            text-align: center;
+>            border: 1px solid #e9ecef;
+>            transition: transform 0.2s;
+>        }
+>        .about-mission-card:hover { transform: translateY(-3px); }
+>        .about-mission-card .mission-icon { font-size: 2.5em; margin-bottom: 10px; }
+>        .about-mission-card .mission-title { font-weight: 700; color: #333; margin-bottom: 6px; font-size: 1em; }
+>        .about-mission-card .mission-desc { font-size: 0.82em; color: #888; line-height: 1.6; }
+>
+>        .about-story {
+>            background: white;
+>            border-radius: 15px;
+>            padding: 32px;
+>            margin-bottom: 32px;
+>            border: 1px solid #e9ecef;
+>            line-height: 1.9;
+>            color: #555;
+>        }
+>        .about-story h3 { color: #333; margin-bottom: 16px; font-size: 1.15em; }
+>        .about-story p { margin-bottom: 12px; font-size: 0.92em; }
+>
+>        .about-challenges {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+>            gap: 14px;
+>            margin-bottom: 32px;
+>        }
+>        .about-challenge-card {
+>            background: #f8f9fa;
+>            border-radius: 15px;
+>            padding: 20px;
+>            border-left: 4px solid #e17055;
+>        }
+>        .about-challenge-card h4 { color: #d63031; font-size: 0.95em; margin-bottom: 6px; }
+>        .about-challenge-card p { color: #888; font-size: 0.82em; line-height: 1.6; }
+>
+>        .about-team {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+>            gap: 14px;
+>            margin-bottom: 32px;
+>        }
+>        .about-team-card {
+>            background: white;
+>            border-radius: 15px;
+>            padding: 20px 16px;
+>            text-align: center;
+>            border: 1px solid #e9ecef;
+>            transition: transform 0.2s;
+>        }
+>        .about-team-card:hover { transform: translateY(-2px); }
+>        .about-team-card .member-avatar {
+>            width: 56px; height: 56px;
+>            border-radius: 50%;
+>            background: linear-gradient(135deg, #667eea, #764ba2);
+>            color: white;
+>            display: flex;
+>            align-items: center;
+>            justify-content: center;
+>            font-size: 1.5em;
+>            margin: 0 auto 10px;
+>        }
+>        .about-team-card .member-name { font-weight: 700; color: #333; font-size: 0.95em; }
+>        .about-team-card .member-role { font-size: 0.78em; color: #667eea; margin-top: 2px; }
+>        .about-team-card .member-desc { font-size: 0.75em; color: #999; margin-top: 6px; line-height: 1.4; }
+>
+>        .about-cta {
+>            background: linear-gradient(135deg, #00b894, #00cec9);
+>            border-radius: 15px;
+>            padding: 32px;
+>            text-align: center;
+>            color: white;
+>            margin-bottom: 8px;
+>        }
+>        .about-cta h3 { font-size: 1.3em; margin-bottom: 8px; }
+>        .about-cta p { opacity: 0.9; font-size: 0.9em; margin-bottom: 16px; line-height: 1.6; }
+>        .about-cta .cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+>        .about-cta .cta-btn {
+>            padding: 10px 24px;
+>            border: 2px solid rgba(255,255,255,0.5);
+>            border-radius: 25px;
+>            background: transparent;
+>            color: white;
+>            font-weight: 600;
+>            cursor: pointer;
+>            font-size: 0.9em;
+>            transition: all 0.2s;
+>        }
+>        .about-cta .cta-btn:hover { background: rgba(255,255,255,0.15); border-color: white; }
+>        .about-cta .cta-btn.primary { background: white; color: #00b894; border-color: white; }
+>        .about-cta .cta-btn.primary:hover { background: rgba(255,255,255,0.9); }
+>
+>        /* ==========================================
+>           活动时间线模块
+>           ========================================== */
+>        .timeline-type-filter {
+>            display: flex;
+>            gap: 6px;
+>            margin-bottom: 24px;
+>            flex-wrap: wrap;
+>        }
+>        .timeline-filter-chip {
+>            padding: 6px 14px;
+>            border: 1px solid #e0e0e0;
+>            border-radius: 20px;
+>            background: white;
+>            cursor: pointer;
+>            font-size: 0.82em;
+>            color: #666;
+>            transition: all 0.2s;
+>        }
+>        .timeline-filter-chip:hover { border-color: #667eea; color: #667eea; }
+>        .timeline-filter-chip.active { background: #667eea; color: white; border-color: #667eea; }
+>
+>        .timeline-container {
+>            position: relative;
+>            padding-left: 32px;
+>        }
+>        .timeline-container::before {
+>            content: '';
+>            position: absolute;
+>            left: 15px; top: 0; bottom: 0;
+>            width: 2px;
+>            background: linear-gradient(180deg, #667eea 0%, #e9ecef 100%);
+>        }
+>
+>        .timeline-item {
+>            position: relative;
+>            margin-bottom: 24px;
+>            padding-left: 28px;
+>        }
+>        .timeline-item::before {
+>            content: '';
+>            position: absolute;
+>            left: -21px; top: 16px;
+>            width: 14px; height: 14px;
+>            border-radius: 50%;
+>            background: white;
+>            border: 3px solid #667eea;
+>            z-index: 1;
+>        }
+>        .timeline-item.type-rescue::before  { border-color: #e17055; }
+>        .timeline-item.type-tnr::before     { border-color: #6c5ce7; }
+>        .timeline-item.type-adopt::before   { border-color: #fd79a8; }
+>        .timeline-item.type-donate::before  { border-color: #fdcb6e; }
+>        .timeline-item.type-volunteer::before { border-color: #00b894; }
+>        .timeline-item.type-feeding::before { border-color: #74b9ff; }
+>        .timeline-item.type-medical::before { border-color: #a29bfe; }
+>
+>        .timeline-date {
+>            font-size: 0.75em;
+>            font-weight: 700;
+>            color: #999;
+>            margin-bottom: 6px;
+>            letter-spacing: 0.5px;
+>        }
+>
+>        .timeline-card {
+>            background: white;
+>            border: 1px solid #e9ecef;
+>            border-radius: 12px;
+>            padding: 16px 18px;
+>            transition: transform 0.2s, box-shadow 0.2s;
+>        }
+>        .timeline-card:hover { transform: translateX(4px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+>
+>        .timeline-card .tl-type-badge {
+>            display: inline-block;
+>            padding: 2px 10px;
+>            border-radius: 10px;
+>            font-size: 0.72em;
+>            font-weight: 600;
+>            margin-bottom: 6px;
+>        }
+>        .tl-badge-rescue    { background: #ffebee; color: #c0392b; }
+>        .tl-badge-tnr       { background: #ede7f6; color: #5e35b1; }
+>        .tl-badge-adopt     { background: #fce4ec; color: #c2185b; }
+>        .tl-badge-donate    { background: #fff8e1; color: #e67e22; }
+>        .tl-badge-volunteer { background: #e8f5e9; color: #27ae60; }
+>        .tl-badge-feeding   { background: #e3f2fd; color: #1565c0; }
+>        .tl-badge-medical   { background: #ede7f6; color: #6a1b9a; }
+>
+>        .timeline-card .tl-content {
+>            color: #444;
+>            font-size: 0.9em;
+>            line-height: 1.6;
+>        }
+>        .timeline-card .tl-meta {
+>            font-size: 0.75em;
+>            color: #aaa;
+>            margin-top: 4px;
+>        }
+>
 >        @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
@@ -1427,6 +1655,8 @@
             <button class="nav-tab" onclick="showSection('finance', this)">💰 财务透明</button>
             <button class="nav-tab" onclick="showSection('adoption', this)">🏠 领养对接</button>
             <button class="nav-tab" onclick="showSection('supplies', this)">🧰 物资看板</button>
+            <button class="nav-tab" onclick="showSection('about', this)">📖 关于</button>
+            <button class="nav-tab" onclick="showSection('timeline', this)">📅 动态</button>
         </nav>
         
         <!-- 数据看板 -->
@@ -1848,6 +2078,145 @@
                 <p style="color:#888; font-size:0.9em; margin-top:6px;">微信：CampusCat_Helper | 接收点：校园东区活动中心101</p>
             </div>
         </section>
+
+        <!-- 猫协介绍 -->
+        <section id="about" class="content-section">
+            <!-- Hero -->
+            <div class="about-hero">
+                <span class="hero-emoji">🐱</span>
+                <h2>关于校园猫协</h2>
+                <p class="hero-tagline">我们是一群自发组织的学生，因为对猫咪的爱走到一起。<br>不官方，但很认真；人不多，但很坚持。</p>
+            </div>
+
+            <!-- 使命卡片 -->
+            <div class="about-mission-cards">
+                <div class="about-mission-card">
+                    <div class="mission-icon">🏥</div>
+                    <div class="mission-title">TNR救助</div>
+                    <div class="mission-desc">抓捕-绝育-放归，科学控制校园流浪猫数量，减少无序繁殖</div>
+                </div>
+                <div class="about-mission-card">
+                    <div class="mission-icon">🍽️</div>
+                    <div class="mission-title">日常投喂</div>
+                    <div class="mission-desc">每天定点投喂，确保每只猫咪都能吃饱，维护固定喂食点</div>
+                </div>
+                <div class="about-mission-card">
+                    <div class="mission-icon">💊</div>
+                    <div class="mission-title">医疗救助</div>
+                    <div class="mission-desc">为生病受伤的猫咪提供基础医疗，与校外宠物医院合作</div>
+                </div>
+                <div class="about-mission-card">
+                    <div class="mission-icon">🏠</div>
+                    <div class="mission-title">领养对接</div>
+                    <div class="mission-desc">为适合进入家庭的猫咪寻找领养人，让毛孩子不再流浪</div>
+                </div>
+            </div>
+
+            <!-- 我们的故事 -->
+            <div class="about-story">
+                <h3>📖 我们的故事</h3>
+                <p>校园猫协成立于一群热爱猫咪的学生之手。没有官方牌照，没有固定经费，没有专门的办公场所——我们有的只是一群愿意为流浪猫付出时间的同学。</p>
+                <p>从最初几个同学自发在食堂附近喂猫，到如今建立起覆盖整个校园的救助网络，我们走过来了。每一只被成功救助的猫咪，每一个找到新家的毛孩子，都是我们坚持下去的理由。</p>
+                <p>但我们还很弱小。我们需要更多人的关注、理解和支持。</p>
+            </div>
+
+            <!-- 面临的困难 -->
+            <h3 style="color:#333; margin-bottom:16px;">⚠️ 我们面临的困难</h3>
+            <div class="about-challenges">
+                <div class="about-challenge-card">
+                    <h4>🚫 非官方身份</h4>
+                    <p>学校尚未正式承认猫协，无法申请校内经费和场地，所有活动均为学生自发组织</p>
+                </div>
+                <div class="about-challenge-card">
+                    <h4>👥 人手严重不足</h4>
+                    <p>真正参与日常救助的同学不足10人，寒暑假期间猫咪无人照料，急需更多志愿者</p>
+                </div>
+                <div class="about-challenge-card">
+                    <h4>💰 资金全靠自筹</h4>
+                    <p>猫粮、医疗、绝育费用均来自成员自掏腰包和零散捐赠，资金缺口长期存在</p>
+                </div>
+                <div class="about-challenge-card">
+                    <h4>📢 知名度低</h4>
+                    <p>很多同学不知道猫协的存在，遇到流浪猫问题不知道可以联系我们</p>
+                </div>
+            </div>
+
+            <!-- 核心成员 -->
+            <h3 style="color:#333; margin-bottom:16px;">👤 核心成员</h3>
+            <div class="about-team">
+                <div class="about-team-card">
+                    <div class="member-avatar">🐱</div>
+                    <div class="member-name">会长 · 热心同学</div>
+                    <div class="member-role">统筹协调</div>
+                    <div class="member-desc">大二，每天巡查猫咪点位</div>
+                </div>
+                <div class="about-team-card">
+                    <div class="member-avatar">🏥</div>
+                    <div class="member-name">医疗组 · 细心同学</div>
+                    <div class="member-role">医疗救助</div>
+                    <div class="member-desc">有宠物护理经验，处理外伤</div>
+                </div>
+                <div class="about-team-card">
+                    <div class="member-avatar">📱</div>
+                    <div class="member-name">宣传组 · 创意同学</div>
+                    <div class="member-role">新媒体运营</div>
+                    <div class="member-desc">运营公众号，记录猫咪日常</div>
+                </div>
+                <div class="about-team-card">
+                    <div class="member-avatar">🍽️</div>
+                    <div class="member-name">投喂组 · 勤劳同学</div>
+                    <div class="member-role">日常投喂</div>
+                    <div class="member-desc">风雨无阻，每天准时投喂</div>
+                </div>
+                <div class="about-team-card">
+                    <div class="member-avatar">💝</div>
+                    <div class="member-name">物资组 · 贴心同学</div>
+                    <div class="member-role">物资管理</div>
+                    <div class="member-desc">管理捐赠物资出入库</div>
+                </div>
+                <div class="about-team-card" style="border:2px dashed #ddd; background:#fafafa;">
+                    <div class="member-avatar" style="background:linear-gradient(135deg,#ddd,#eee);">❓</div>
+                    <div class="member-name">你？</div>
+                    <div class="member-role" style="color:#e17055;">虚位以待</div>
+                    <div class="member-desc">点击下方报名加入</div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="about-cta">
+                <h3>💕 你也可以帮助这些猫咪</h3>
+                <p>无论你是想加入我们、捐赠物资，还是仅仅帮忙转发——每一份关注都是力量</p>
+                <div class="cta-btns">
+                    <button class="cta-btn primary" onclick="showSection('volunteers', null); setTimeout(() => toggleVolunteerView('recruit', document.querySelectorAll('.recruit-toggle-btn')[1]), 200);">🤝 成为志愿者</button>
+                    <button class="cta-btn" onclick="showSection('supplies', null)">🧰 查看物资需求</button>
+                    <button class="cta-btn" onclick="showSection('timeline', null)">📅 查看猫协动态</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 活动时间线 -->
+        <section id="timeline" class="content-section">
+            <h2 class="section-title">📅 猫协动态</h2>
+
+            <!-- 类型筛选 -->
+            <div class="timeline-type-filter" id="timeline-filter">
+                <button class="timeline-filter-chip active" onclick="filterTimeline('all', this)">📋 全部</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('rescue', this)">🆘 救助</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('tnr', this)">🏥 TNR</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('feeding', this)">🍽️ 投喂</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('medical', this)">💊 医疗</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('adopt', this)">🏠 领养</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('donate', this)">💰 捐赠</button>
+                <button class="timeline-filter-chip" onclick="filterTimeline('volunteer', this)">🤝 志愿</button>
+            </div>
+
+            <!-- 时间线 -->
+            <div id="timeline-container" class="timeline-container"></div>
+            <div id="timeline-empty" style="text-align:center; padding:40px; color:#999; display:none;">
+                <div style="font-size:3em; margin-bottom:10px;">📭</div>
+                <p>暂无动态记录</p>
+            </div>
+        </section>
     </div>
 
     <!-- 移动端底部 Tab 栏 -->
@@ -1856,7 +2225,7 @@
         <button class="bottom-tab" data-section="cats" onclick="switchBottomTab('cats', this)">🐱<span>猫咪</span></button>
         <button class="bottom-tab" data-section="adoption" onclick="switchBottomTab('adoption', this)">🏠<span>领养</span></button>
         <button class="bottom-tab" data-section="supplies" onclick="switchBottomTab('supplies', this)">🧰<span>物资</span></button>
-        <button class="bottom-tab" data-section="volunteers" onclick="switchBottomTab('volunteers', this)">👥<span>志愿</span></button>
+        <button class="bottom-tab" data-section="timeline" onclick="switchBottomTab('timeline', this)">📅<span>动态</span></button>
     </nav>
 
     <!-- 添加志愿者模态框 -->
@@ -2214,6 +2583,48 @@
         }
 
         // ====================================================
+        // 活动时间线数据层
+        // ====================================================
+        const TIMELINE_TYPES = {
+            rescue:    { emoji: '🆘', label: '救助', badge: 'tl-badge-rescue' },
+            tnr:       { emoji: '🏥', label: 'TNR', badge: 'tl-badge-tnr' },
+            feeding:   { emoji: '🍽️', label: '投喂', badge: 'tl-badge-feeding' },
+            medical:   { emoji: '💊', label: '医疗', badge: 'tl-badge-medical' },
+            adopt:     { emoji: '🏠', label: '领养', badge: 'tl-badge-adopt' },
+            donate:    { emoji: '💰', label: '捐赠', badge: 'tl-badge-donate' },
+            volunteer: { emoji: '🤝', label: '志愿', badge: 'tl-badge-volunteer' }
+        };
+
+        const DEFAULT_TIMELINE = [
+            { id: 1,  type: 'tnr',    date: '2026-05-20', title: '大黄完成绝育手术', content: '大黄在合作医院顺利完成绝育手术，术后恢复良好，已放归校园。这是本学期第4只完成TNR的猫咪。', isDefault: true },
+            { id: 2,  type: 'rescue', date: '2026-05-18', title: '食堂附近救助受伤小花', content: '同学在食堂附近发现小花左前腿受伤，已送往合作医院处理。经检查为表皮擦伤，上药后已放归。', isDefault: true },
+            { id: 3,  type: 'feeding', date: '2026-05-15', title: '日常投喂全部完成', content: '6个固定点位投喂完成，猫咪状态良好。东区新增一处饮水点，夏季来临需确保水源充足。', isDefault: true },
+            { id: 4,  type: 'volunteer', date: '2026-05-12', title: '赵同学加入新媒体团队', content: '新闻专业大二的赵同学通过面试，正式加入猫协新媒体运营组，负责公众号内容编辑。', isDefault: true },
+            { id: 5,  type: 'donate', date: '2026-05-10', title: '收到匿名同学捐赠猫粮', content: '一位不愿留名的同学捐赠了3袋成猫粮和2箱猫罐头，物资已入库登记，感谢这位同学！', isDefault: true },
+            { id: 6,  type: 'medical', date: '2026-05-08', title: '小白驱虫完成', content: '小白完成本季度体外驱虫，检查发现轻微耳螨，已同步治疗。整体健康状况良好。', isDefault: true },
+            { id: 7,  type: 'feeding', date: '2026-05-05', title: '补充校园饮水点', content: '夏季来临气温升高，在东区、西区、教学区各新增1处饮水点，确保猫咪有充足的清洁饮水。', isDefault: true },
+            { id: 8,  type: 'donate', date: '2026-05-01', title: '5月爱心捐款汇总', content: '本月共收到各方爱心捐款合计¥520元，已全部用于猫咪口粮采购，明细见财务透明页面。', isDefault: true },
+            { id: 9,  type: 'adopt', date: '2026-04-28', title: '小橘成功找到领养家庭', content: '经过审核筛选，小橘被一位本校研究生领养。新家有独立阳台和养猫经验，祝福小橘！', isDefault: true },
+            { id: 10, type: 'tnr', date: '2026-04-20', title: '本学期第3只猫咪完成TNR', content: '玳瑁猫"芝麻"完成绝育手术，术后观察48小时无异常后放归。本学期累计完成3例TNR。', isDefault: true },
+        ];
+
+        function loadTimeline() {
+            const saved = localStorage.getItem('campuscat_timeline');
+            return saved ? JSON.parse(saved) : [...DEFAULT_TIMELINE];
+        }
+        function saveTimeline(list) {
+            localStorage.setItem('campuscat_timeline', JSON.stringify(list));
+        }
+
+        function addTimelineEntry(type, title, content) {
+            const tl = loadTimeline();
+            const maxId = tl.reduce((m, e) => Math.max(m, e.id), 0);
+            const today = new Date().toISOString().split('T')[0];
+            tl.unshift({ id: maxId + 1, type, date: today, title, content });
+            saveTimeline(tl);
+        }
+
+        // ====================================================
         // 领养对接 — 管理员 PIN 验证
         // ⚠️ 安全：领养申请记录仅管理员可见，防止偷猫风险
         // ====================================================
@@ -2442,8 +2853,10 @@
             if (newStatus === 'approved' && oldStatus === 'pending') {
                 const maskedName = app.applicantName ? app.applicantName.charAt(0) + '**' : '申请人';
                 addActivity(`🏠 领养申请通过：${maskedName} 申请领养「${app.catName}」已通过审核`);
+                addTimelineEntry('adopt', '「' + app.catName + '」领养申请通过', '有同学申请领养「' + app.catName + '」，已通过初审，进入对接阶段。');
             } else if (newStatus === 'adopted' && oldStatus !== 'adopted') {
                 addActivity(`🎉 领养成功！「${app.catName}」已找到新家`);
+                addTimelineEntry('adopt', '「' + app.catName + '」成功找到新家！', '经过筛选审核，「' + app.catName + '」被正式领养，祝福毛孩子在新家幸福！🎉');
             }
 
             renderAdoptStats();
@@ -2518,14 +2931,6 @@
             if (activities.length > 20) activities.length = 20;
             saveActivities(activities);
             renderDashboard();
-        }
-
-        function showToast(msg, extra) {
-            const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.className = 'toast' + (extra === 'success' ? ' success' : '');
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
         function getCatBg(color) {
@@ -2754,14 +3159,6 @@
             renderFinanceRecords();
             addActivity(`📒 新增${type === 'income' ? '收入' : '支出'}记录：${record.category} ${formatMoney(record.amount)}`);
             showToast(`✅ 记录已添加！`);
-        }
-
-        function addActivity(text) {
-            const activities = loadActivities();
-            activities.unshift(`🕐 刚刚 - ${text}`);
-            if (activities.length > 20) activities.length = 20;
-            saveActivities(activities);
-            renderDashboard();
         }
         // ====================================================
         function renderDashboard() {
@@ -3065,6 +3462,7 @@
             if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
             if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptAppsPublicView(); renderAdoptApps(); updateAdminUI(); }
             if (sectionId === 'supplies') renderSupplies();
+            if (sectionId === 'timeline') renderTimeline();
         }
 
         // 移动端底部 Tab 切换
@@ -3381,6 +3779,7 @@
                 s.current += count;
                 saveSupplies(supplies);
                 addActivity('捐赠：' + s.name + ' +' + count + (s.unit || ''));
+                addTimelineEntry('donate', '收到' + s.name + '捐赠', '收到匿名同学捐赠「' + s.name + '」' + count + (s.unit || '') + '，感谢爱心！');
                 showToast('🎉 感谢你的爱心捐赠！');
                 renderSupplies();
             }
@@ -3626,6 +4025,7 @@ ${jobs.map(j => `  ${j.emoji} ${j.name}：还需 ${j.need - j.filled} 人${j.urg
                 });
                 localStorage.setItem('campuscat_volunteers', JSON.stringify(vols));
                 addActivity('新志愿者加入：' + app.name + ' (' + app.jobName + ')');
+                addTimelineEntry('volunteer', app.name + '加入' + app.jobName + '团队', app.name + '通过面试正式加入猫协，担任「' + app.jobName + '」，欢迎新成员！');
                 showToast('✅ ' + app.name + ' 已加入志愿者！');
             }
             renderRecruitView();
@@ -3650,6 +4050,47 @@ ${jobs.map(j => `  ${j.emoji} ${j.name}：还需 ${j.need - j.filled} 人${j.urg
             }).catch(() => {
                 prompt('请手动复制：', text);
             });
+        }
+
+        // ====================================================
+        // 活动时间线渲染
+        // ====================================================
+        let currentTimelineFilter = 'all';
+
+        function renderTimeline() {
+            const all = loadTimeline();
+            const filtered = currentTimelineFilter === 'all'
+                ? all
+                : all.filter(e => e.type === currentTimelineFilter);
+
+            const container = document.getElementById('timeline-container');
+            const empty = document.getElementById('timeline-empty');
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                container.innerHTML = filtered.map(e => {
+                    const t = TIMELINE_TYPES[e.type] || { emoji: '📌', label: '其他', badge: '' };
+                    return `
+                    <div class="timeline-item type-${e.type}">
+                        <div class="timeline-date">${e.date}</div>
+                        <div class="timeline-card">
+                            <span class="tl-type-badge ${t.badge}">${t.emoji} ${t.label}</span>
+                            <div class="tl-content"><strong>${e.title}</strong></div>
+                            <div class="tl-content" style="margin-top:4px;">${e.content}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+        }
+
+        function filterTimeline(type, btn) {
+            currentTimelineFilter = type;
+            document.querySelectorAll('.timeline-filter-chip').forEach(c => c.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderTimeline();
         }
 
         // ====================================================
@@ -3684,6 +4125,7 @@ ${jobs.map(j => `  ${j.emoji} ${j.name}：还需 ${j.need - j.filled} 人${j.urg
         renderFinanceRecords();
         renderSupplies();
         renderRecruitView();
+        renderTimeline();
     </script>
 </body>
 </html>
