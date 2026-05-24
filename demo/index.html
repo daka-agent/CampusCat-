@@ -1056,7 +1056,338 @@
             transform: scale(0.95);
         }
 
-        @media (max-width: 768px) {
+        /* ==========================================
+>           物资看板模块
+>           ========================================== */
+>        .supply-summary {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+>            gap: 16px;
+>            margin-bottom: 24px;
+>        }
+>        .supply-stat-card {
+>            padding: 20px;
+>            border-radius: 15px;
+>            text-align: center;
+>            color: white;
+>            position: relative;
+>            overflow: hidden;
+>        }
+>        .supply-stat-card::after {
+>            content: '';
+>            position: absolute;
+>            top: -15px; right: -15px;
+>            width: 60px; height: 60px;
+>            border-radius: 50%;
+>            background: rgba(255,255,255,0.12);
+>        }
+>        .supply-stat-card h3 { font-size: 2em; position: relative; }
+>        .supply-stat-card p { font-size: 0.85em; opacity: 0.9; position: relative; }
+>        .supply-stat-card.urgent { background: linear-gradient(135deg, #e17055, #d63031); }
+>        .supply-stat-card.low    { background: linear-gradient(135deg, #fdcb6e, #f39c12); }
+>        .supply-stat-card.ok     { background: linear-gradient(135deg, #00b894, #00cec9); }
+>        .supply-stat-card.total  { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+>
+>        .supply-category-tabs {
+>            display: flex;
+>            gap: 8px;
+>            margin-bottom: 20px;
+>            flex-wrap: wrap;
+>        }
+>        .supply-cat-tab {
+>            padding: 8px 18px;
+>            border: 1px solid #ddd;
+>            border-radius: 20px;
+>            background: white;
+>            cursor: pointer;
+>            font-size: 0.85em;
+>            color: #666;
+>            transition: all 0.2s;
+>        }
+>        .supply-cat-tab:hover { border-color: #667eea; color: #667eea; }
+>        .supply-cat-tab.active { background: #667eea; color: white; border-color: #667eea; }
+>
+>        .supply-grid {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+>            gap: 16px;
+>        }
+>
+>        .supply-card {
+>            background: white;
+>            border: 1px solid #e9ecef;
+>            border-radius: 15px;
+>            padding: 20px;
+>            transition: transform 0.2s, box-shadow 0.2s;
+>            position: relative;
+>        }
+>        .supply-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+>        .supply-card.urge-urgent { border-left: 4px solid #d63031; }
+>        .supply-card.urge-low    { border-left: 4px solid #f39c12; }
+>        .supply-card.urge-ok     { border-left: 4px solid #00b894; }
+>
+>        .supply-card-header {
+>            display: flex;
+>            align-items: center;
+>            gap: 10px;
+>            margin-bottom: 12px;
+>        }
+>        .supply-card-header .supply-icon {
+>            font-size: 2em;
+>        }
+>        .supply-card-header .supply-name {
+>            font-weight: 700;
+>            color: #333;
+>            font-size: 1.05em;
+>        }
+>        .supply-urgency {
+>            position: absolute;
+>            top: 16px; right: 16px;
+>            padding: 3px 10px;
+>            border-radius: 12px;
+>            font-size: 0.72em;
+>            font-weight: 600;
+>        }
+>        .supply-urgency.urgent { background: #ffebee; color: #c0392b; }
+>        .supply-urgency.low    { background: #fff8e1; color: #e67e22; }
+>        .supply-urgency.ok     { background: #e8f5e9; color: #27ae60; }
+>
+>        .supply-desc {
+>            font-size: 0.85em;
+>            color: #888;
+>            margin-bottom: 12px;
+>            line-height: 1.5;
+>        }
+>
+>        .supply-progress-wrap {
+>            margin-bottom: 14px;
+>        }
+>        .supply-progress-label {
+>            display: flex;
+>            justify-content: space-between;
+>            font-size: 0.78em;
+>            color: #888;
+>            margin-bottom: 4px;
+>        }
+>        .supply-progress-bar {
+>            height: 8px;
+>            background: #e9ecef;
+>            border-radius: 4px;
+>            overflow: hidden;
+>        }
+>        .supply-progress-fill {
+>            height: 100%;
+>            border-radius: 4px;
+>            transition: width 0.5s ease;
+>        }
+>        .supply-progress-fill.urgent-fill { background: linear-gradient(90deg, #e17055, #d63031); }
+>        .supply-progress-fill.low-fill    { background: linear-gradient(90deg, #fdcb6e, #f39c12); }
+>        .supply-progress-fill.ok-fill     { background: linear-gradient(90deg, #00b894, #00cec9); }
+>
+>        .supply-actions {
+>            display: flex;
+>            gap: 8px;
+>        }
+>        .supply-btn {
+>            flex: 1;
+>            padding: 8px 0;
+>            border: none;
+>            border-radius: 10px;
+>            font-size: 0.82em;
+>            font-weight: 600;
+>            cursor: pointer;
+>            transition: all 0.2s;
+>        }
+>        .supply-btn.donate {
+>            background: linear-gradient(135deg, #667eea, #764ba2);
+>            color: white;
+>        }
+>        .supply-btn.donate:hover { opacity: 0.9; }
+>        .supply-btn.admin-edit {
+>            background: #e9ecef;
+>            color: #555;
+>        }
+>        .supply-btn.admin-edit:hover { background: #dee2e6; }
+>
+>        /* 捐赠引导 */
+>        .donate-guide {
+>            background: linear-gradient(135deg, #f8f9ff, #eef0ff);
+>            border-radius: 15px;
+>            padding: 20px 24px;
+>            margin-top: 24px;
+>            display: flex;
+>            align-items: center;
+>            gap: 16px;
+>            flex-wrap: wrap;
+>        }
+>        .donate-guide .guide-icon { font-size: 2.5em; }
+>        .donate-guide .guide-text { flex: 1; min-width: 200px; }
+>        .donate-guide .guide-text h4 { color: #333; margin-bottom: 4px; }
+>        .donate-guide .guide-text p { color: #888; font-size: 0.85em; line-height: 1.5; }
+>
+>        /* ==========================================
+>           志愿者招募模块
+>           ========================================== */
+>        .recruit-toggle {
+>            display: flex;
+>            gap: 8px;
+>            margin-bottom: 24px;
+>        }
+>        .recruit-toggle-btn {
+>            padding: 10px 22px;
+>            border: 1px solid #ddd;
+>            border-radius: 25px;
+>            background: white;
+>            cursor: pointer;
+>            font-size: 0.9em;
+>            color: #666;
+>            transition: all 0.2s;
+>        }
+>        .recruit-toggle-btn:hover { border-color: #667eea; color: #667eea; }
+>        .recruit-toggle-btn.active { background: #667eea; color: white; border-color: #667eea; }
+>
+>        .recruit-job-grid {
+>            display: grid;
+>            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+>            gap: 16px;
+>            margin-bottom: 24px;
+>        }
+>
+>        .recruit-job-card {
+>            background: #f8f9fa;
+>            border-radius: 15px;
+>            padding: 20px;
+>            position: relative;
+>            transition: transform 0.2s;
+>        }
+>        .recruit-job-card:hover { transform: translateY(-2px); }
+>
+>        .recruit-job-card .job-emoji {
+>            font-size: 2.5em;
+>            margin-bottom: 10px;
+>        }
+>        .recruit-job-card .job-name {
+>            font-weight: 700;
+>            color: #333;
+>            font-size: 1.1em;
+>            margin-bottom: 6px;
+>        }
+>        .recruit-job-card .job-meta {
+>            font-size: 0.8em;
+>            color: #888;
+>            line-height: 1.5;
+>            margin-bottom: 12px;
+>        }
+>        .recruit-job-card .job-need {
+>            display: inline-block;
+>            padding: 3px 10px;
+>            border-radius: 12px;
+>            font-size: 0.78em;
+>            font-weight: 600;
+>            margin-bottom: 12px;
+>        }
+>        .recruit-job-card .job-need.urgent-need {
+>            background: #ffebee;
+>            color: #c0392b;
+>        }
+>        .recruit-job-card .job-need.normal-need {
+>            background: #e8f5e9;
+>            color: #27ae60;
+>        }
+>        .recruit-job-card .job-apply-btn {
+>            width: 100%;
+>            padding: 9px 0;
+>            border: none;
+>            border-radius: 10px;
+>            background: linear-gradient(135deg, #667eea, #764ba2);
+>            color: white;
+>            font-weight: 600;
+>            font-size: 0.85em;
+>            cursor: pointer;
+>            transition: opacity 0.2s;
+>        }
+>        .recruit-job-card .job-apply-btn:hover { opacity: 0.9; }
+>
+>        /* 报名记录列表 */
+>        .recruit-app-list { display: grid; gap: 12px; }
+>        .recruit-app-card {
+>            display: flex;
+>            align-items: center;
+>            gap: 14px;
+>            background: #f8f9fa;
+>            padding: 16px 18px;
+>            border-radius: 15px;
+>            flex-wrap: wrap;
+>        }
+>        .recruit-app-card .app-icon {
+>            width: 44px; height: 44px;
+>            border-radius: 50%;
+>            background: linear-gradient(135deg, #00b894, #00cec9);
+>            color: white;
+>            display: flex;
+>            align-items: center;
+>            justify-content: center;
+>            font-size: 1.2em;
+>            flex-shrink: 0;
+>        }
+>        .recruit-app-card .app-info { flex: 1; min-width: 150px; }
+>        .recruit-app-card .app-info .app-name { font-weight: 600; color: #333; margin-bottom: 2px; }
+>        .recruit-app-card .app-info .app-detail { font-size: 0.8em; color: #888; }
+>        .recruit-app-card .app-status {
+>            padding: 4px 12px;
+>            border-radius: 20px;
+>            font-size: 0.78em;
+>            font-weight: 600;
+>        }
+>        .recruit-app-card .app-status.pending  { background: #fff8e1; color: #e67e22; }
+>        .recruit-app-card .app-status.approved { background: #e8f5e9; color: #27ae60; }
+>        .recruit-app-card .app-status.rejected { background: #ffebee; color: #c0392b; }
+>        .recruit-app-actions { display: flex; gap: 6px; }
+>        .recruit-app-actions button {
+>            padding: 5px 12px;
+>            border: none;
+>            border-radius: 8px;
+>            font-size: 0.78em;
+>            cursor: pointer;
+>            transition: opacity 0.2s;
+>        }
+>        .recruit-app-actions button:hover { opacity: 0.8; }
+>        .recruit-app-actions .btn-approve { background: #00b894; color: white; }
+>        .recruit-app-actions .btn-reject  { background: #e17055; color: white; }
+>
+>        .recruit-share-box {
+>            background: #f8f9fa;
+>            border-radius: 15px;
+>            padding: 20px;
+>            margin-top: 24px;
+>            text-align: center;
+>        }
+>        .recruit-share-box h4 { color: #333; margin-bottom: 8px; }
+>        .recruit-share-box pre {
+>            background: white;
+>            border: 1px solid #eee;
+>            border-radius: 10px;
+>            padding: 14px;
+>            text-align: left;
+>            font-size: 0.82em;
+>            color: #555;
+>            line-height: 1.6;
+>            white-space: pre-wrap;
+>            margin-bottom: 12px;
+>        }
+>        .recruit-share-box .copy-btn {
+>            padding: 8px 20px;
+>            border: none;
+>            border-radius: 20px;
+>            background: #667eea;
+>            color: white;
+>            font-weight: 600;
+>            cursor: pointer;
+>            transition: opacity 0.2s;
+>        }
+>        .recruit-share-box .copy-btn:hover { opacity: 0.9; }
+>
+>        @media (max-width: 768px) {
             header h1 {
                 font-size: 1.8em;
             }
@@ -1095,6 +1426,7 @@
             <button class="nav-tab" onclick="showSection('volunteers', this)">👥 志愿者</button>
             <button class="nav-tab" onclick="showSection('finance', this)">💰 财务透明</button>
             <button class="nav-tab" onclick="showSection('adoption', this)">🏠 领养对接</button>
+            <button class="nav-tab" onclick="showSection('supplies', this)">🧰 物资看板</button>
         </nav>
         
         <!-- 数据看板 -->
@@ -1260,31 +1592,86 @@
             </form>
         </section>
         
-        <!-- 志愿者管理 -->
+        <!-- 志愿者管理 + 招募 -->
         <section id="volunteers" class="content-section">
-            <h2 class="section-title">👥 志愿者管理</h2>
-            
-            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
-                <div class="stat-card">
-                    <h3 id="vol-active-count">—</h3>
-                    <p>活跃志愿者</p>
+            <h2 class="section-title">👥 志愿者中心</h2>
+
+            <!-- 子视图切换 -->
+            <div class="recruit-toggle">
+                <button class="recruit-toggle-btn active" onclick="toggleVolunteerView('roster', this)">👥 志愿者列表</button>
+                <button class="recruit-toggle-btn" onclick="toggleVolunteerView('recruit', this)">🤝 招募报名</button>
+            </div>
+
+            <!-- 子视图1：志愿者名册 -->
+            <div id="vol-roster-view">
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card">
+                        <h3 id="vol-active-count">—</h3>
+                        <p>活跃志愿者</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="vol-hours">—</h3>
+                        <p>累计服务时长(小时)</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="vol-total">—</h3>
+                        <p>志愿者总数</p>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3 id="vol-hours">—</h3>
-                    <p>累计服务时长(小时)</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="vol-total">—</h3>
-                    <p>志愿者总数</p>
+
+                <h3 style="margin: 30px 0 20px; color: #333;">志愿者列表</h3>
+                <div id="volunteer-list" class="volunteer-list"></div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-primary" onclick="openVolunteerModal()">➕ 添加志愿者</button>
                 </div>
             </div>
-            
-            <h3 style="margin: 30px 0 20px; color: #333;">志愿者列表</h3>
-            
-            <div id="volunteer-list" class="volunteer-list"></div>
-            
-            <div style="margin-top: 30px; text-align: center;">
-                <button class="btn btn-primary" onclick="openVolunteerModal()">➕ 添加志愿者</button>
+
+            <!-- 子视图2：招募报名 -->
+            <div id="vol-recruit-view" style="display:none;">
+                <!-- 招募统计 -->
+                <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #e17055, #d63031);">
+                        <h3 id="rec-job-count">—</h3>
+                        <p>招募中岗位</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #00b894, #00cec9);">
+                        <h3 id="rec-active-count">—</h3>
+                        <p>现有志愿者</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #fdcb6e, #f39c12);">
+                        <h3 id="rec-app-count">—</h3>
+                        <p>待审核报名</p>
+                    </div>
+                </div>
+
+                <!-- 岗位需求 -->
+                <h3 style="margin: 24px 0 16px; color: #333;">📋 招募岗位</h3>
+                <div id="recruit-job-grid" class="recruit-job-grid"></div>
+
+                <!-- 报名记录（管理员） -->
+                <div style="margin: 30px 0 16px; display:flex; align-items:center; justify-content:space-between;">
+                    <h3 style="color: #333; font-size: 1.1em;">📨 报名记录</h3>
+                    <button id="rec-manage-btn" class="btn btn-secondary" onclick="toggleRecruitManage()" style="padding:6px 14px; font-size:0.82em;">🔒 管理员审核</button>
+                </div>
+                <div id="recruit-app-public" style="text-align:center; padding:20px; background:#f8f9fa; border-radius:15px; color:#888; line-height:1.8;">
+                    <span style="font-size:2em;">🔒</span>
+                    <p>报名记录仅管理员可见</p>
+                </div>
+                <div id="recruit-app-admin" style="display:none;">
+                    <div id="recruit-app-list" class="recruit-app-list"></div>
+                    <div id="recruit-app-empty" style="text-align:center;padding:30px;color:#999;display:none;">
+                        <span style="font-size:2em;">📭</span>
+                        <p>暂无报名记录</p>
+                    </div>
+                </div>
+
+                <!-- 分享招募 -->
+                <div class="recruit-share-box">
+                    <h4>📢 一键分享招募信息</h4>
+                    <pre id="recruit-share-text">加载中...</pre>
+                    <button class="copy-btn" onclick="copyRecruitShare()">📋 复制文案</button>
+                </div>
             </div>
         </section>
 
@@ -1401,6 +1788,66 @@
                 </div>
             </div>
         </section>
+
+        <!-- 急需物资看板 -->
+        <section id="supplies" class="content-section">
+            <h2 class="section-title">🧰 急需物资看板</h2>
+
+            <!-- 统计卡片 -->
+            <div class="supply-summary">
+                <div class="supply-stat-card total">
+                    <h3 id="supply-total">—</h3>
+                    <p>物资种类</p>
+                </div>
+                <div class="supply-stat-card urgent">
+                    <h3 id="supply-urgent">—</h3>
+                    <p>🔴 告急物资</p>
+                </div>
+                <div class="supply-stat-card low">
+                    <h3 id="supply-low">—</h3>
+                    <p>🟡 紧张物资</p>
+                </div>
+                <div class="supply-stat-card ok">
+                    <h3 id="supply-ok">—</h3>
+                    <p>🟢 充足物资</p>
+                </div>
+            </div>
+
+            <!-- 分类筛选 -->
+            <div class="supply-category-tabs" id="supply-cat-tabs">
+                <button class="supply-cat-tab active" onclick="filterSupplies('all', this)">📦 全部</button>
+                <button class="supply-cat-tab" onclick="filterSupplies('food', this)">🍖 猫粮</button>
+                <button class="supply-cat-tab" onclick="filterSupplies('medical', this)">💊 医疗</button>
+                <button class="supply-cat-tab" onclick="filterSupplies('daily', this)">🧹 日用品</button>
+                <button class="supply-cat-tab" onclick="filterSupplies('tnr', this)">🏥 TNR</button>
+            </div>
+
+            <!-- 物资列表 -->
+            <div id="supply-grid" class="supply-grid"></div>
+            <div id="supply-empty" style="text-align:center; padding:40px; color:#999; display:none;">
+                <div style="font-size:3em; margin-bottom:10px;">📦</div>
+                <p>暂无物资数据</p>
+            </div>
+
+            <!-- 管理员：添加物资按钮 -->
+            <div id="supply-admin-bar" style="text-align:center; margin-top: 20px; display:none;">
+                <button class="btn btn-primary" onclick="openSupplyModal()">➕ 添加物资</button>
+            </div>
+
+            <!-- 捐赠引导 -->
+            <div class="donate-guide">
+                <div class="guide-icon">💝</div>
+                <div class="guide-text">
+                    <h4>如何捐赠？</h4>
+                    <p>如果你想帮助这些猫咪，可以联系猫协负责人，或直接购买下方物资送至猫协定点接收处。每一份爱心都很重要！</p>
+                </div>
+                <button class="btn btn-primary" onclick="toggleDonateContact()">📞 联系猫协</button>
+            </div>
+            <div id="donate-contact" style="display:none; background:white; border-radius:15px; padding:20px; margin-top:12px; text-align:center;">
+                <p style="color:#333; font-weight:600;">🐱 猫协物资接收联系</p>
+                <p style="color:#888; font-size:0.9em; margin-top:6px;">微信：CampusCat_Helper | 接收点：校园东区活动中心101</p>
+            </div>
+        </section>
     </div>
 
     <!-- 移动端底部 Tab 栏 -->
@@ -1408,7 +1855,7 @@
         <button class="bottom-tab active" data-section="dashboard" onclick="switchBottomTab('dashboard', this)">📊<span>看板</span></button>
         <button class="bottom-tab" data-section="cats" onclick="switchBottomTab('cats', this)">🐱<span>猫咪</span></button>
         <button class="bottom-tab" data-section="adoption" onclick="switchBottomTab('adoption', this)">🏠<span>领养</span></button>
-        <button class="bottom-tab" data-section="finance" onclick="switchBottomTab('finance', this)">💰<span>财务</span></button>
+        <button class="bottom-tab" data-section="supplies" onclick="switchBottomTab('supplies', this)">🧰<span>物资</span></button>
         <button class="bottom-tab" data-section="volunteers" onclick="switchBottomTab('volunteers', this)">👥<span>志愿</span></button>
     </nav>
 
@@ -1509,6 +1956,97 @@
         </div>
     </div>
 
+    <!-- 物资添加弹窗 -->
+    <div id="supply-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-title">➕ 添加/编辑物资</div>
+            <form id="supply-form" onsubmit="submitSupply(event)">
+                <div class="form-group">
+                    <label>物资名称 *</label>
+                    <input type="text" id="sup-name" placeholder="如：皇家幼猫粮 2kg" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>分类 *</label>
+                        <select id="sup-cat" required>
+                            <option value="">请选择</option>
+                            <option value="food">🍖 猫粮</option>
+                            <option value="medical">💊 医疗</option>
+                            <option value="daily">🧹 日用品</option>
+                            <option value="tnr">🏥 TNR</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>紧急度 *</label>
+                        <select id="sup-urgency" required>
+                            <option value="urgent">🔴 告急</option>
+                            <option value="low">🟡 紧张</option>
+                            <option value="ok">🟢 充足</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>目标数量</label>
+                        <input type="number" id="sup-target" placeholder="如：10" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label>当前数量</label>
+                        <input type="number" id="sup-current" placeholder="如：3" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>单位</label>
+                    <input type="text" id="sup-unit" placeholder="如：袋、盒、支">
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea id="sup-desc" rows="2" placeholder="简单描述物资用途..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>预估单价 (¥)</label>
+                    <input type="number" id="sup-price" placeholder="如：80" min="0" step="0.01">
+                </div>
+                <input type="hidden" id="sup-edit-id" value="">
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">💾 保存</button>
+            </form>
+            <button class="btn btn-secondary" onclick="closeSupplyModal()" style="width:100%; margin-top:10px; justify-content:center;">取消</button>
+        </div>
+    </div>
+
+    <!-- 志愿者报名弹窗 -->
+    <div id="recruit-modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-title">🤝 加入志愿者</div>
+            <form id="recruit-form" onsubmit="submitRecruitApp(event)">
+                <div class="form-group">
+                    <label>姓名 *</label>
+                    <input type="text" id="rec-name" placeholder="你的称呼" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>联系方式 *</label>
+                        <input type="text" id="rec-contact" placeholder="微信号/手机号" required>
+                    </div>
+                    <div class="form-group">
+                        <label>意向岗位 *</label>
+                        <select id="rec-job" required></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>可用时间</label>
+                    <input type="text" id="rec-time" placeholder="如：周一至周五下午、周末全天">
+                </div>
+                <div class="form-group">
+                    <label>个人简介</label>
+                    <textarea id="rec-intro" rows="2" placeholder="简单介绍一下自己（如是否有养猫经验等）"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">📩 提交报名</button>
+            </form>
+            <button class="btn btn-secondary" onclick="closeRecruitModal()" style="width:100%; margin-top:10px; justify-content:center;">取消</button>
+        </div>
+    </div>
+
     <!-- Toast 提示 -->
     <div id="toast" class="toast"></div>
     
@@ -1588,6 +2126,74 @@
             rejected: { label: '已拒绝', cls: 'rejected' },
             adopted:  { label: '已领养', cls: 'adopted' }
         };
+
+        // ====================================================
+        // 物资看板数据层
+        // ====================================================
+        const SUPPLY_CATEGORIES = {
+            food: '🍖 猫粮',
+            medical: '💊 医疗',
+            daily: '🧹 日用品',
+            tnr: '🏥 TNR'
+        };
+        const URGENCY_MAP = {
+            urgent: { label: '🔴 告急', cls: 'urgent' },
+            low:    { label: '🟡 紧张', cls: 'low' },
+            ok:     { label: '🟢 充足', cls: 'ok' }
+        };
+
+        const DEFAULT_SUPPLIES = [
+            { id: 1, name: '皇家幼猫粮 2kg', category: 'food', urgency: 'urgent', target: 10, current: 2, unit: '袋', desc: '校园有3窝新生小猫，急需幼猫粮', price: 80, isDefault: true },
+            { id: 2, name: '成猫粮 10kg', category: 'food', urgency: 'low', target: 8, current: 3, unit: '袋', desc: '日常投喂使用，消耗量大', price: 150, isDefault: true },
+            { id: 3, name: '猫罐头（混合装）', category: 'food', urgency: 'ok', target: 5, current: 4, unit: '箱', desc: '给猫咪加餐，冬季更需营养', price: 60, isDefault: true },
+            { id: 4, name: '体外驱虫滴剂', category: 'medical', urgency: 'urgent', target: 20, current: 3, unit: '支', desc: '春季跳蚤高发期，多只猫需要驱虫', price: 25, isDefault: true },
+            { id: 5, name: '猫用感冒药（速诺）', category: 'medical', urgency: 'low', target: 10, current: 5, unit: '盒', desc: '换季时常备药品', price: 45, isDefault: true },
+            { id: 6, name: '止血粉+碘伏', category: 'medical', urgency: 'ok', target: 5, current: 5, unit: '套', desc: '外伤应急处理包，已足量', price: 30, isDefault: true },
+            { id: 7, name: '膨润土猫砂 10L', category: 'daily', urgency: 'urgent', target: 15, current: 4, unit: '袋', desc: '猫砂消耗大，存量告急', price: 35, isDefault: true },
+            { id: 8, name: '防水猫窝', category: 'daily', urgency: 'low', target: 6, current: 2, unit: '个', desc: '为户外猫咪准备避雨场所', price: 50, isDefault: true },
+            { id: 9, name: '航空箱/诱捕笼', category: 'tnr', urgency: 'urgent', target: 2, current: 0, unit: '个', desc: 'TNR抓捕必备，目前没有可用设备', price: 120, isDefault: true },
+            { id: 10, name: '绝育手术费补贴', category: 'tnr', urgency: 'low', target: 5, current: 2, unit: '只', desc: '每只母猫绝育约300元', price: 300, isDefault: true },
+        ];
+
+        function loadSupplies() {
+            const saved = localStorage.getItem('campuscat_supplies');
+            return saved ? JSON.parse(saved) : [...DEFAULT_SUPPLIES];
+        }
+        function saveSupplies(list) {
+            localStorage.setItem('campuscat_supplies', JSON.stringify(list));
+        }
+
+        // ====================================================
+        // 志愿者招募数据层
+        // ====================================================
+        const DEFAULT_RECRUIT_JOBS = [
+            { id: 1, emoji: '🍽️', name: '日常投喂员', need: 5, filled: 2, desc: '每天早晚定时投喂固定点位猫咪，补充饮用水', time: '每天 30分钟', urgency: 'urgent', isDefault: true },
+            { id: 2, emoji: '🏥', name: 'TNR协助员', need: 3, filled: 1, desc: '协助抓捕、运送猫咪到合作医院做绝育，术后照顾', time: '不定期，每次约2小时', urgency: 'urgent', isDefault: true },
+            { id: 3, emoji: '💊', name: '医疗护理员', need: 2, filled: 1, desc: '负责猫咪日常健康观察、简单伤口处理、喂药', time: '每周 2-3小时', urgency: 'normal', isDefault: true },
+            { id: 4, emoji: '📱', name: '新媒体运营', need: 3, filled: 0, desc: '运营公众号/小红书，拍摄猫咪日常，制作宣传内容', time: '灵活安排', urgency: 'urgent', isDefault: true },
+            { id: 5, emoji: '💰', name: '物资管理员', need: 2, filled: 1, desc: '管理捐赠物资入库、分发、库存盘点', time: '每周 1小时', urgency: 'normal', isDefault: true },
+            { id: 6, emoji: '🎨', name: '周边设计师', need: 2, filled: 0, desc: '设计义卖周边（明信片、贴纸等），绘制猫咪插画', time: '灵活安排', urgency: 'normal', isDefault: true },
+        ];
+
+        const DEFAULT_RECRUIT_APPS = [
+            { id: 1, name: '张同学', contact: 'wx_zhang123', jobId: 1, jobName: '日常投喂员', time: '周一至周五早上', intro: '大一，宿舍在食堂附近，每天早起', status: 'pending', date: '2026-05-15', isDefault: true },
+            { id: 2, name: '赵同学', contact: '13800003333', jobId: 4, jobName: '新媒体运营', time: '周末全天', intro: '新闻专业大二，有公众号运营经验', status: 'approved', date: '2026-05-12', isDefault: true },
+        ];
+
+        function loadRecruitJobs() {
+            const saved = localStorage.getItem('campuscat_recruit_jobs');
+            return saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_JOBS];
+        }
+        function saveRecruitJobs(list) {
+            localStorage.setItem('campuscat_recruit_jobs', JSON.stringify(list));
+        }
+        function loadRecruitApps() {
+            const saved = localStorage.getItem('campuscat_recruit_apps');
+            return saved ? JSON.parse(saved) : [...DEFAULT_RECRUIT_APPS];
+        }
+        function saveRecruitApps(list) {
+            localStorage.setItem('campuscat_recruit_apps', JSON.stringify(list));
+        }
 
         function loadAdoptCats() {
             const saved = localStorage.getItem('campuscat_adopt_cats');
@@ -1703,6 +2309,10 @@
                 closePinModal();
                 updateAdminUI();
                 renderAdoptApps();
+                // 同步显示招募报名详情（如果当前在招募页）
+                document.getElementById('recruit-app-public').style.display = 'none';
+                document.getElementById('recruit-app-admin').style.display = 'block';
+                renderRecruitApps();
                 showToast('✅ 验证成功，管理员模式已开启');
             } else {
                 document.getElementById('pin-error').textContent = '❌ 密码错误，请重试';
@@ -2448,9 +3058,13 @@
             // 进入对应页面时刷新数据
             if (sectionId === 'dashboard') renderDashboard();
             if (sectionId === 'cats') renderCats();
-            if (sectionId === 'volunteers') renderVolunteers();
+            if (sectionId === 'volunteers') {
+                if (currentVolunteerView === 'roster') renderVolunteers();
+                else renderRecruitView();
+            }
             if (sectionId === 'finance') { renderFinanceSummary(); renderFinanceChart(); renderFinanceRecords(); }
             if (sectionId === 'adoption') { renderAdoptStats(); renderAdoptCats(); renderAdoptAppsPublicView(); renderAdoptApps(); updateAdminUI(); }
+            if (sectionId === 'supplies') renderSupplies();
         }
 
         // 移动端底部 Tab 切换
@@ -2679,6 +3293,366 @@
         }
 
         // ====================================================
+        // 物资看板模块
+        // ====================================================
+        let currentSupplyFilter = 'all';
+
+        function renderSupplies() {
+            const all = loadSupplies();
+            const filtered = currentSupplyFilter === 'all'
+                ? all
+                : all.filter(s => s.category === currentSupplyFilter);
+
+            let urg = 0, low = 0, ok = 0;
+            all.forEach(s => {
+                if (s.urgency === 'urgent') urg++;
+                else if (s.urgency === 'low') low++;
+                else ok++;
+            });
+
+            document.getElementById('supply-total').textContent = all.length;
+            document.getElementById('supply-urgent').textContent = urg;
+            document.getElementById('supply-low').textContent = low;
+            document.getElementById('supply-ok').textContent = ok;
+
+            const grid = document.getElementById('supply-grid');
+            const empty = document.getElementById('supply-empty');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                grid.innerHTML = filtered.map(s => {
+                    const ug = URGENCY_MAP[s.urgency];
+                    const pct = s.target > 0 ? Math.min(100, Math.round(s.current / s.target * 100)) : 0;
+                    const hasProgress = s.target > 0;
+                    return `
+                    <div class="supply-card urge-${s.urgency}">
+                        <span class="supply-urgency ${ug.cls}">${ug.label}</span>
+                        <div class="supply-card-header">
+                            <span class="supply-icon">${SUPPLY_CATEGORIES[s.category] ? SUPPLY_CATEGORIES[s.category].charAt(0) : '📦'}</span>
+                            <span class="supply-name">${s.name}</span>
+                        </div>
+                        <div class="supply-desc">${s.desc || ''}</div>
+                        ${hasProgress ? `
+                        <div class="supply-progress-wrap">
+                            <div class="supply-progress-label">
+                                <span>已筹 ${s.current} / 目标 ${s.target} ${s.unit}</span>
+                                <span>${pct}%</span>
+                            </div>
+                            <div class="supply-progress-bar">
+                                <div class="supply-progress-fill ${s.urgency}-fill" style="width:${pct}%"></div>
+                            </div>
+                        </div>
+                        ` : `<div style="margin-bottom:12px; font-size:0.85em; color:#888;">${s.current} ${s.unit || ''}${s.price ? ' (约¥' + s.price + '/' + s.unit + ')' : ''}</div>`}
+                        ${isAdminVerified() ? `
+                        <div class="supply-actions">
+                            <button class="supply-btn donate" onclick="donateItem(${s.id})">✋ 标记已捐</button>
+                            <button class="supply-btn admin-edit" onclick="openSupplyModal(${s.id})">✏️ 编辑</button>
+                        </div>
+                        ` : `
+                        <div class="supply-actions">
+                            <button class="supply-btn donate" onclick="donateItem(${s.id})">✋ 我想捐赠</button>
+                        </div>
+                        `}
+                    </div>`;
+                }).join('');
+            }
+
+            // 管理员工具栏
+            const adminBar = document.getElementById('supply-admin-bar');
+            adminBar.style.display = isAdminVerified() ? 'block' : 'none';
+        }
+
+        function filterSupplies(cat, btn) {
+            currentSupplyFilter = cat;
+            document.querySelectorAll('.supply-cat-tab').forEach(t => t.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            renderSupplies();
+        }
+
+        function donateItem(id) {
+            const supplies = loadSupplies();
+            const s = supplies.find(x => x.id === id);
+            if (!s) return;
+            const count = parseInt(prompt('你想捐赠多少' + (s.unit || '') + '的「' + s.name + '」？\n当前已筹：' + s.current, '1'));
+            if (count && count > 0) {
+                s.current += count;
+                saveSupplies(supplies);
+                addActivity('捐赠：' + s.name + ' +' + count + (s.unit || ''));
+                showToast('🎉 感谢你的爱心捐赠！');
+                renderSupplies();
+            }
+        }
+
+        function openSupplyModal(editId) {
+            const modal = document.getElementById('supply-modal');
+            document.getElementById('sup-edit-id').value = editId || '';
+            if (editId) {
+                const s = loadSupplies().find(x => x.id === editId);
+                if (s) {
+                    document.getElementById('sup-name').value = s.name;
+                    document.getElementById('sup-cat').value = s.category;
+                    document.getElementById('sup-urgency').value = s.urgency;
+                    document.getElementById('sup-target').value = s.target || '';
+                    document.getElementById('sup-current').value = s.current || '';
+                    document.getElementById('sup-unit').value = s.unit || '';
+                    document.getElementById('sup-desc').value = s.desc || '';
+                    document.getElementById('sup-price').value = s.price || '';
+                }
+            } else {
+                document.getElementById('sup-form').reset();
+            }
+            modal.className = 'modal-overlay show';
+        }
+
+        function closeSupplyModal() {
+            const modal = document.getElementById('supply-modal');
+            modal.className = 'modal-overlay';
+        }
+
+        function submitSupply(e) {
+            e.preventDefault();
+            const supplies = loadSupplies();
+            const editId = document.getElementById('sup-edit-id').value;
+            const data = {
+                name: document.getElementById('sup-name').value.trim(),
+                category: document.getElementById('sup-cat').value,
+                urgency: document.getElementById('sup-urgency').value,
+                target: parseInt(document.getElementById('sup-target').value) || 0,
+                current: parseInt(document.getElementById('sup-current').value) || 0,
+                unit: document.getElementById('sup-unit').value.trim(),
+                desc: document.getElementById('sup-desc').value.trim(),
+                price: parseFloat(document.getElementById('sup-price').value) || 0
+            };
+
+            if (editId) {
+                const idx = supplies.findIndex(s => s.id === parseInt(editId));
+                if (idx >= 0) {
+                    supplies[idx] = { ...supplies[idx], ...data };
+                }
+            } else {
+                const maxId = supplies.reduce((m, s) => Math.max(m, s.id), 0);
+                supplies.push({ id: maxId + 1, ...data });
+            }
+            saveSupplies(supplies);
+            closeSupplyModal();
+            renderSupplies();
+            showToast('✅ 物资已保存！');
+        }
+
+        function toggleDonateContact() {
+            const el = document.getElementById('donate-contact');
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // ====================================================
+        // 志愿者招募模块
+        // ====================================================
+        let currentVolunteerView = 'roster';
+
+        function toggleVolunteerView(view, btn) {
+            currentVolunteerView = view;
+            document.querySelectorAll('.recruit-toggle-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            document.getElementById('vol-roster-view').style.display = view === 'roster' ? 'block' : 'none';
+            document.getElementById('vol-recruit-view').style.display = view === 'recruit' ? 'block' : 'none';
+
+            if (view === 'roster') {
+                renderVolunteers();
+            } else {
+                renderRecruitView();
+            }
+        }
+
+        function renderRecruitView() {
+            const jobs = loadRecruitJobs();
+            const apps = loadRecruitApps();
+            const vols = loadVolunteers();
+
+            // Stats
+            const activeJobs = jobs.filter(j => j.filled < j.need).length;
+            document.getElementById('rec-job-count').textContent = activeJobs;
+            document.getElementById('rec-active-count').textContent = vols.filter(v => v.active).length;
+            document.getElementById('rec-app-count').textContent = apps.filter(a => a.status === 'pending').length;
+
+            // Jobs grid
+            const jobGrid = document.getElementById('recruit-job-grid');
+            jobGrid.innerHTML = jobs.map(j => `
+                <div class="recruit-job-card">
+                    <div class="job-emoji">${j.emoji}</div>
+                    <div class="job-name">${j.name}</div>
+                    <div class="job-meta">
+                        ${j.desc}<br>
+                        ⏰ ${j.time}
+                    </div>
+                    <span class="job-need ${j.urgency === 'urgent' ? 'urgent-need' : 'normal-need'}">
+                        还需 ${j.need - j.filled} 人 / 共需 ${j.need} 人
+                    </span>
+                    <button class="job-apply-btn" onclick="openRecruitModal(${j.id})">📝 我要报名</button>
+                </div>
+            `).join('');
+
+            // Apps admin view
+            if (isAdminVerified()) {
+                document.getElementById('recruit-app-public').style.display = 'none';
+                document.getElementById('recruit-app-admin').style.display = 'block';
+            } else {
+                document.getElementById('recruit-app-public').style.display = 'block';
+                document.getElementById('recruit-app-admin').style.display = 'none';
+            }
+            renderRecruitApps();
+
+            // Share text
+            const urgentJobs = jobs.filter(j => j.urgency === 'urgent' && j.filled < j.need);
+            const shareText = `🐱 校园猫协招募志愿者！
+
+我们是一群关爱校园流浪猫的同学，目前急需以下岗位：
+
+${jobs.map(j => `  ${j.emoji} ${j.name}：还需 ${j.need - j.filled} 人${j.urgency === 'urgent' ? ' 🔴急招' : ''}`).join('\n')}
+
+📅 时间灵活，有爱心就行！
+📍 地点：校园内各猫咪活动区
+
+如果你想帮助这些可爱的小生命，快来加入我们吧！💕\n#校园猫协 #志愿者招募 #流浪猫`;
+            document.getElementById('recruit-share-text').textContent = shareText;
+        }
+
+        function openRecruitModal(jobId) {
+            const jobs = loadRecruitJobs();
+            const job = jobs.find(j => j.id === jobId);
+            if (!job) return;
+            document.getElementById('recruit-form').reset();
+            const sel = document.getElementById('rec-job');
+            sel.innerHTML = `<option value="${job.id}" selected>${job.emoji} ${job.name}</option>`;
+            document.getElementById('recruit-modal').className = 'modal-overlay show';
+        }
+
+        function closeRecruitModal() {
+            document.getElementById('recruit-modal').className = 'modal-overlay';
+            document.getElementById('recruit-form').reset();
+        }
+
+        function submitRecruitApp(e) {
+            e.preventDefault();
+            const apps = loadRecruitApps();
+            const jobId = parseInt(document.getElementById('rec-job').value);
+            const jobs = loadRecruitJobs();
+            const job = jobs.find(j => j.id === jobId);
+            const maxId = apps.reduce((m, a) => Math.max(m, a.id), 0);
+
+            apps.push({
+                id: maxId + 1,
+                name: document.getElementById('rec-name').value.trim(),
+                contact: document.getElementById('rec-contact').value.trim(),
+                jobId: jobId,
+                jobName: job ? job.name : '',
+                time: document.getElementById('rec-time').value.trim(),
+                intro: document.getElementById('rec-intro').value.trim(),
+                status: 'pending',
+                date: new Date().toISOString().split('T')[0]
+            });
+            saveRecruitApps(apps);
+            closeRecruitModal();
+            renderRecruitView();
+            showToast('📩 报名已提交，请等待管理员审核！');
+        }
+
+        function toggleRecruitManage() {
+            if (!isAdminVerified()) {
+                openPinModal();
+                return;
+            }
+            // Already verified: show apps
+            document.getElementById('recruit-app-public').style.display = 'none';
+            document.getElementById('recruit-app-admin').style.display = 'block';
+            renderRecruitApps();
+        }
+
+        function renderRecruitApps() {
+            const apps = loadRecruitApps();
+            const list = document.getElementById('recruit-app-list');
+            const empty = document.getElementById('recruit-app-empty');
+
+            if (apps.length === 0) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                const STATUS = {
+                    pending:  { label: '待审核', cls: 'pending' },
+                    approved: { label: '已加入', cls: 'approved' },
+                    rejected: { label: '已拒绝', cls: 'rejected' }
+                };
+                list.innerHTML = apps.map(a => {
+                    const st = STATUS[a.status];
+                    return `
+                    <div class="recruit-app-card">
+                        <div class="app-icon">🙋</div>
+                        <div class="app-info">
+                            <div class="app-name">${a.name} · ${a.jobName}</div>
+                            <div class="app-detail">📱 ${a.contact} ⏰ ${a.time || '未填'} 📝 ${a.intro || '无'} 📅 ${a.date}</div>
+                        </div>
+                        <span class="app-status ${st.cls}">${st.label}</span>
+                        ${a.status === 'pending' ? `
+                        <div class="recruit-app-actions">
+                            <button class="btn-approve" onclick="approveRecruitApp(${a.id})">✅ 通过</button>
+                            <button class="btn-reject" onclick="rejectRecruitApp(${a.id})">❌ 拒绝</button>
+                        </div>
+                        ` : ''}
+                    </div>`;
+                }).reverse().join('');
+            }
+        }
+
+        function approveRecruitApp(appId) {
+            const apps = loadRecruitApps();
+            const app = apps.find(a => a.id === appId);
+            if (app) {
+                app.status = 'approved';
+                saveRecruitApps(apps);
+                // Also add to volunteer roster
+                const vols = loadVolunteers();
+                const maxVId = vols.reduce((m, v) => Math.max(m, v.id), 0);
+                vols.push({
+                    id: maxVId + 1,
+                    name: app.name,
+                    area: app.jobName,
+                    hours: 0,
+                    activities: 0,
+                    active: true
+                });
+                localStorage.setItem('campuscat_volunteers', JSON.stringify(vols));
+                addActivity('新志愿者加入：' + app.name + ' (' + app.jobName + ')');
+                showToast('✅ ' + app.name + ' 已加入志愿者！');
+            }
+            renderRecruitView();
+        }
+
+        function rejectRecruitApp(appId) {
+            if (!confirm('确定拒绝该报名吗？')) return;
+            const apps = loadRecruitApps();
+            const app = apps.find(a => a.id === appId);
+            if (app) {
+                app.status = 'rejected';
+                saveRecruitApps(apps);
+                showToast('已拒绝该报名');
+            }
+            renderRecruitView();
+        }
+
+        function copyRecruitShare() {
+            const text = document.getElementById('recruit-share-text').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 招募文案已复制，快去分享吧！');
+            }).catch(() => {
+                prompt('请手动复制：', text);
+            });
+        }
+
+        // ====================================================
         // Toast 通知
         // ====================================================
         function showToast(msg, type = '') {
@@ -2708,6 +3682,8 @@
         renderFinanceSummary();
         renderFinanceChart();
         renderFinanceRecords();
+        renderSupplies();
+        renderRecruitView();
     </script>
 </body>
 </html>
