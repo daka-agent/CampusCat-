@@ -461,7 +461,200 @@
             transition: all 0.2s;
         }
 
-        /* 管理员验证 */
+        /* 猫咪详情页 - 丰富版 */
+        .cd-hero {
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            color: white;
+        }
+        .cd-hero-emoji {
+            font-size: 72px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+        .cd-hero-name {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-top: 6px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .cd-hero-badges {
+            margin-top: 10px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .cd-hero .close-btn {
+            position: absolute;
+            top: 12px; right: 12px;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.35);
+            color: white;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .cd-hero .close-btn:hover { background: rgba(0,0,0,0.6); }
+
+        .cd-body { padding: 24px; }
+
+        .cd-section-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: #333;
+            margin: 20px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .cd-section-title:first-child { margin-top: 0; }
+
+        /* 统计卡片 */
+        .cd-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        .cd-stat-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 14px 10px;
+            text-align: center;
+        }
+        .cd-stat-num {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #667eea;
+        }
+        .cd-stat-label {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        /* 信息网格 */
+        .cd-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .cd-info-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 12px;
+        }
+        .cd-info-label {
+            font-size: 0.75em;
+            color: #999;
+            margin-bottom: 4px;
+        }
+        .cd-info-value {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* 健康档案 */
+        .cd-health-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .cd-health-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px 14px;
+            text-align: center;
+        }
+        .cd-health-status {
+            font-size: 1.1em;
+            margin-bottom: 6px;
+        }
+        .cd-health-label {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        /* 徽章 */
+        .cd-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.82em;
+            font-weight: 600;
+        }
+        .cd-badge-ok    { background: #d4edda; color: #155724; }
+        .cd-badge-warn   { background: #fff3cd; color: #856404; }
+        .cd-badge-alert  { background: #f8d7da; color: #721c24; }
+        .cd-badge-muted  { background: #e9ecef; color: #6c757d; }
+
+        /* 备注 */
+        .cd-notes {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 14px;
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        /* 迷你时间线 */
+        .cd-timeline-mini { margin-bottom: 8px; }
+        .cd-tl-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            align-items: flex-start;
+        }
+        .cd-tl-item:last-child { border-bottom: none; }
+        .cd-tl-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        .cd-tl-type-rescue  .cd-tl-dot { background: #e17055; }
+        .cd-tl-type-tnr     .cd-tl-dot { background: #a29bfe; }
+        .cd-tl-type-feeding .cd-tl-dot { background: #74b9ff; }
+        .cd-tl-type-medical .cd-tl-dot { background: #e17055; }
+        .cd-tl-type-adopt   .cd-tl-dot { background: #fd79a8; }
+        .cd-tl-type-donate  .cd-tl-dot { background: #fdcb6e; }
+        .cd-tl-type-volunteer .cd-tl-dot { background: #00b894; }
+        .cd-tl-content { flex: 1; min-width: 0; }
+        .cd-tl-date { font-size: 0.75em; color: #aaa; }
+        .cd-tl-title { font-size: 0.9em; font-weight: 600; color: #333; margin: 2px 0; }
+        .cd-tl-desc  { font-size: 0.82em; color: #777; line-height: 1.5; }
+
+        .cd-empty {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9em;
+            padding: 20px 0;
+        }
+        .cd-empty a { color: #667eea; text-decoration: none; }
+
+        /* 操作按钮 */
+        .cd-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .cd-actions .btn { flex: 1; padding: 12px; border: none; border-radius: 12px; font-size: 0.95em; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .cd-actions .btn-secondary { background: #f0f0f0; color: #333; }
+        .cd-actions .btn-primary   { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+        .cd-actions .btn-accent    { background: #f0f0f0; color: #667eea; }
+
+        /* 管理员 PIN 弹窗 */
         .app-summary {
             text-align: center;
             padding: 30px 20px;
@@ -1756,6 +1949,29 @@
                 
                 <div class="form-row">
                     <div class="form-group">
+                        <label>猫咪性别</label>
+                        <select id="r-gender">
+                            <option value="">请选择</option>
+                            <option>公</option>
+                            <option>母</option>
+                            <option>未知</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>大致年龄</label>
+                        <select id="r-age">
+                            <option value="">请选择</option>
+                            <option>幼猫（&lt;6个月）</option>
+                            <option>青年（6个月~2岁）</option>
+                            <option>成年（2~6岁）</option>
+                            <option>中老年（6岁+）</option>
+                            <option>未知</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
                         <label>猫咪毛色 *</label>
                         <select id="r-color" required>
                             <option value="">请选择</option>
@@ -2440,12 +2656,12 @@
 
         // ⚠️ 安全：位置仅保留大区域，不暴露具体活动地点（防虐猫）
         const DEFAULT_CATS = [
-            { id: 1, name: '大黄', neutered: true, personality: '亲人可摸', location: '校园东区', color: '橘色/黄色', isDefault: true },
-            { id: 2, name: '小白', neutered: false, personality: '胆小怕人', location: '校园西区', color: '白色', isDefault: true },
-            { id: 3, name: '花花', neutered: true, personality: '可摸不可抱', location: '教学区', color: '三花', isDefault: true },
-            { id: 4, name: '黑豹', neutered: null, personality: '不亲人', location: '运动区', color: '黑色', isDefault: true },
-            { id: 5, name: '咪咪', neutered: true, personality: '非常亲人', location: '宿舍区', color: '狸花（条纹）', isDefault: true },
-            { id: 6, name: '蓝蓝', neutered: false, personality: '亲人', location: '教学区', color: '蓝色', isDefault: true }
+            { id: 1, name: '大黄', gender: '公', age: '约2岁', neutered: true, personality: '亲人可摸', location: '校园东区', color: '橘色/黄色', healthStatus: '健康', firstSeen: '2025-09-10', notes: '最亲人，经常在食堂门口晒太阳，已绝育。', isDefault: true },
+            { id: 2, name: '小白', gender: '母', age: '约1岁', neutered: false, personality: '胆小怕人', location: '校园西区', color: '白色', healthStatus: '待绝育', firstSeen: '2025-11-03', notes: '白色长毛，很漂亮，需要找人带去绝育。', isDefault: true },
+            { id: 3, name: '花花', neutered: true, personality: '可摸不可抱', location: '教学区', color: '三花', gender: '母', age: '约3岁', healthStatus: '健康', firstSeen: '2025-06-15', notes: '三花猫，已绝育，性格独立但愿意被摸。', isDefault: true },
+            { id: 4, name: '黑豹', neutered: null, personality: '不亲人', location: '运动区', color: '黑色', gender: '未知', age: '未知', healthStatus: '未知', firstSeen: '2026-01-20', notes: '全黑猫，很少让人靠近，性别年龄均未知。', isDefault: true },
+            { id: 5, name: '咪咪', neutered: true, personality: '非常亲人', location: '宿舍区', color: '狸花（条纹）', gender: '母', age: '约4岁', healthStatus: '健康', firstSeen: '2025-04-08', notes: '老猫，非常亲人，疑似被遗弃过，已绝育。', isDefault: true },
+            { id: 6, name: '蓝蓝', neutered: false, personality: '亲人', location: '教学区', color: '蓝色', gender: '母', age: '约8个月', healthStatus: '待绝育', firstSeen: '2026-03-01', notes: '蓝色渐层幼猫，性格亲人，尚未绝育。', isDefault: true }
         ];
 
         const DEFAULT_VOLUNTEERS = [
@@ -3218,52 +3434,174 @@
         // ====================================================
         // 猫咪详情弹窗
         // ====================================================
+        function getHealthBadge(status) {
+            const map = {
+                '健康':     '<span class="cd-badge cd-badge-ok">💚 健康</span>',
+                '治疗中':   '<span class="cd-badge cd-badge-warn">🟡 治疗中</span>',
+                '待绝育':   '<span class="cd-badge cd-badge-alert">🔴 待绝育</span>',
+                '待评估':   '<span class="cd-badge cd-badge-muted">⚪ 待评估</span>',
+                '未知':     '<span class="cd-badge cd-badge-muted">❓ 未知</span>'
+            };
+            return map[status] || map['未知'];
+        }
+
+        function getNeuteredBadge(val) {
+            if (val === true)  return '<span class="cd-badge cd-badge-ok">✅ 已绝育</span>';
+            if (val === false) return '<span class="cd-badge cd-badge-alert">⚠️ 待绝育</span>';
+            return '<span class="cd-badge cd-badge-muted">❓ 未确定</span>';
+        }
+
+        function getGenderIcon(g) {
+            if (g === '公') return '♂️ 公';
+            if (g === '母') return '♀️ 母';
+            return '❓ 未知';
+        }
+            // 从财务记录统计该猫相关支出
+            const records = loadFinanceRecords ? loadFinanceRecords() : [];
+            const catRecords = records.filter(r => r.catName === catName);
+            const totalSpent = catRecords.filter(r => r.type === 'expense').reduce((s, r) => s + (r.amount || 0), 0);
+            // 从时间线统计该猫相关事件数
+            const timeline = loadTimeline ? loadTimeline() : [];
+            const catEvents = timeline.filter(e => e.content && e.content.includes(catName));
+            return { totalSpent, eventCount: catEvents.length, recordCount: catRecords.length };
+        }
+
         function openCatDetail(catId) {
             const cats = loadCats();
             const cat = cats.find(c => c.id === catId);
             if (!cat) return;
 
-            const neuteredLabel = cat.neutered === true ? '✅ 已绝育' : cat.neutered === false ? '⚠️ 待绝育' : '❓ 未确定';
             const descMap = {
-                '亲人可摸': '性格温顺，可以抚摸，适合互动。',
-                '胆小怕人': '有点害羞，需要耐心建立信任。',
+                '亲人可摸':   '性格温顺，可以抚摸，适合互动。',
+                '胆小怕人':   '有点害羞，需要耐心建立信任。',
                 '可摸不可抱': '可以摸但不给抱，有自己的小脾气。',
-                '不亲人': '独立自主，喜欢保持距离。',
-                '非常亲人': '超级粘人，见到人就蹭。',
-                '亲人': '性格温和，对人类友善。'
+                '不亲人':     '独立自主，喜欢保持距离。',
+                '非常亲人':   '超级粘人，见到人就蹭。',
+                '亲人':       '性格温和，对人类友善。',
+                '待观察':     '新上报的猫咪，性格尚在观察中。'
             };
             const desc = descMap[cat.personality] || '等待一只温暖的手。';
             const bg = getCatBg(cat.color);
+            const stats = getCatStats(cat.name);
+
+            // 健康状态徽章
+            const healthBadge = getHealthBadge(cat.healthStatus);
+            const neuteredBadge = getNeuteredBadge(cat.neutered);
+
+            // 性别图标
+            const genderStr = getGenderIcon(cat.gender);
+
+            // 计算在校天数
+            let daysOnCampus = '未知';
+            if (cat.firstSeen) {
+                const diff = Math.floor((new Date() - new Date(cat.firstSeen)) / 86400000);
+                daysOnCampus = diff >= 0 ? diff + ' 天' : '未知';
+            }
+
+            // 加载该猫相关时间线
+            const timeline = loadTimeline();
+            const catEvents = timeline.filter(e => e.content && e.content.includes(cat.name)).slice(0, 5);
+
+            const typeEmoji = { rescue:'🚨', tnr:'✂️', feeding:'🍖', medical:'💊', adopt:'🏠', donate:'💰', volunteer:' ' };
+            const typeLabel = { rescue:'救助', tnr:'TNR', feeding:'投喂', medical:'医疗', adopt:'领养', donate:'捐赠', volunteer:'志愿' };
 
             document.getElementById('cat-detail-content').innerHTML = `
-                <div class="cat-detail-hero" style="background: ${bg};">
+                <!-- Hero 区 -->
+                <div class="cd-hero" style="background: ${bg};">
                     <button class="close-btn" onclick="event.stopPropagation();closeCatDetail()">✕</button>
-                    🐱
+                    <div class="cd-hero-emoji">🐱</div>
+                    <div class="cd-hero-name">${cat.name}</div>
+                    <div class="cd-hero-badges">
+                        ${healthBadge}
+                        ${neuteredBadge}
+                    </div>
                 </div>
-                <div class="cat-detail-body">
-                    <div class="cat-detail-name">${cat.name}</div>
-                    <div class="cat-detail-desc">${desc}</div>
-                    <div class="cat-detail-info">
-                        <div class="cat-detail-item">
-                            <div class="label">📍 活动区域</div>
-                            <div class="value">${cat.location || '未知'}</div>
+
+                <div class="cd-body">
+                    <!-- 统计卡片 -->
+                    <div class="cd-stats">
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-num">¥${stats.totalSpent}</div>
+                            <div class="cd-stat-label">医疗/照料支出</div>
                         </div>
-                        <div class="cat-detail-item">
-                            <div class="label">🐾 性格</div>
-                            <div class="value">${cat.personality || '未知'}</div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-num">${stats.eventCount}</div>
+                            <div class="cd-stat-label">相关动态</div>
                         </div>
-                        <div class="cat-detail-item">
-                            <div class="label">🏥 绝育</div>
-                            <div class="value">${neuteredLabel}</div>
-                        </div>
-                        <div class="cat-detail-item">
-                            <div class="label">🎨 毛色</div>
-                            <div class="value">${cat.color || '未知'}</div>
+                        <div class="cd-stat-card">
+                            <div class="cd-stat-num">${daysOnCampus}</div>
+                            <div class="cd-stat-label">在校天数</div>
                         </div>
                     </div>
-                    <div class="cat-detail-actions">
+
+                    <!-- 基本信息 -->
+                    <div class="cd-section-title">📋 基本信息</div>
+                    <div class="cd-info-grid">
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">🐾 性格</div>
+                            <div class="cd-info-value">${cat.personality || '未知'}</div>
+                        </div>
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">🚻 性别</div>
+                            <div class="cd-info-value">${getGenderIcon(cat.gender)}</div>
+                        </div>
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">🎨 毛色</div>
+                            <div class="cd-info-value">${cat.color || '未知'}</div>
+                        </div>
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">📍 活动区域</div>
+                            <div class="cd-info-value">${cat.location || '未知'}</div>
+                        </div>
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">📅 首次发现</div>
+                            <div class="cd-info-value">${cat.firstSeen || '未知'}</div>
+                        </div>
+                        <div class="cd-info-item">
+                            <div class="cd-info-label">📏 年龄</div>
+                            <div class="cd-info-value">${cat.age || '未知'}</div>
+                        </div>
+                    </div>
+
+                    <!-- 健康档案 -->
+                    <div class="cd-section-title">🏥 健康档案</div>
+                    <div class="cd-health-grid">
+                        <div class="cd-health-item">
+                            <div class="cd-health-status">${neuteredBadge}</div>
+                            <div class="cd-health-label">绝育状态</div>
+                        </div>
+                        <div class="cd-health-item">
+                            <div class="cd-health-status">${healthBadge}</div>
+                            <div class="cd-health-label">健康状态</div>
+                        </div>
+                    </div>
+
+                    <!-- 备注 -->
+                    ${cat.notes ? `
+                    <div class="cd-section-title">📝 备注</div>
+                    <div class="cd-notes">${cat.notes}</div>` : ''}
+
+                    <!-- 相关动态 -->
+                    <div class="cd-section-title">📅 相关动态</div>
+                    ${catEvents.length > 0 ? `
+                    <div class="cd-timeline-mini">
+                        ${catEvents.map(e => `
+                            <div class="cd-tl-item cd-tl-type-${e.type}">
+                                <div class="cd-tl-dot"></div>
+                                <div class="cd-tl-content">
+                                    <div class="cd-tl-date">${e.date}</div>
+                                    <div class="cd-tl-title">${typeEmoji[e.type] || '📌'} ${e.title}</div>
+                                    <div class="cd-tl-desc">${e.content}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>` : '<div class="cd-empty">暂无相关动态，<a href="#" onclick="closeCatDetail();showSection(\'timeline\');return false;">去动态页查看</a></div>'}
+
+                    <!-- 操作按钮 -->
+                    <div class="cd-actions">
                         <button class="btn btn-secondary" onclick="closeCatDetail()">关闭</button>
                         <button class="btn btn-primary" onclick="closeCatDetail();showSection('adoption');">🏠 申请领养</button>
+                        <button class="btn btn-accent" onclick="closeCatDetail();showSection('timeline');">📅 查看全部动态</button>
                     </div>
                 </div>`;
 
@@ -3301,16 +3639,27 @@
             const location = document.getElementById('r-location').value;
             const color = document.getElementById('r-color').value;
             const catName = document.getElementById('r-catname').value.trim() || '待命名新猫';
+            const size = document.getElementById('r-size').value;
+            const ageRange = document.getElementById('r-age').value;
+            const note = document.getElementById('r-note').value.trim();
+            const firstSeen = document.getElementById('r-date').value || new Date().toISOString().slice(0,10);
+            const gender = document.getElementById('r-gender') ? document.getElementById('r-gender').value : '未知';
 
             const cats = loadCats();
             const newId = cats.length > 0 ? Math.max(...cats.map(c => c.id)) + 1 : 100;
             const newCat = {
                 id: newId,
                 name: catName,
+                gender: gender || '未知',
+                age: ageRange || '未知',
+                size: size || '',
                 neutered: false,
                 personality: '待观察',
                 location: location,
                 color: color,
+                healthStatus: '待评估',
+                firstSeen: firstSeen,
+                notes: note || '',
                 reporter: name,
                 isDefault: false,
                 reportedAt: new Date().toLocaleString('zh-CN')
