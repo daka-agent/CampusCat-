@@ -3525,6 +3525,8 @@
             if (g === '母') return '♀️ 母';
             return '❓ 未知';
         }
+
+        function getCatStats(catName) {
             // 从财务记录统计该猫相关支出
             const records = loadFinanceRecords ? loadFinanceRecords() : [];
             const catRecords = records.filter(r => r.catName === catName);
