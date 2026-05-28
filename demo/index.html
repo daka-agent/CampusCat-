@@ -2868,6 +2868,8 @@
             const today = new Date().toISOString().split('T')[0];
             tl.unshift({ id: maxId + 1, type, date: today, title, content });
             saveTimeline(tl);
+            // 联动：同时更新看板动态
+            renderDashboard();
         }
 
         // ====================================================
@@ -3172,10 +3174,19 @@
         }
 
         function addActivity(text) {
+            // 写入 activities（兼容旧逻辑）
             const activities = loadActivities();
             activities.unshift(`🕐 刚刚 - ${text}`);
             if (activities.length > 20) activities.length = 20;
             saveActivities(activities);
+
+            // 联动：同时写入 timeline，实现看板与时间线双向同步
+            const tl = loadTimeline();
+            const maxId = tl.reduce((m, e) => Math.max(m, e.id), 0);
+            const today = new Date().toISOString().split('T')[0];
+            tl.unshift({ id: maxId + 1, type: 'other', date: today, title: text.slice(0, 30), content: text });
+            saveTimeline(tl);
+
             renderDashboard();
         }
 
@@ -3266,18 +3277,23 @@
         function renderDashboard() {
             const cats = loadCats();
             const volunteers = loadVolunteers();
-            const activities = loadActivities();
 
             document.getElementById('stat-total').textContent = cats.length;
             document.getElementById('stat-neutered').textContent = cats.filter(c => c.neutered === true).length;
             document.getElementById('stat-unneutered').textContent = cats.filter(c => c.neutered === false || c.neutered === null).length;
             document.getElementById('stat-volunteers').textContent = volunteers.filter(v => v.active).length;
 
+            // 从 timeline 读取最近5条作为看板动态，实现联动
+            const tl = loadTimeline();
+            const recentTL = tl.slice(0, 5);
             const activityEl = document.getElementById('activity-list');
-            if (activities.length === 0) {
+            if (recentTL.length === 0) {
                 activityEl.innerHTML = '<p style="color:#999; margin-bottom:0;">暂无动态</p>';
             } else {
-                activityEl.innerHTML = activities.map(a => `<p>${a}</p>`).join('');
+                activityEl.innerHTML = recentTL.map(e => {
+                    const t = TIMELINE_TYPES[e.type] || { emoji: '📌' };
+                    return `<p>🕐 ${e.date} - ${t.emoji} ${e.title}</p>`;
+                }).join('');
             }
         }
 
