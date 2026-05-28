@@ -3261,6 +3261,27 @@
         }
 
         // ====================================================
+        // 数据看板渲染
+        // ====================================================
+        function renderDashboard() {
+            const cats = loadCats();
+            const volunteers = loadVolunteers();
+            const activities = loadActivities();
+
+            document.getElementById('stat-total').textContent = cats.length;
+            document.getElementById('stat-neutered').textContent = cats.filter(c => c.neutered === true).length;
+            document.getElementById('stat-unneutered').textContent = cats.filter(c => c.neutered === false || c.neutered === null).length;
+            document.getElementById('stat-volunteers').textContent = volunteers.filter(v => v.active).length;
+
+            const activityEl = document.getElementById('activity-list');
+            if (activities.length === 0) {
+                activityEl.innerHTML = '<p style="color:#999; margin-bottom:0;">暂无动态</p>';
+            } else {
+                activityEl.innerHTML = activities.map(a => `<p>${a}</p>`).join('');
+            }
+        }
+
+        // ====================================================
         // 猫咪档案渲染 + 搜索
         // ====================================================
         function getCatBg(color) {
