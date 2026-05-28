@@ -361,6 +361,47 @@
         .adopt-stat-card.done    { background: linear-gradient(135deg, #00b894, #00cec9); }
         .adopt-stat-card.total   { background: linear-gradient(135deg, #a29bfe, #6c5ce7); }
 
+        /* 领养申请状态查询 */
+        .adopt-query-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px 24px;
+            margin: 20px 0 28px;
+            border: 1px dashed #d0d0d0;
+        }
+        .adopt-query-box h4 {
+            margin: 0 0 12px;
+            font-size: 1em;
+            color: #555;
+        }
+        .adopt-query-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .adopt-query-row input {
+            flex: 1;
+            min-width: 160px;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 0.95em;
+        }
+        .adopt-query-result {
+            margin-top: 14px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            display: none;
+        }
+        .adopt-query-result.show { display: block; }
+        .adopt-query-result.pending  { background: #fff8e1; border: 1px solid #ffe082; color: #e65100; }
+        .adopt-query-result.approved { background: #e8f5e9; border: 1px solid #a5d6a7; color: #2e7d32; }
+        .adopt-query-result.rejected { background: #ffebee; border: 1px solid #ef9a9a; color: #c62828; }
+        .adopt-query-result.adopted  { background: #e0f7fa; border: 1px solid #80deea; color: #00695c; }
+        .adopt-query-result .q-title { font-weight: 700; font-size: 1.05em; margin-bottom: 6px; }
+        .adopt-query-result .q-tip   { font-size: 0.88em; color: #777; margin-top: 8px; }
+
         /* 领养申请弹窗增强 */
         #adopt-modal .modal {
             max-width: 540px;
@@ -2206,6 +2247,16 @@
                 </div>
             </div>
 
+            <!-- 查询我的申请状态 -->
+            <div class="adopt-query-box">
+                <h4>🔍 查询我的申请状态</h4>
+                <div class="adopt-query-row">
+                    <input type="text" id="adopt-query-contact" placeholder="输入联系方式后4位（如：1234）" maxlength="20">
+                    <button class="btn btn-primary" onclick="queryAdoptStatus()" style="padding:10px 20px; white-space:nowrap;">查询</button>
+                </div>
+                <div id="adopt-query-result" class="adopt-query-result"></div>
+            </div>
+
             <!-- 可领养猫咪 -->
             <h3 style="margin: 0 0 16px; color: #333; font-size: 1.15em;">🐱 可领养猫咪</h3>
             <div id="adopt-cat-grid" class="adopt-grid"></div>
@@ -3209,6 +3260,19 @@
             renderAdoptCats();
             renderAdoptAppsPublicView();
             renderAdoptApps();
+
+            // 管理员提示：提醒通知申请人
+            let notifyTip = '';
+            if (newStatus === 'approved' && oldStatus === 'pending') {
+                notifyTip = `📢 请尽快通过「${app.contact}」联系申请人 ${app.applicantName}，告知审核已通过，进入对接阶段。`;
+            } else if (newStatus === 'rejected' && oldStatus === 'pending') {
+                notifyTip = `📢 建议通过「${app.contact}」通知申请人 ${app.applicantName}，审核未通过。申请人可自助查询状态。`;
+            } else if (newStatus === 'adopted' && oldStatus !== 'adopted') {
+                notifyTip = `🎉 请通知申请人 ${app.applicantName}，领养已完成！`;
+            }
+            if (notifyTip) {
+                showToast(notifyTip, "success");
+            }
             showToast(`✅ 状态已更新为「${ADOPT_STATUS_MAP[newStatus].label}」`);
         }
 
@@ -3269,6 +3333,57 @@
             renderAdoptAppsPublicView();
             renderAdoptApps();
             showToast(`✅ 领养申请已提交！审核结果将通知 ${contact}`, 'success');
+        }
+
+        // ====================================================
+        // 领养申请状态查询（面向申请人）
+        // ====================================================
+        function queryAdoptStatus() {
+            const keyword = document.getElementById('adopt-query-contact').value.trim();
+            const resultEl = document.getElementById('adopt-query-result');
+            resultEl.className = 'adopt-query-result';
+
+            if (!keyword) {
+                resultEl.innerHTML = '<div class="q-title">⚠️ 请输入联系方式后4位</div>';
+                resultEl.classList.add('show', 'pending');
+                return;
+            }
+
+            const apps = loadAdoptApps();
+            // 用联系方式后4位模糊匹配（隐私保护，不显示完整联系方式）
+            const matched = apps.filter(a => {
+                const c = (a.contact || '').replace(/\s/g, '');
+                return c.endsWith(keyword) || c.includes(keyword);
+            });
+
+            if (matched.length === 0) {
+                resultEl.innerHTML = '<div class="q-title">🔍 未找到匹配的申请</div>'
+                    + '<div class="q-tip">请确认输入的是联系方式后4位，或联系管理员确认申请是否已提交。</div>';
+                resultEl.classList.add('show', 'pending');
+                return;
+            }
+
+            // 显示最新一条匹配结果
+            const app = matched[matched.length - 1];
+            const stInfo = ADOPT_STATUS_MAP[app.status] || ADOPT_STATUS_MAP.pending;
+            const catName = app.catName || '未知猫咪';
+            const applyDate = app.applyDate || '未知日期';
+
+            let tipHtml = '';
+            if (app.status === 'pending') {
+                tipHtml = '<div class="q-tip">⏳ 审核通常需要 3-5 个工作日，请耐心等待。如有疑问请联系管理员。</div>';
+            } else if (app.status === 'approved') {
+                tipHtml = '<div class="q-tip">🎉 恭喜！请通过页面底部联系方式与管理员对接领养事宜。</div>';
+            } else if (app.status === 'rejected') {
+                tipHtml = '<div class="q-tip">😔 很遗憾本次申请未通过，欢迎未来继续关注其他猫咪的领养信息。</div>';
+            } else if (app.status === 'adopted') {
+                tipHtml = '<div class="q-tip">🏡 该猫咪已成功找到新家！谢谢你曾经的关心。</div>';
+            }
+
+            resultEl.innerHTML = `<div class="q-title">${stInfo.label} —— 领养申请（${catName}）</div>`
+                + `<div style="font-size:0.9em; color:#888; margin:4px 0 8px;">申请日期：${applyDate}</div>`
+                + tipHtml;
+            resultEl.classList.add('show', stInfo.cls);
         }
 
         function addActivity(text) {
@@ -4583,6 +4698,9 @@ ${jobs.map(j => `  ${j.emoji} ${j.name}：还需 ${j.need - j.filled} 人${j.urg
         renderSupplies();
         renderRecruitView();
         renderTimeline();
+    });
+}
+}
     </script>
 </body>
 </html>
