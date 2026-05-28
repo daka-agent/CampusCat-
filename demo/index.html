@@ -653,6 +653,8 @@
         .cd-actions .btn-secondary { background: #f0f0f0; color: #333; }
         .cd-actions .btn-primary   { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .cd-actions .btn-accent    { background: #f0f0f0; color: #667eea; }
+        .cd-actions .btn-warning   { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .cd-actions .btn-timeline  { background: #e8f4fd; color: #2471a3; border: 1px solid #aed6ff; }
 
         /* 管理员 PIN 弹窗 */
         .app-summary {
@@ -2584,6 +2586,43 @@
         </div>
     </div>
 
+    <!-- 记录动态弹窗 -->
+    <div id="record-tl-modal" class="modal-overlay" onclick="closeRecordTlModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-title">📝 记录猫咪动态</div>
+            <form id="record-tl-form" onsubmit="submitRecordTl(event)">
+                <input type="hidden" id="record-tl-cat-id">
+                <div class="form-group">
+                    <label>动态类型 *</label>
+                    <select id="record-tl-type" required>
+                        <option value="rescue">🆘 救助</option>
+                        <option value="tnr">✂️ TNR/绝育</option>
+                        <option value="feeding">🍖 投喂</option>
+                        <option value="medical">💊 医疗</option>
+                        <option value="adopt">🏠 领养</option>
+                        <option value="donate">💰 捐赠</option>
+                        <option value="volunteer">🤝 志愿</option>
+                        <option value="sighting">👀 目击</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>标题 *</label>
+                    <input type="text" id="record-tl-title" placeholder="如：大黄完成绝育手术" required>
+                </div>
+                <div class="form-group">
+                    <label>详情描述</label>
+                    <textarea id="record-tl-content" rows="3" placeholder="记录本次动态的描述信息..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>日期</label>
+                    <input type="date" id="record-tl-date" value="">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">📝 记录动态</button>
+            </form>
+            <button class="btn btn-secondary" onclick="closeRecordTlModal()" style="width:100%; margin-top:10px; justify-content:center;">取消</button>
+        </div>
+    </div>
+
     <!-- 管理员 PIN 验证弹窗 -->
     <div id="pin-modal" class="pin-modal hidden">
         <div class="pin-box">
@@ -3566,6 +3605,7 @@
                         <button class="btn btn-primary" onclick="closeCatDetail();showSection('adoption');">🏠 申请领养</button>
                         <button class="btn btn-accent" onclick="closeCatDetail();showSection('timeline');">📅 查看全部动态</button>
                         <button class="btn btn-warning" onclick="openEditCatModal(${cat.id})">✏️ 编辑信息</button>
+                        <button class="btn btn-timeline" onclick="openRecordTlModal(${cat.id})">📝 记录动态</button>
                     </div>
                 </div>`;
 
@@ -3644,6 +3684,58 @@
         function clearSearch() {
             document.getElementById('cat-search').value = '';
             filterCats();
+        }
+
+        // ====================================================
+        // 记录猫咪动态
+        // ====================================================
+        function openRecordTlModal(catId) {
+            document.getElementById('record-tl-cat-id').value = catId;
+            document.getElementById('record-tl-date').value = new Date().toISOString().slice(0,10);
+            document.getElementById('record-tl-title').value = '';
+            document.getElementById('record-tl-content').value = '';
+            document.getElementById('record-tl-modal').classList.add('show');
+        }
+
+        function closeRecordTlModal(event) {
+            if (event && event.target !== document.getElementById('record-tl-modal')) return;
+            document.getElementById('record-tl-modal').classList.remove('show');
+        }
+
+        function submitRecordTl(event) {
+            event.preventDefault();
+            const catId = parseInt(document.getElementById('record-tl-cat-id').value);
+            const cats = loadCats();
+            const cat = cats.find(c => c.id === catId);
+            if (!cat) return;
+
+            const type = document.getElementById('record-tl-type').value;
+            const title = document.getElementById('record-tl-title').value.trim();
+            const content = document.getElementById('record-tl-content').value.trim();
+
+            if (!title) {
+                showToast('⚠️ 请填写标题', 'error');
+                return;
+            }
+
+            // 用用户选择的日期，或今天
+            const date = document.getElementById('record-tl-date').value || new Date().toISOString().slice(0,10);
+
+            // 直接操作 timeline 数据（绕过 addTimelineEntry 的 today 硬编码）
+            const tl = loadTimeline();
+            const maxId = tl.reduce((m, e) => Math.max(m, e.id), 0);
+            tl.unshift({ id: maxId + 1, type, date, title, content: (content || '与猫咪「' + cat.name + '」相关的动态记录。') });
+            saveTimeline(tl);
+
+            closeRecordTlModal();
+            openCatDetail(catId);   // 刷新详情页
+            renderTimeline();          // 刷新时间线页面
+            renderDashboard();          // 刷新看板动态
+            showToast('✅ 动态已记录！');
+
+            // 同步到 activities
+            const t = TIMELINE_TYPES[type] || { emoji: '📌' };
+            addActivity(`${t.emoji} ${title}`);
         }
 
         // ====================================================
