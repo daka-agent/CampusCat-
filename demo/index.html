@@ -2525,6 +2525,65 @@
         </div>
     </div>
 
+    <!-- 编辑猫咪信息弹窗 -->
+    <div id="edit-cat-modal" class="modal-overlay" onclick="closeEditCatModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-title">✏️ 编辑猫咪信息</div>
+            <form id="edit-cat-form" onsubmit="submitEditCat(event)">
+                <input type="hidden" id="edit-cat-id">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>性别</label>
+                        <select id="edit-cat-gender">
+                            <option value="未知">未知</option>
+                            <option value="公">公</option>
+                            <option value="母">母</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>年龄</label>
+                        <select id="edit-cat-age">
+                            <option value="未知">未知</option>
+                            <option value="<6个月">不满6个月</option>
+                            <option value="约1岁">约1岁</option>
+                            <option value="约2岁">约2岁</option>
+                            <option value="约3岁">约3岁</option>
+                            <option value="3岁以上">3岁以上</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>健康状态</label>
+                        <select id="edit-cat-health">
+                            <option value="健康">健康</option>
+                            <option value="鼻炎">鼻炎</option>
+                            <option value="猫癣">猫癣</option>
+                            <option value="耳螨">耳螨</option>
+                            <option value="口腔炎">口腔炎</option>
+                            <option value="伤病恢复中">伤病恢复中</option>
+                            <option value="需复查">需复查</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>绝育状态</label>
+                        <select id="edit-cat-neutered">
+                            <option value="true">已绝育</option>
+                            <option value="false">待绝育</option>
+                            <option value="null">未确定</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>备注</label>
+                    <textarea id="edit-cat-notes" rows="3" placeholder="补充备注信息..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">💾 保存修改</button>
+            </form>
+            <button class="btn btn-secondary" onclick="closeEditCatModal()" style="width:100%; margin-top:10px; justify-content:center;">取消</button>
+        </div>
+    </div>
+
     <!-- 管理员 PIN 验证弹窗 -->
     <div id="pin-modal" class="pin-modal hidden">
         <div class="pin-box">
@@ -3506,6 +3565,7 @@
                         <button class="btn btn-secondary" onclick="closeCatDetail()">关闭</button>
                         <button class="btn btn-primary" onclick="closeCatDetail();showSection('adoption');">🏠 申请领养</button>
                         <button class="btn btn-accent" onclick="closeCatDetail();showSection('timeline');">📅 查看全部动态</button>
+                        <button class="btn btn-warning" onclick="openEditCatModal(${cat.id})">✏️ 编辑信息</button>
                     </div>
                 </div>`;
 
@@ -3515,6 +3575,58 @@
         function closeCatDetail(event) {
             if (event && event.target !== document.getElementById('cat-detail-modal')) return;
             document.getElementById('cat-detail-modal').classList.remove('show');
+        }
+
+        function openEditCatModal(catId) {
+            const cats = loadCats();
+            const cat = cats.find(c => c.id === catId);
+            if (!cat) return;
+
+            document.getElementById('edit-cat-id').value = catId;
+            document.getElementById('edit-cat-gender').value = cat.gender || '未知';
+            document.getElementById('edit-cat-age').value = cat.age || '未知';
+            document.getElementById('edit-cat-health').value = cat.healthStatus || '健康';
+
+            // neutered: true/false/null → select value
+            const neuteredVal = cat.neutered === true ? 'true' : cat.neutered === false ? 'false' : 'null';
+            document.getElementById('edit-cat-neutered').value = neuteredVal;
+
+            document.getElementById('edit-cat-notes').value = cat.notes || '';
+
+            document.getElementById('edit-cat-modal').classList.add('show');
+        }
+
+        function closeEditCatModal(event) {
+            if (event && event.target !== document.getElementById('edit-cat-modal')) return;
+            document.getElementById('edit-cat-modal').classList.remove('show');
+        }
+
+        function submitEditCat(event) {
+            event.preventDefault();
+            const catId = parseInt(document.getElementById('edit-cat-id').value);
+            const cats = loadCats();
+            const cat = cats.find(c => c.id === catId);
+            if (!cat) return;
+
+            const oldName = cat.name;
+            cat.gender = document.getElementById('edit-cat-gender').value;
+            cat.age = document.getElementById('edit-cat-age').value;
+            cat.healthStatus = document.getElementById('edit-cat-health').value;
+
+            const neuteredVal = document.getElementById('edit-cat-neutered').value;
+            cat.neutered = neuteredVal === 'true' ? true : neuteredVal === 'false' ? false : null;
+
+            cat.notes = document.getElementById('edit-cat-notes').value.trim();
+
+            saveCats(cats);
+
+            closeEditCatModal();
+            openCatDetail(catId);  // 刷新详情页
+            renderCats();
+            showToast('✅ ' + cat.name + ' 信息已更新！');
+
+            // 写入时间线
+            addTimelineEntry('medical', cat.name + '信息更新', '猫咪「' + cat.name + '」的基础信息被更新，健康状态：' + cat.healthStatus + '，绝育状态：' + (cat.neutered === true ? '已绝育' : cat.neutered === false ? '待绝育' : '未确定'));
         }
 
         function filterCats() {
